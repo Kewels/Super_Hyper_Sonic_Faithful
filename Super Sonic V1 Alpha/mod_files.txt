@@ -1,3 +1,4 @@
-add test upload.txt
-add /sound/sonic_sound/se_rangers_player_sonic.acb
+add /raw/character/sonic.pac
+add /raw/sound/sonic_sound/se_rangers_player_sonic.acb
+add test.txt
 add mod.ini
