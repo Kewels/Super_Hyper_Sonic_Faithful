@@ -1,2 +1,3 @@
 delete "/Super Sonic V1 Alpha/raw/character/sonic.pac"
+add /raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add mod.ini
