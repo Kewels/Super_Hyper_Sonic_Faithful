@@ -1,1 +1,1 @@
-add mod.ini
+add /raw/character/sonic.pac
