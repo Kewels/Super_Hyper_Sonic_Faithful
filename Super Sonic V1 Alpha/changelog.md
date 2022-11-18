@@ -1,4 +1,4 @@
-## Super Sonic (Kewels) 1.3
+## Super Sonic (Kewels) 1.2
 -Removed footstep sounds
 
 ## Super Sonic (Kewels) 1.1
