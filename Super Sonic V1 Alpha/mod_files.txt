@@ -1,2 +1,2 @@
-delete /raw/character/sonic.pac
+delete "/Super Sonic V1 Alpha/raw/character/sonic.pac"
 add mod.ini
