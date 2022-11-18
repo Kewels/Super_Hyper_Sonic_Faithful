@@ -1,4 +1,4 @@
-## Super Sonic (Kewels) 1.3
+## Super Sonic (Kewels) 1.4
 -Added Super Sonic yellow to most moves
 -Added addtional animations, looking cleaner now.
 
