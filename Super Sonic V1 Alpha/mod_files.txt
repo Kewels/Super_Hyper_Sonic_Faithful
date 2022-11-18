@@ -1,1 +1,2 @@
+/sound/sonic_sound/se_rangers_player_sonic.acb
 add mod.ini
