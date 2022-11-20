@@ -1,4 +1,4 @@
-## Super Sonic (Kewels) 1.5
+## Super Sonic (Kewels) 1.6
 -Hefty animation update
 
 ## Super Sonic (Kewels) 1.4
