@@ -1,7 +1,10 @@
 ## Super/Hyper Sonic Faithful 2.0
 -Added Hyper Sonic over Super Sonic proper.
+
 -Super Sonic now has a boost trail regardless of having max rings.
+
 -Reverted a few animation back to vanilla.
+
 -Re-imported models and remapped materials to add support for mixing Super Sonic mods over Super Sonic proper.
 
 -Adjusted flight speed and height.
