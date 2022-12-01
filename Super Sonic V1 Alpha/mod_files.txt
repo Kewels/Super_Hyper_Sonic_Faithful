@@ -1,6 +1,0 @@
-add /raw/character/playercommon.pac
-add /raw/character/sonic.pac
-add /raw/character/supersonic.pac
-add /raw/EffectCommon.pac
-add /raw/sound/sonic_sound/se_rangers_player_sonic.acb
-add /raw/mod.ini
