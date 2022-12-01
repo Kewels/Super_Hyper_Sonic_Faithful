@@ -13,7 +13,7 @@
 
 -Fixed the recovery smash animation by reverting it back to OG and using the correct asm file for Sonic's jump ball.
 
--Super Sonic now uses more custom effects due to limitations with porting over effects as to not conflict with Hyper Sonic.  Some of these are still a WIP and will be fine tuned later.
+-Super Sonic now uses more custom colors due to limitations with porting over effects as to not conflict with Hyper Sonic.  Some of these are still a WIP and will be fine tuned later.
 
 -Other stuff I might've forgot about.
 
