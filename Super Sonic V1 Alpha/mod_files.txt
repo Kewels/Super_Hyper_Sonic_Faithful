@@ -5,9 +5,6 @@ add main/raw/character/sonic.pac
 add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add main/raw/EffectCommon.pac
 delete raw/EffectCommon.pac
-delete raw/character/playercommon.pac
-delete raw/character/player.pac
-delete raw/character/supersonic.pac
-
+delete raw/character
 add options.json
 add mod.ini
