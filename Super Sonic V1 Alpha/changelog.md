@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.1
+-Added Mod configuration support.
+
 ## Super/Hyper Sonic Faithful 2.0
 -Added Hyper Sonic over Super Sonic proper.
 
