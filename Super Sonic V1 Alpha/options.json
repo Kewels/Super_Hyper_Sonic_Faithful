@@ -27,6 +27,17 @@
 		       "MaxValue": null,
                "DefaultValue": "Hyper"
             },
+			{
+               "Name": "IncludeDir2",
+               "DisplayName": "Animations",
+               "Description": [
+                  " ",
+               ],
+               "Type": "AnimEnum",
+		       "MinValue": null,
+		       "MaxValue": null,
+               "DefaultValue": "Faithful"
+            },
          ]
       }
    ],
@@ -68,6 +79,25 @@
             "Value": ".",
             "Description": [
                "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
+            ]
+         },
+      ],
+	  "AnimEnum": 
+	  [
+
+         {
+            "DisplayName": "Faithful",
+            "Value": "custom_anims",
+            "Description": [
+               "Default animation config.",
+            ]
+         },
+
+         {
+            "DisplayName": "Classic Style Animations",
+            "Value": "classic_style_anims",
+            "Description": [
+               "A style attempting to replicate Super Sonic's style in the classic games.  WIP, needs user feedback.",
             ]
          },
       ],

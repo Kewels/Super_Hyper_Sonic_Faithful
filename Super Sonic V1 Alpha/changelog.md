@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.1.1
+-Added a config option that allows you to use mostly original animations, which the exception of flight and to some degree, walking.  Needs user feedback.
+
 ## Super/Hyper Sonic Faithful 2.1
 -Added Mod configuration support.
 
