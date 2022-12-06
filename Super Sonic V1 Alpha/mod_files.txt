@@ -3,7 +3,7 @@ add default/raw/character/playercommon.pac
 add hyper/raw/character/supersonic.pac
 add main/raw/character/sonic.pac
 add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
-add main/raw/EffecCommon.pac
+add main/raw/EffectCommon.pac
 
 remove raw
 
