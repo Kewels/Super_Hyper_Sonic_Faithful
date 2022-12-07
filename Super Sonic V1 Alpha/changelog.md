@@ -1,3 +1,6 @@
+## Config oversight patch
+-Nothing crazy, just fixed a minor oversight in the json file.  To make up for it, I changed it to something mildly amusing. :)
+
 ## Super/Hyper Sonic Faithful 2.1.1
 -Added a config option that allows you to use mostly original animations, which the exception of flight and to some degree, walking.  Needs user feedback.
 
