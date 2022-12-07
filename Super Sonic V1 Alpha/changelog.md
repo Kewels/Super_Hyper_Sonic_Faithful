@@ -1,4 +1,4 @@
-## Config oversight patch
+## Config oversight patch 2.1.1-2
 -Nothing crazy, just fixed a minor oversight in the json file.  To make up for it, I changed it to something mildly amusing. :)
 
 ## Super/Hyper Sonic Faithful 2.1.1
