@@ -78,7 +78,7 @@
             "DisplayName": "Super",
             "Value": ".",
             "Description": [
-               "Sonic Powers up from his base Super form into his full Super form.  Just think DBZ Cell Saga.  It makes sense, trust me.",
+               "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
             ]
          },
       ],
