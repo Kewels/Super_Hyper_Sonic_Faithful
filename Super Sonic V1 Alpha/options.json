@@ -11,32 +11,32 @@
                "Description": [
                   " ",
                ],
-               "Type": "ModelEnum",
+               "Type": "PhysEnum",
 		       "MinValue": null,
 		       "MaxValue": null,
                "DefaultValue": "alternate"
             },
 			{
                "Name": "IncludeDir1",
+               "DisplayName": "Open World Transformation + Animations",
+               "Description": [
+                  " ",
+               ],
+               "Type": "OpenModelEnum",
+		       "MinValue": null,
+		       "MaxValue": null,
+               "DefaultValue": "Super Sonic (Faithful)"
+            },
+			{
+               "Name": "IncludeDir2",
                "DisplayName": "Boss Transformation",
                "Description": [
                   " ",
                ],
-               "Type": "BossFormEnum",
+               "Type": "BossModelEnum",
 		       "MinValue": null,
 		       "MaxValue": null,
                "DefaultValue": "Hyper"
-            },
-			{
-               "Name": "IncludeDir2",
-               "DisplayName": "Animations",
-               "Description": [
-                  " ",
-               ],
-               "Type": "AnimEnum",
-		       "MinValue": null,
-		       "MaxValue": null,
-               "DefaultValue": "Faithful"
             },
          ]
       }
@@ -44,12 +44,12 @@
    
    "Enums": {
 
-      "ModelEnum": 
+      "PhysEnum": 
 	  [
 
          {
             "DisplayName": "On",
-            "Value": "default",
+            "Value": "phys_default",
             "Description": [
                "Turns on custom Super Sonic Physics + Flight",
             ]
@@ -57,18 +57,52 @@
 
          {
             "DisplayName": "Off",
-            "Value": "alternate",
+            "Value": "phys_alt",
             "Description": [
                "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
             ]
          },
       ],
-	  "BossFormEnum": 
+	  "OpenModelEnum": 
+	  [
+
+         {
+            "DisplayName": "Super Sonic (Faithful)",
+            "Value": "open_super",
+            "Description": [
+               "Default, uses my personal animation preference.",
+            ]
+         },
+
+         {
+            "DisplayName": "Super Sonic (Frontiers, Classic Style Animations)",
+            "Value": "open_super_classic",
+            "Description": [
+               "Classic style animations with the Frontiers Super model.  WIP, needs user feedback.",
+            ]
+         },
+		 {
+            "DisplayName": "Super Sonic (imaddie's Adventure quills)",
+            "Value": "open_super_adventure",
+            "Description": [
+               "Default, uses my personal animation preference, but with Adventure quills.",
+            ]
+         },
+
+         {
+            "DisplayName": "Super Sonic (imaddie's Adventure quills, Classic Style Animations)",
+            "Value": "open_super_adventure_classic",
+            "Description": [
+               "Classic style animations with the Frontiers Super model and Adventure quills.  WIP, needs user feedback.",
+            ]
+         },
+      ],
+	  "BossModelEnum": 
 	  [
 
          {
             "DisplayName": "Hyper",
-            "Value": "hyper",
+            "Value": "boss_hyper_frontiers",
             "Description": [
                "Turns on custom Super Sonic Physics + Flight",
             ]
@@ -81,23 +115,11 @@
                "Sonic Powers up from his base Super form into his full Super form.  Just think DBZ Cell Saga.  It makes sense, trust me.",
             ]
          },
-      ],
-	  "AnimEnum": 
-	  [
-
-         {
-            "DisplayName": "Faithful",
-            "Value": "custom_anims",
+		 {
+            "DisplayName": "Hyper (imaddie's Adventure quills)",
+            "Value": "boss_hyper_adventure",
             "Description": [
-               "Default animation config.",
-            ]
-         },
-
-         {
-            "DisplayName": "Classic Style Animations",
-            "Value": "classic_style_anims",
-            "Description": [
-               "A style attempting to replicate Super Sonic's style in the classic games.  WIP, needs user feedback.",
+               "Hyper Sonic with a quill style that is similar to the Adventure era.",
             ]
          },
       ],
