@@ -7,11 +7,11 @@ add open_super_classic/raw/character/sonic.pac
 add phys_alt/raw/character/playercommon.pac
 add phys_default/raw/character/playercommon.pac
 
-delete alternate/
-delete default/
-delete hyper/
-delete custom_anims/
-delete classic_style_anims/
+delete alternate
+delete default
+delete hyper
+delete custom_anims
+delete classic_style_anims
 
 add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 add main/raw/EffectCommon.pac
