@@ -1,7 +1,7 @@
-##Super/Hyper Sonic Faithful 2.2.1
+## Super/Hyper Sonic Faithful 2.2.1
 -This update fixes an issue where the mouth wouldn't flip due to an incorrectly named material. This fix applies to both Super and Hyper Sonic, with and without the Adventure quills.
 
-##Super/Hyper Sonic Faithful 2.1.1-5/2.2.0.IH
+## Super/Hyper Sonic Faithful 2.1.1-5/2.2.0.IH
 -Fixed a small .json oversight
 -Polished Hyper Sonic's visuals a bit.
 -Added imaddi_'s Adventure quills to Super Sonic (open world) and Hyper Sonic.
