@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.2.2
+-Fixed Hyper Sonic's jump ball color.
+
 ## Super/Hyper Sonic Faithful 2.2.1
 -This update fixes an issue where the mouth wouldn't flip due to an incorrectly named material. This fix applies to both Super and Hyper Sonic, with and without the Adventure quills.
 
