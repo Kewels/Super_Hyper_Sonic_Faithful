@@ -1,3 +1,5 @@
+## Dummy update to 2.5: Github update needs more time, so you can disregard this update for now.  Please download the latest version from the mod page.
+
 ## Super/Hyper Sonic Faithful 2.2.2
 -Fixed Hyper Sonic's jump ball color.
 
