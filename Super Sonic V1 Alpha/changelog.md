@@ -1,4 +1,4 @@
-##2.6.5
+## 2.6.5
 -Fixed eyes on all 17(?) models.  Previously, the eyes would not move due to incorrect names being used.
 
 -Aura outline added to Hyper Sonic.
@@ -11,10 +11,10 @@
 
 -Grinding animations for all models have been reverted back to vanilla.  This was orignially changed due to the broken nature of early released.  Since the broken animations are no longer an issue, the flying animation band-aid is no longer needed.
 
-##2.6
+## 2.6
 -Skipped in favor of 2.6.5
 
-##Dummy update to 2.5
+## Dummy update to 2.5
 -Github update needs more time, so you can disregard this update for now. Please download the latest version from the mod page.
 
 ## Super/Hyper Sonic Faithful 2.2.2
