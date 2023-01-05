@@ -34,12 +34,11 @@ add main/raw/dlc/dlccrm/dlccrm.pac
 add main/raw/dlc/dlcddx/dlcddx.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-add main/raw/dlc/dlcxmas.dlcxmas.pac
+add main/raw/dlc/dlcxmas/dlcxmas.pac
 
 add main/raw/EffectCommon.pac
 add main/raw/EventCommon.pac
 add main/raw/boss/knight01.pac
-add main/raw/character/playercommon.pac
 add main/raw/event/scene/bo1xxx.pac
 add main/raw/event/scene/bo3xxx.pac
 add main/raw/event/scene/zev_knight_atk_sp01.pac
@@ -113,6 +112,7 @@ delete default
 delete hyper
 delete custom_anims
 delete main/raw/character
+delete main/raw/character/playercommon.pac
 delete classic_style_anims
 delete soap_boss_hyper_frontiers/raw/boss/knight01.pac
 delete soap_boss_hyper_adventure/raw/boss/knight01.pac
