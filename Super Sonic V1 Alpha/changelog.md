@@ -1,10 +1,15 @@
 ##2.6.5
 -Fixed eyes on all 17(?) models.  Previously, the eyes would not move due to incorrect names being used.
+
 -Aura outline added to Hyper Sonic.
+
 -The colorful aura has been adjusted to be consistent between each fight, representative of the Giganto and Supreme boss fights.
+
 -Support for eye customization has been added for Hyper Sonic.  The available colors are cyan, magenta, blue and red.  To change eye colors, open the run_to_change_eye_colors.bat batch file and follow the prompt on-screen.
+
 -File size has been reduced due to a ton of duplicate files being included in the last release.  This was due to some unknowns during that time and these files are no longer needed.  Files that are not needed in some .pac files have also been deleted.  There's still room for space to be saved in the future.
--Hopefully I didn't forget anything.
+
+-Grinding animations for all models have been reverted back to vanilla.  This was orignially changed due to the broken nature of early released.  Since the broken animations are no longer an issue, the flying animation band-aid is no longer needed.
 
 ##2.6
 -Skipped in favor of 2.6.5
