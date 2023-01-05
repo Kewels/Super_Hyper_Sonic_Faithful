@@ -82,7 +82,7 @@
             ]
          },
 		 {
-            "DisplayName": "Super Sonic (imaddie's Adventure quills)",
+            "DisplayName": "Super Sonic (imaddi_'s Adventure quills)",
             "Value": "open_super_adventure",
             "Description": [
                "Default, uses my personal animation preference, but with Adventure quills.",
@@ -90,7 +90,7 @@
          },
 
          {
-            "DisplayName": "Super Sonic (imaddie's Adventure quills, Classic Style Animations)",
+            "DisplayName": "Super Sonic (imaddi_'s Adventure quills, Classic Style Animations)",
             "Value": "open_super_adventure_classic",
             "Description": [
                "Classic style animations with the Frontiers Super model and Adventure quills.  WIP, needs user feedback.",
@@ -99,27 +99,60 @@
       ],
 	  "BossModelEnum": 
 	  [
-
          {
             "DisplayName": "Hyper",
             "Value": "boss_hyper_frontiers",
             "Description": [
-               "Turns on custom Super Sonic Physics + Flight",
-            ]
-         },
-
-         {
-            "DisplayName": "Super",
-            "Value": ".",
-            "Description": [
-               "Sonic Powers up from his base Super form into his full Super form.  Just think DBZ Cell Saga.  It makes sense, trust me.",
+               "Sonic's Hyper Form.",
             ]
          },
 		 {
-            "DisplayName": "Hyper (imaddie's Adventure quills)",
+            "DisplayName": "Hyper (Soap Shoes)",
+            "Value": "soap_boss_hyper_frontiers",
+            "Description": [
+               "Hyper, but with Soap shoes.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Colorful)",
+            "Value": "boss_c_hyper_frontiers",
+            "Description": [
+               "Turns on custom Super Sonic Physics + Flight",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, colorful aura)",
+            "Value": "soap_boss_c_hyper_frontiers",
+            "Description": [
+               "Hyper, but with Soap shoes and a colorful aura.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (imaddi_'s Adventure quills)",
             "Value": "boss_hyper_adventure",
             "Description": [
                "Hyper Sonic with a quill style that is similar to the Adventure era.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills, colorful aura)",
+            "Value": "soap_boss_c_hyper_adventure",
+            "Description": [
+               "Hyper, but with Soap shoes, Adventure quills and a colorful aura.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Colorful, imaddi_'s Adventure quills)",
+            "Value": "boss_c_hyper_adventure",
+            "Description": [
+               "Hyper Sonic with a quill style that is similar to the Adventure era.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills)",
+            "Value": "soap_boss_hyper_adventure",
+            "Description": [
+               "Hyper, but with Soap shoes, Adventure quills.",
             ]
          },
       ],
