@@ -1,4 +1,4 @@
-## 2.6.5
+## Super/Hyper Sonic Faithful 2.6.5
 -Fixed eyes on all 17(?) models.  Previously, the eyes would not move due to incorrect names being used.
 
 -Aura outline added to Hyper Sonic.
