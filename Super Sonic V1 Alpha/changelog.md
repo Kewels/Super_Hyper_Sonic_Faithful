@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.7AP
+-Added some missing files to the update server.  These should hopefully fix an issue with the Adventure quills not working with the Soap shoes, but currently, this needs verification.
+
 ## Super/Hyper Sonic Faithful 2.6.6 Hotfix
 -Fixed a bug with the eye texture swapping batch file that breaks compatibility on some computers.
 
