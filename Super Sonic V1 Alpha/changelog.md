@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.6 Hotfix
+-Fixed a bug with the eye texture swapping batch file that breaks compatibility on some computers.
+
 ## Super/Hyper Sonic Faithful 2.6.5
 -Fixed eyes on all 17(?) models.  Previously, the eyes would not move due to incorrect names being used.
 

@@ -21,35 +21,35 @@ IF ERRORLEVEL 1 GOTO Cyan
 CLS
 @ECHO Cyan
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_adventure\raw\character\supersonic
 
-.\HedgeArcPackFrontiers1.exe .\boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
-.\HedgeArcPackFrontiers1.exe -T=rangers .\boss_c_hyper_frontiers\raw\character\supersonic
+.\HedgeArcPackFrontiers0.exe .\boss_c_hyper_frontiers\raw\character\supersonic.pac
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
+.\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_frontiers\raw\character\supersonic
 
-.\HedgeArcPackFrontiers0.exe .\boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
-.\HedgeArcPackFrontiers0.exe -T=rangers .\boss_hyper_adventure\raw\character\supersonic
+.\HedgeArcPackFrontiers1.exe .\boss_hyper_adventure\raw\character\supersonic.pac
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
+.\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_adventure\raw\character\supersonic
 
-.\HedgeArcPackFrontiers3.exe .\soap_boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
-.\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_c_hyper_frontiers\raw\character\supersonic
+.\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_frontiers\raw\character\supersonic.pac
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
+.\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 
-.\HedgeArcPackFrontiers2.exe .\soap_boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
-.\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_hyper_adventure\raw\character\supersonic
+.\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_adventure\raw\character\supersonic.pac
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
+.\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\cyan\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_frontiers\raw\character\supersonic
 
 rmdir .\boss_c_hyper_adventure\raw\character\supersonic /s /q
@@ -60,41 +60,41 @@ rmdir .\soap_boss_c_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_c_hyper_frontiers\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_frontiers\raw\character\supersonic /s /q
-GOTO End
+GOTO
 
 :Red
 CLS
 @ECHO Red
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\red\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_frontiers\raw\character\supersonic
 
 rmdir .\boss_c_hyper_adventure\raw\character\supersonic /s /q
@@ -105,41 +105,41 @@ rmdir .\soap_boss_c_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_c_hyper_frontiers\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_frontiers\raw\character\supersonic /s /q
-GOTO End
+GOTO
 
 :Green
 CLS
 @ECHO Green
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\green\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_frontiers\raw\character\supersonic
 
 rmdir .\boss_c_hyper_adventure\raw\character\supersonic /s /q
@@ -150,41 +150,41 @@ rmdir .\soap_boss_c_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_c_hyper_frontiers\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_frontiers\raw\character\supersonic /s /q
-GOTO End
+GOTO
 
 :Magenta
 CLS
 @ECHO Magenta
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers0.exe .\boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers0.exe -T=rangers .\boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers1.exe .\boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers1.exe -T=rangers .\boss_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers2.exe .\soap_boss_c_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers2.exe -T=rangers .\soap_boss_c_hyper_frontiers\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_adventure\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_hyper_adventure\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_adventure\raw\character\supersonic
 
 .\HedgeArcPackFrontiers3.exe .\soap_boss_hyper_frontiers\raw\character\supersonic.pac
-cp .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
+copy .\eye_tex\magenta\chr_supersonic_eye_abd.dds .\soap_boss_hyper_frontiers\raw\character\supersonic
 .\HedgeArcPackFrontiers3.exe -T=rangers .\soap_boss_hyper_frontiers\raw\character\supersonic
 
 rmdir .\boss_c_hyper_adventure\raw\character\supersonic /s /q
@@ -195,4 +195,4 @@ rmdir .\soap_boss_c_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_c_hyper_frontiers\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_adventure\raw\character\supersonic /s /q
 rmdir .\soap_boss_hyper_frontiers\raw\character\supersonic /s /q
-GOTO End
+GOTO
