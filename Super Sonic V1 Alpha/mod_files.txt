@@ -36,6 +36,14 @@ add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
 add main/raw/dlc/dlcxmas/dlcxmas.pac
 
+add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
+add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
+add open_super_adventure/raw/dlc/dlcxmas/dlcxmas.pac
+
+add open_super_adventure_classic/raw/dlc/dlccrm/dlccrm.pac
+add open_super_adventure_classic/raw/dlc/dlcddx/dlcddx.pac
+add open_super_adventure_classic/raw/dlc/dlcxmas/dlcxmas.pac
+
 add main/raw/EffectCommon.pac
 add main/raw/EventCommon.pac
 add main/raw/boss/knight01.pac
