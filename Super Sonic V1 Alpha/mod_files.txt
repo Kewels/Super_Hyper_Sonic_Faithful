@@ -36,14 +36,6 @@ add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
 add main/raw/dlc/dlcxmas/dlcxmas.pac
 
-add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
-add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
-add open_super_adventure/raw/dlc/dlcxmas/dlcxmas.pac
-
-add open_super_adventure_classic/raw/dlc/dlccrm/dlccrm.pac
-add open_super_adventure_classic/raw/dlc/dlcddx/dlcddx.pac
-add open_super_adventure_classic/raw/dlc/dlcxmas/dlcxmas.pac
-
 add main/raw/EffectCommon.pac
 add main/raw/EventCommon.pac
 add main/raw/boss/knight01.pac
@@ -54,6 +46,18 @@ add main/raw/event/scene/zev_knight_sonic_damage01.pac
 add main/raw/event/scene/zev_knight_sonic_sp01.pac
 add main/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
 add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
+
+add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
+add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
+add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
+add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
+add open_super_adventure/raw/dlc/dlcxmas.dlcxmas.pac
+
+add open_super_adventure_classic/raw/dlc/dlccrm/dlccrm.pac
+add open_super_adventure_classic/raw/dlc/dlcddx/dlcddx.pac
+add open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
+add open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
+add open_super_adventure_classic/raw/dlc/dlcxmas.dlcxmas.pac
 
 delete boss_hyper_adventure/raw/boss/knight01.pac
 delete boss_hyper_adventure/raw/EffectCommon.pac
@@ -96,18 +100,6 @@ delete open_super/raw/dlc/dlcddx/dlcddx.pac
 delete open_super/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
 delete open_super/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
 delete open_super/raw/dlc/dlcxmas.dlcxmas.pac
-
-delete open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
-delete open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
-delete open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-delete open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-delete open_super_adventure/raw/dlc/dlcxmas.dlcxmas.pac
-
-delete open_super_adventure_classic/raw/dlc/dlccrm/dlccrm.pac
-delete open_super_adventure_classic/raw/dlc/dlcddx/dlcddx.pac
-delete open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-delete open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-delete open_super_adventure_classic/raw/dlc/dlcxmas.dlcxmas.pac
 
 delete open_super_classic/raw/dlc/dlccrm/dlccrm.pac
 delete open_super_classic/raw/dlc/dlcddx/dlcddx.pac

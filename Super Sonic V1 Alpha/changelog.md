@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.8AP
+-The Soap Shoes problem while using the Adventure quills has been fixed correctly now.  Sorry about that! :)
+
 ## Super/Hyper Sonic Faithful 2.6.7AP
 -Added some missing files to the update server.  These should hopefully fix an issue with the Adventure quills not working with the Soap shoes, but currently, this needs verification.
 
