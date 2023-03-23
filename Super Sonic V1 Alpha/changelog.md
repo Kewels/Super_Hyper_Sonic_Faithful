@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.9
+- Adds support for version 1.20 of Frontiers.
+
 ## Super/Hyper Sonic Faithful 2.6.8AP
 -The Soap Shoes problem while using the Adventure quills has been fixed correctly now.  Sorry about that! :)
 
