@@ -54,12 +54,20 @@
                "Turns on custom Super Sonic Physics + Flight",
             ]
          },
-
-         {
+		 
+		 {
             "DisplayName": "Off",
             "Value": "phys_alt",
             "Description": [
                "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
+            ]
+         },
+
+         {
+            "DisplayName": "Open World Only",
+            "Value": "phys_cyber_space_off",
+            "Description": [
+               "Turns off custom physics for Cyber Space, but leaves them on for the open world (except for 2D open world).  This was done to combat Sonic Team adding in a check for cheating.",
             ]
          },
       ],

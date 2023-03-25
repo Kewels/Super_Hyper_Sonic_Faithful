@@ -130,5 +130,7 @@ add HedgeArcPackFrontiers2.exe
 add HedgeArcPackFrontiers3.exe
 add run_to_change_eye_colors.bat
 
+add phys_cyber_space_off/raw/character/playercommon.pac
+
 add options.json
 add mod.ini

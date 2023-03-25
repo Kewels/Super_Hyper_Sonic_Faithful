@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.9-rev3
+- Adds an option to turn off Cyber Space custom physics.  This will also disable 2D open world physics.
+
 ## Super/Hyper Sonic Faithful 2.6.9-rev2
 - Adds support for version 1.20 of Frontiers.
 
