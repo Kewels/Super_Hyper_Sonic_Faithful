@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.9-rev4
+- Fixes yet another porting problem for 1.20.  Hyper Sonic's cyloop color is now white instead of being invisible.
+
 ## Super/Hyper Sonic Faithful 2.6.9-rev3
 - Adds an option to turn off Cyber Space custom physics.  This will also disable 2D open world physics.
 
