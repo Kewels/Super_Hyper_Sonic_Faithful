@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.9-rev5
+- Fixes an oversight that made the cyloop color blue when custom physics are turned off.  Thank you Sandpie for pointing this out! :)
+
 ## Super/Hyper Sonic Faithful 2.6.9-rev4
 - Fixes yet another porting problem for 1.20.  Hyper Sonic's cyloop color is now white instead of being invisible.
 
