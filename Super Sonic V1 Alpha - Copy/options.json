@@ -1,0 +1,169 @@
+{
+   "Groups": [
+      {
+         "Name": "main",
+         "DisplayName": "Options",
+         "Elements": [
+ 
+            {
+               "Name": "IncludeDir0",
+               "DisplayName": "Custom Physics",
+               "Description": [
+                  " ",
+               ],
+               "Type": "PhysEnum",
+		       "MinValue": null,
+		       "MaxValue": null,
+               "DefaultValue": "alternate"
+            },
+			{
+               "Name": "IncludeDir1",
+               "DisplayName": "Open World Transformation + Animations",
+               "Description": [
+                  " ",
+               ],
+               "Type": "OpenModelEnum",
+		       "MinValue": null,
+		       "MaxValue": null,
+               "DefaultValue": "Super Sonic (Faithful)"
+            },
+			{
+               "Name": "IncludeDir2",
+               "DisplayName": "Boss Transformation",
+               "Description": [
+                  " ",
+               ],
+               "Type": "BossModelEnum",
+		       "MinValue": null,
+		       "MaxValue": null,
+               "DefaultValue": "Hyper"
+            },
+         ]
+      }
+   ],
+   
+   "Enums": {
+
+      "PhysEnum": 
+	  [
+
+         {
+            "DisplayName": "On",
+            "Value": "phys_default",
+            "Description": [
+               "Turns on custom Super Sonic Physics + Flight",
+            ]
+         },
+		 
+		 {
+            "DisplayName": "Off",
+            "Value": "phys_alt",
+            "Description": [
+               "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
+            ]
+         },
+
+         {
+            "DisplayName": "Open World Only",
+            "Value": "phys_cyber_space_off",
+            "Description": [
+               "Turns off custom physics for Cyber Space, but leaves them on for the open world (except for 2D open world).  This was done to combat Sonic Team adding in a check for cheating.",
+            ]
+         },
+      ],
+	  "OpenModelEnum": 
+	  [
+
+         {
+            "DisplayName": "Super Sonic (Faithful)",
+            "Value": "open_super",
+            "Description": [
+               "Default, uses my personal animation preference.",
+            ]
+         },
+
+         {
+            "DisplayName": "Super Sonic (Frontiers, Classic Style Animations)",
+            "Value": "open_super_classic",
+            "Description": [
+               "Classic style animations with the Frontiers Super model.  WIP, needs user feedback.",
+            ]
+         },
+		 {
+            "DisplayName": "Super Sonic (imaddi_'s Adventure quills)",
+            "Value": "open_super_adventure",
+            "Description": [
+               "Default, uses my personal animation preference, but with Adventure quills.",
+            ]
+         },
+
+         {
+            "DisplayName": "Super Sonic (imaddi_'s Adventure quills, Classic Style Animations)",
+            "Value": "open_super_adventure_classic",
+            "Description": [
+               "Classic style animations with the Frontiers Super model and Adventure quills.  WIP, needs user feedback.",
+            ]
+         },
+      ],
+	  "BossModelEnum": 
+	  [
+         {
+            "DisplayName": "Hyper",
+            "Value": "boss_hyper_frontiers",
+            "Description": [
+               "Sonic's Hyper Form.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes)",
+            "Value": "soap_boss_hyper_frontiers",
+            "Description": [
+               "Hyper, but with Soap shoes.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Colorful)",
+            "Value": "boss_c_hyper_frontiers",
+            "Description": [
+               "Turns on custom Super Sonic Physics + Flight",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, colorful aura)",
+            "Value": "soap_boss_c_hyper_frontiers",
+            "Description": [
+               "Hyper, but with Soap shoes and a colorful aura.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (imaddi_'s Adventure quills)",
+            "Value": "boss_hyper_adventure",
+            "Description": [
+               "Hyper Sonic with a quill style that is similar to the Adventure era.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills, colorful aura)",
+            "Value": "soap_boss_c_hyper_adventure",
+            "Description": [
+               "Hyper, but with Soap shoes, Adventure quills and a colorful aura.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Colorful, imaddi_'s Adventure quills)",
+            "Value": "boss_c_hyper_adventure",
+            "Description": [
+               "Hyper Sonic with a quill style that is similar to the Adventure era.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills)",
+            "Value": "soap_boss_hyper_adventure",
+            "Description": [
+               "Hyper, but with Soap shoes, Adventure quills.",
+            ]
+         },
+      ],
+   },
+   "IniFile": "mod.ini"
+}

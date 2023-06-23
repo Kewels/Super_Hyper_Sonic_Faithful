@@ -1,166 +1,250 @@
 {
    "Groups": [
       {
-         "Name": "main",
+         "Name": "Main",
          "DisplayName": "Options",
          "Elements": [
- 
-            {
+            
+			{
                "Name": "IncludeDir0",
+               "DisplayName": "Boss fight aura",
+               "Description": [
+                  " ",
+               ],
+               "Type": "AuraEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "aura_color"
+            },
+			{
+               "Name": "IncludeDir1",
                "DisplayName": "Custom Physics",
                "Description": [
                   " ",
                ],
                "Type": "PhysEnum",
-		       "MinValue": null,
-		       "MaxValue": null,
+               "MinValue": null,
+               "MaxValue": null,
                "DefaultValue": "alternate"
             },
 			{
-               "Name": "IncludeDir1",
-               "DisplayName": "Open World Transformation + Animations",
+               "Name": "IncludeDir2",
+               "DisplayName": "Open World (Base) Form",
                "Description": [
                   " ",
                ],
                "Type": "OpenModelEnum",
-		       "MinValue": null,
-		       "MaxValue": null,
+               "MinValue": null,
+               "MaxValue": null,
                "DefaultValue": "Super Sonic (Faithful)"
             },
-			{
-               "Name": "IncludeDir2",
-               "DisplayName": "Boss Transformation",
+            {
+               "Name": "IncludeDir4",
+               "DisplayName": "Transformation",
                "Description": [
                   " ",
                ],
                "Type": "BossModelEnum",
-		       "MinValue": null,
-		       "MaxValue": null,
+               "MinValue": null,
+               "MaxValue": null,
                "DefaultValue": "Hyper"
+            },
+			{
+               "Name": "IncludeDir5",
+               "DisplayName": "Eye color for Super/Hyper transformation",
+               "Description": [
+                  " ",
+               ],
+               "Type": "BossEyeEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Magenta"
+            },
+            {
+               "Name": "CodeFile",
+               "DisplayName": "Additional fixes",
+               "Description": [
+                  " ",
+               ],
+               "Type": "CodesEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Off"
             },
          ]
       }
    ],
-   
    "Enums": {
-
-      "PhysEnum": 
-	  [
-
+      "CodesEnum": [
+	  {
+            "DisplayName": "Disabled",
+            "Value": ".",
+            "Description": [
+               "Disables extra codes. Use this for compatibility reasons if the game doesn't work.  Or disable any codes found in the hmm files of this mod.",
+            ]
+         },
+         {
+            "DisplayName": "Phantom Rush/Aura/Invincible/misc",
+            "Value": "code.hmm",
+            "Description": [
+               "Enables an aura using Phantom Rush and makes you invincible. Other fixes include leaning correctly while grinding, super stomp, reduced homing delay, ground velocity retention while jumping and resetting the stomp, which removes the requirement to hit the ground before initiating another stomp."
+            ]
+         },
+         {
+            "DisplayName": "Invincible/misc",
+            "Value": "code2.hmm",
+            "Description": [
+               "Makes you invincible. Other fixes include leaning correctly while grinding, super stomp, reduced homing delay, ground velocity retention while jumping and resetting the stomp, which removes the requirement to hit the ground before initiating another stomp.",
+            ]
+         },
+		 {
+            "DisplayName": "Phantom Rush/Aura/misc",
+            "Value": "code3.hmm",
+            "Description": [
+               "Enables an aura using the phantom rush. Other fixes include leaning correctly while grinding, super stomp, reduced homing delay, ground velocity retention while jumping and resetting the stomp, which removes the requirement to hit the ground before initiating another stomp.",
+            ]
+         },
+      ],
+	  "AuraEnum": [
+		 {
+            "DisplayName": "Super Sonic",
+            "Value": "aura_ss",
+            "Description": [
+               "Super Sonic aura, intended for use with the Super Sonic transformation.",
+            ]
+         },
+         {
+            "DisplayName": "Colorful",
+            "Value": "aura_color",
+            "Description": [
+               "Gives Hyper Sonic a colorful aura.",
+            ]
+         },
+         {
+            "DisplayName": "Stars",
+            "Value": "aura_stars",
+            "Description": [
+               "Gives Hyper Sonic a cyan aura with white stars.",
+            ]
+         },
+		 {
+            "DisplayName": "Cyan",
+            "Value": "aura_cyan",
+            "Description": [
+               "Gives Hyper Sonic a cyan aura.",
+            ]
+         },
+      ],
+      "PhysEnum": [
          {
             "DisplayName": "On",
             "Value": "phys_default",
             "Description": [
-               "Turns on custom Super Sonic Physics + Flight",
+               "Turns on custom Super Sonic Physics + Flight.",
             ]
          },
-		 
-		 {
+         {
             "DisplayName": "Off",
             "Value": "phys_alt",
             "Description": [
                "Reverts gameplay back to vanilla for use with other physics or if you just want original gameplay.",
             ]
          },
-
-         {
-            "DisplayName": "Open World Only",
-            "Value": "phys_cyber_space_off",
+      ],
+      "OpenModelEnum": [
+		 {
+            "DisplayName": "Base Sonic",
+            "Value": ".",
             "Description": [
-               "Turns off custom physics for Cyber Space, but leaves them on for the open world (except for 2D open world).  This was done to combat Sonic Team adding in a check for cheating.",
+               "Normal base form Sonic. Note: turning off custom physics is HIGHLY recommended.  Player model, boost trail and cyloop will not work correctly.  I cannot promise whether or not this issue will be fixed.",
             ]
          },
-      ],
-	  "OpenModelEnum": 
-	  [
-
          {
             "DisplayName": "Super Sonic (Faithful)",
-            "Value": "open_super",
+            "Value": "main",
             "Description": [
-               "Default, uses my personal animation preference.",
+               "Default Frontiers model.",
             ]
          },
-
          {
-            "DisplayName": "Super Sonic (Frontiers, Classic Style Animations)",
-            "Value": "open_super_classic",
-            "Description": [
-               "Classic style animations with the Frontiers Super model.  WIP, needs user feedback.",
-            ]
-         },
-		 {
             "DisplayName": "Super Sonic (imaddi_'s Adventure quills)",
             "Value": "open_super_adventure",
             "Description": [
-               "Default, uses my personal animation preference, but with Adventure quills.",
-            ]
-         },
-
-         {
-            "DisplayName": "Super Sonic (imaddi_'s Adventure quills, Classic Style Animations)",
-            "Value": "open_super_adventure_classic",
-            "Description": [
-               "Classic style animations with the Frontiers Super model and Adventure quills.  WIP, needs user feedback.",
+               "Adventure quills.",
             ]
          },
       ],
-	  "BossModelEnum": 
-	  [
+      "BossModelEnum": [
+		 {
+            "DisplayName": "Super Sonic",
+            "Value": ".",
+            "Description": [
+               "Normal Super Sonic transformation.",
+            ]
+         },
+		 {
+            "DisplayName": "Super Sonic (Soap Shoes)",
+            "Value": "boss_soap_super_frontiers",
+            "Description": [
+               "Super Sonic transformation, but with Soap shoes.",
+            ]
+         },
          {
             "DisplayName": "Hyper",
             "Value": "boss_hyper_frontiers",
             "Description": [
-               "Sonic's Hyper Form.",
+               "Sonic's Hyper transformation.",
             ]
          },
-		 {
+         {
             "DisplayName": "Hyper (Soap Shoes)",
-            "Value": "soap_boss_hyper_frontiers",
+            "Value": "boss_soap_hyper_frontiers",
             "Description": [
-               "Hyper, but with Soap shoes.",
+               "Hyper Sonic transformation, but with Soap shoes.",
             ]
          },
-		 {
-            "DisplayName": "Hyper (Colorful)",
-            "Value": "boss_c_hyper_frontiers",
-            "Description": [
-               "Turns on custom Super Sonic Physics + Flight",
-            ]
-         },
-		 {
-            "DisplayName": "Hyper (Soap Shoes, colorful aura)",
-            "Value": "soap_boss_c_hyper_frontiers",
-            "Description": [
-               "Hyper, but with Soap shoes and a colorful aura.",
-            ]
-         },
-		 {
+         {
             "DisplayName": "Hyper (imaddi_'s Adventure quills)",
             "Value": "boss_hyper_adventure",
             "Description": [
-               "Hyper Sonic with a quill style that is similar to the Adventure era.",
+               "Hyper Sonic with Adventure styled quills.",
             ]
          },
-		 {
-            "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills, colorful aura)",
-            "Value": "soap_boss_c_hyper_adventure",
-            "Description": [
-               "Hyper, but with Soap shoes, Adventure quills and a colorful aura.",
-            ]
-         },
-		 {
-            "DisplayName": "Hyper (Colorful, imaddi_'s Adventure quills)",
-            "Value": "boss_c_hyper_adventure",
-            "Description": [
-               "Hyper Sonic with a quill style that is similar to the Adventure era.",
-            ]
-         },
-		 {
+         {
             "DisplayName": "Hyper (Soap Shoes, imaddi_'s Adventure quills)",
-            "Value": "soap_boss_hyper_adventure",
+            "Value": "boss_soap_hyper_adventure",
             "Description": [
-               "Hyper, but with Soap shoes, Adventure quills.",
+               "Hyper Sonic with adventure styled quills.",
+            ]
+         },
+      ],
+	  "BossEyeEnum": [
+         {
+            "DisplayName": "Cyan",
+            "Value": "hyper_eye_cyan",
+            "Description": [
+               "Cyan eyes for transformation.",
+            ]
+         },
+         {
+            "DisplayName": "Green",
+            "Value": "hyper_eye_green",
+            "Description": [
+               "Green eyes for transformation.",
+			]
+         },
+		 {
+            "DisplayName": "Magenta",
+            "Value": "hyper_eye_magenta",
+            "Description": [
+               "Magenta eyes for transformation.",
+            ]
+         },
+         {
+            "DisplayName": "Red",
+            "Value": "hyper_eye_red",
+            "Description": [
+               "Red eyes for transformation.",
             ]
          },
       ],
