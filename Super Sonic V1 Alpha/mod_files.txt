@@ -131,6 +131,8 @@ add code.hmm
 add code2.hmm
 add code3.hmm
 add Transformation.CT
+add transform-readme.txt
+credits.txt
 
 add dummy/dummy.txt
 
