@@ -524,6 +524,49 @@ movss xmm9,[SonicFrontiers.exe+10B6D00]
               <Value>50</Value>
               <ID>5</ID>
             </Hotkey>
+            <Hotkey>
+              <Action>Increase Value</Action>
+              <Keys>
+                <Key>107</Key>
+              </Keys>
+              <Value>5</Value>
+              <ID>0</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Decrease Value</Action>
+              <Keys>
+                <Key>109</Key>
+              </Keys>
+              <Value>5</Value>
+              <ID>6</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Increase Value</Action>
+              <Keys>
+                <Key>16</Key>
+                <Key>107</Key>
+              </Keys>
+              <Value>50</Value>
+              <ID>7</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Decrease Value</Action>
+              <Keys>
+                <Key>16</Key>
+                <Key>109</Key>
+              </Keys>
+              <Value>50</Value>
+              <ID>8</ID>
+            </Hotkey>
+            <Hotkey>
+              <Action>Set Value</Action>
+              <Keys>
+                <Key>16</Key>
+                <Key>106</Key>
+              </Keys>
+              <Value>50</Value>
+              <ID>9</ID>
+            </Hotkey>
           </Hotkeys>
         </CheatEntry>
       </CheatEntries>
