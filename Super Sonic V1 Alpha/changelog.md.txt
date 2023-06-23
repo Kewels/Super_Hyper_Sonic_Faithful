@@ -17,6 +17,8 @@
 
 - Flying no longer has a pre-determined horizontal and vertical speed.  Flight speed is now determined based on your air momentum while moving through the air.
 
+- Cyberspace stages should now feel better and be much more playable
+
 - Rail grinding is now faster in order to compliment the updated flight.
 
 - Base Sonic and Super Sonic have been added back into Faithful.  This also depreciates Hyper Sonic Faithful standalone, which will no longer be updated.
