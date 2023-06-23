@@ -25,6 +25,10 @@
 
 - Improved Cyberspace physics.  These stages should be more fun to play now.
 
+- Super Sonic is now invincible.
+
+- Super Sonic can now attract rings.
+
 ## Super/Hyper Sonic Faithful 2.6.9-rev5
 - Fixes an oversight that made the cyloop color blue when custom physics are turned off.  Thank you Sandpie for pointing this out! :)
 
