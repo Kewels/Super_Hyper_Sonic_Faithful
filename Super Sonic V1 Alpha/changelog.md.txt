@@ -17,13 +17,13 @@
 
 - Flying no longer has a pre-determined horizontal and vertical speed.  Flight speed is now determined based on your air momentum while moving through the air.
 
-- Cyberspace stages should now feel better and be much more playable
+- Cyberspace stages should now feel better and be much more playable.
 
 - Rail grinding is now faster in order to compliment the updated flight.
 
 - Base Sonic and Super Sonic have been added back into Faithful.  This also depreciates Hyper Sonic Faithful standalone, which will no longer be updated.
 
-- If you actually read all of this, the secret word is cookiesonic.
+- Improved Cyberspace physics.  These stages should be more fun to play now.
 
 ## Super/Hyper Sonic Faithful 2.6.9-rev5
 - Fixes an oversight that made the cyloop color blue when custom physics are turned off.  Thank you Sandpie for pointing this out! :)
