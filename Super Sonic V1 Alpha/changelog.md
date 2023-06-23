@@ -1,5 +1,4 @@
 ## Super/Hyper Sonic Truly Faithful 3.0
-
 - A Cheat Engine script to transform into the real Super/Hyper Sonic is now included. Read transform.txt for controls and details.
 
 - The colorful aura for Hyper Sonic has been updated. There is also a new star aura for Hyper Sonic.
