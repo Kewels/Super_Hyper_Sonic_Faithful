@@ -1,111 +1,44 @@
-add boss_c_hyper_adventure/raw/EffectCommon.pac
-add boss_c_hyper_adventure/raw/character/supersonic.pac
+<<<<<<< Updated upstream
+delete boss_c_hyper_adventure/
 
-add boss_c_hyper_frontiers/raw/EffectCommon.pac
-add boss_c_hyper_frontiers/raw/character/supersonic.pac
+delete boss_c_hyper_frontiers/
 
-add boss_hyper_adventure/raw/EventCommon.pac
-add boss_hyper_adventure/raw/character/supersonic.pac
+delete boss_hyper_adventure/
 
-add boss_hyper_frontiers/raw/EventCommon.pac
-add boss_hyper_frontiers/raw/character/supersonic.pac
+delete boss_hyper_frontiers/
 
-add soap_boss_c_hyper_adventure/raw/EffectCommon.pac
-add soap_boss_c_hyper_adventure/raw/character/supersonic.pac
+delete soap_boss_c_hyper_adventure/
 
-add soap_boss_c_hyper_frontiers/raw/EffectCommon.pac
-add soap_boss_c_hyper_frontiers/raw/character/supersonic.pac
+delete soap_boss_c_hyper_frontiers/
 
-add soap_boss_hyper_frontiers/raw/EventCommon.pac
-add soap_boss_hyper_frontiers/raw/character/supersonic.pac
+delete soap_boss_hyper_frontiers/
 
-add soap_boss_hyper_adventure/raw/EventCommon.pac
-add soap_boss_hyper_adventure/raw/character/supersonic.pac
+delete soap_boss_hyper_adventure/
 
-add open_super/raw/character/sonic.pac
-add open_super_adventure/raw/character/sonic.pac
-add open_super_adventure_classic/raw/character/sonic.pac
-add open_super_classic/raw/character/sonic.pac
+delete open_super/
 
-add phys_alt/raw/character/playercommon.pac
-add phys_default/raw/character/playercommon.pac
+delete phys_alt/
+delete phys_default/
 
-add main/raw/dlc/dlccrm/dlccrm.pac
-add main/raw/dlc/dlcddx/dlcddx.pac
-add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-add main/raw/dlc/dlcxmas/dlcxmas.pac
+delete main/
 
-add main/raw/EffectCommon.pac
-add main/raw/EventCommon.pac
-add main/raw/boss/knight01.pac
-add main/raw/event/scene/bo1xxx.pac
-add main/raw/event/scene/bo3xxx.pac
-add main/raw/event/scene/zev_knight_atk_sp01.pac
-add main/raw/event/scene/zev_knight_sonic_damage01.pac
-add main/raw/event/scene/zev_knight_sonic_sp01.pac
-add main/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
-add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
+delete open_super_adventure/
 
-add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
-add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
-add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-add open_super_adventure/raw/dlc/dlcxmas.dlcxmas.pac
+delete open_super_adventure_classic/
 
-add open_super_adventure_classic/raw/dlc/dlccrm/dlccrm.pac
-add open_super_adventure_classic/raw/dlc/dlcddx/dlcddx.pac
-add open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-add open_super_adventure_classic/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-add open_super_adventure_classic/raw/dlc/dlcxmas.dlcxmas.pac
+delete boss_hyper_adventure/
 
-delete boss_hyper_adventure/raw/boss/knight01.pac
-delete boss_hyper_adventure/raw/EffectCommon.pac
-delete boss_hyper_adventure/raw/event/scene/bo1xxx.pac
-delete boss_hyper_adventure/raw/event/scene/bo3xxx.pac
-delete boss_hyper_adventure/raw/event/scene/zev_knight_atk_sp01.pac
-delete boss_hyper_adventure/raw/event/scene/zev_knight_sonic_damage01.pac
-delete boss_hyper_adventure/raw/event/scene/zev_knight_sonic_sp01.pac
-delete boss_hyper_adventure/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
+delete boss_hyper_frontiers/
 
-delete boss_hyper_frontiers/raw/boss/knight01.pac
-delete boss_hyper_frontiers/raw/EffectCommon.pac
-delete boss_hyper_frontiers/raw/event/scene/bo1xxx.pac
-delete boss_hyper_frontiers/raw/event/scene/bo3xxx.pac
-delete boss_hyper_frontiers/raw/event/scene/zev_knight_atk_sp01.pac
-delete boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_damage01.pac
-delete boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_sp01.pac
-delete boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
+delete soap_boss_hyper_adventure/
 
-delete soap_boss_hyper_adventure/raw/boss/knight01.pac
-delete soap_boss_hyper_adventure/raw/EffectCommon.pac
-delete soap_boss_hyper_adventure/raw/event/scene/bo1xxx.pac
-delete soap_boss_hyper_adventure/raw/event/scene/bo3xxx.pac
-delete soap_boss_hyper_adventure/raw/event/scene/zev_knight_atk_sp01.pac
-delete soap_boss_hyper_adventure/raw/event/scene/zev_knight_sonic_damage01.pac
-delete soap_boss_hyper_adventure/raw/event/scene/zev_knight_sonic_sp01.pac
-delete soap_boss_hyper_adventure/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
+delete soap_boss_hyper_frontiers/
 
-delete soap_boss_hyper_frontiers/raw/boss/knight01.pac
-delete soap_boss_hyper_frontiers/raw/EffectCommon.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/bo1xxx.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/bo3xxx.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/zev_knight_atk_sp01.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_damage01.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_sp01.pac
-delete soap_boss_hyper_frontiers/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
+delete open_super/
 
-delete open_super/raw/dlc/dlccrm/dlccrm.pac
-delete open_super/raw/dlc/dlcddx/dlcddx.pac
-delete open_super/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-delete open_super/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-delete open_super/raw/dlc/dlcxmas.dlcxmas.pac
-
-delete open_super_classic/raw/dlc/dlccrm/dlccrm.pac
-delete open_super_classic/raw/dlc/dlcddx/dlcddx.pac
-delete open_super_classic/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
-delete open_super_classic/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
-delete open_super_classic/raw/dlc/dlcxmas.dlcxmas.pac
+delete open_super_classic/
+delete eye_tex/
+delete phys_cyber_space_off/
 
 delete alternate
 delete default
@@ -119,18 +52,88 @@ delete soap_boss_hyper_adventure/raw/boss/knight01.pac
 delete boss_hyper_adventure/raw/boss/knight01.pac
 delete boss_hyper_frontiers/raw/boss/knight01.pac
 
-add eye_tex/cyan/chr_supersonic_eye_abd.dds
-add eye_tex/green/chr_supersonic_eye_abd.dds
-add eye_tex/red/chr_supersonic_eye_abd.dds
-add eye_tex/magenta/chr_supersonic_eye_abd.dds
+delete eye_tex/
 
-add HedgeArcPackFrontiers0.exe
-add HedgeArcPackFrontiers1.exe
-add HedgeArcPackFrontiers2.exe
-add HedgeArcPackFrontiers3.exe
-add run_to_change_eye_colors.bat
+delete HedgeArcPackFrontiers0.exe
+delete HedgeArcPackFrontiers1.exe
+delete HedgeArcPackFrontiers2.exe
+delete HedgeArcPackFrontiers3.exe
+delete run_to_change_eye_colors.bat
 
-add phys_cyber_space_off/raw/character/playercommon.pac
+delete phys_cyber_space_off/raw/character/playercommon.pac
+
+
+
+add aura_color/raw/EffectCommon.pac
+add aura_cyan/raw/EffectCommon.pac
+add aura_stars/raw/EffectCommon.pac
+add aura_ss/raw/EffectCommon.pac
+
+add boss_hyper_adventure/raw/EventCommon.pac
+add boss_hyper_adventure/raw/character/supersonic.pac
+
+add boss_hyper_frontiers/raw/character/supersonic.pac
+
+add boss_soap_hyper_adventure/raw/EventCommon.pac
+add boss_soap_hyper_adventure/raw/character/supersonic.pac
+
+add boss_soap_hyper_frontiers/raw/character/supersonic.pac
+
+add boss_soap_super_frontiers/raw/character/supersonic.pac
+
+add hyper_eye_cyan/raw/misc/trr_common_texture.pac
+add hyper_eye_green/raw/misc/trr_common_texture.pac
+add hyper_eye_magenta/raw/misc/trr_common_texture.pac
+add hyper_eye_red/raw/misc/trr_common_texture.pac
+
+add main/raw/boss/knight.pac
+add main/raw/character/sonic.pac
+
+add main/raw/dlc/dlccrm/dlccrm.pac
+add main/raw/dlc/dlcddx/dlcddx.pac
+add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
+add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
+add main/raw/dlc/dlcxmas/dlcxmas.pac
+
+add main/raw/event/scene/bo1xxx.pac
+add main/raw/event/scene/bo3xxx.pac
+add main/raw/event/scene/RESERVED
+add main/raw/event/scene/zev_knight_atk_sp01.pac
+add main/raw/event/scene/zev_knight_sonic_damage01.pac
+add main/raw/event/scene/zev_knight_sonic_sp01.pac
+add main/raw/event/scene/zev_knight_sonic_sp01_phase2.pac
+add main/raw/event/scene/zev_rfl_shoot02.pac
+
+add main/raw/misc/uiparam.pac
+add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
+
+add main/raw/ui/rpl_texture_btnguide.pac
+add main/raw/ui/ui_boot.pac
+add main/raw/ui/ui_credits.pac
+add main/raw/ui/ui_gamemodestage.pac
+
+add main/raw/EventCommon.pac
+
+add open_super_adventure/raw/sonic.pac
+
+add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
+add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
+add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
+add open_super_adventure/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
+add open_super_adventure/raw/dlc/dlcxmas/dlcxmas.pac
+
+add phys_alt/raw/character/playercommon.pac
+add phys_default/raw/miniboss/flyer01.pac
+add phys_default/raw/miniboss/warship01.pac
+add phys_default/raw/character/playercommon.pac
+
+add code.hmm
+add code2.hmm
+add code3.hmm
+add Transformation.CT
+
+add dummy/dummy.txt
 
 add options.json
 add mod.ini
+
