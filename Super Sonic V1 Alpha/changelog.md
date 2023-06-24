@@ -1,4 +1,4 @@
-## Super/Hyper Sonic Truly Faithful 3.0: NOT COMPATIBLE WITH UPDATE 2.  THIS IS CURRENTLY BEING WORKED ON.
+## Super/Hyper Sonic Truly Faithful 3.0: NOT YET COMPATIBLE WITH UPDATE 2.  THIS IS CURRENTLY BEING WORKED ON.
 - A Cheat Engine script to transform into the real Super/Hyper Sonic is now included. Read transform-readme.txt for controls and details.
 
 - The colorful aura for Hyper Sonic has been updated. There is also a new star aura for Hyper Sonic.
