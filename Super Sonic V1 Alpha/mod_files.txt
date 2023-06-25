@@ -94,6 +94,7 @@ add main/raw/dlc/dlcddx/dlcddx.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_airou.pac
 add main/raw/dlc/dlcmhr/dlcmhr_costume_hunter.pac
 add main/raw/dlc/dlcxmas/dlcxmas.pac
+add main/raw/character/sonic_birthday.pac
 
 add main/raw/event/scene/bo1xxx.pac
 add main/raw/event/scene/bo3xxx.pac
