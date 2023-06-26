@@ -185,6 +185,16 @@ jne SonicFrontiers.exe+85FBFF
           </Keys>
           <ID>2</ID>
         </Hotkey>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys/>
+          <ID>3</ID>
+        </Hotkey>
+        <Hotkey>
+          <Action>Toggle Activation</Action>
+          <Keys/>
+          <ID>4</ID>
+        </Hotkey>
       </Hotkeys>
     </CheatEntry>
     <CheatEntry>
@@ -301,16 +311,16 @@ addps xmm6,[rbx+00000080]
         <Hotkey OnlyWhileDown="1">
           <Action>Toggle Activation</Action>
           <Keys>
-            <Key>22534</Key>
             <Key>22535</Key>
+            <Key>22528</Key>
           </Keys>
           <ID>4</ID>
         </Hotkey>
         <Hotkey OnlyWhileDown="1">
           <Action>Set Value</Action>
           <Keys>
-            <Key>22534</Key>
             <Key>22535</Key>
+            <Key>22528</Key>
           </Keys>
           <Value>0</Value>
           <ID>5</ID>
@@ -541,15 +551,15 @@ cmp [rbx+24],eax
     </SymbolEntry>
     <SymbolEntry>
       <Name>cnt</Name>
-      <Address>3C450000</Address>
+      <Address>3D050000</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>newthread</Name>
-      <Address>3C450010</Address>
+      <Address>3D050010</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>yspeed</Name>
-      <Address>3C450110</Address>
+      <Address>3D050110</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>yspeed2</Name>
@@ -557,7 +567,7 @@ cmp [rbx+24],eax
     </SymbolEntry>
     <SymbolEntry>
       <Name>GetRings</Name>
-      <Address>3C450120</Address>
+      <Address>3D050120</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>newmem0</Name>

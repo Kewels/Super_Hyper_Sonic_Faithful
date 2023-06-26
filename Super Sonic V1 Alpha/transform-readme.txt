@@ -12,7 +12,7 @@ From there, you can use the folowing controls on a controller:
 
 Left trigger + Y to transform.
 Left stick click to fly up and right stick click to fly down.
-LT+RT will force your vertical speed to 0.
+RT+A will force your vertical speed to 0.
 To increase or decrease your ring count by 5, press up or down on the dpad, up to increase, down to decrease.
 To increase or decrease your ring count by 50, hold B button and press up/down to increase/decrease.
 

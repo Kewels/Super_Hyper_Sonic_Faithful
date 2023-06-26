@@ -1,4 +1,8 @@
-## Super/Hyper Sonic Trule Faithful 3.1
+## Super/Hyper Sonic Truly Faithful 3.1.1
+
+-Changed vertical button combination that set Sonic's vertical height to 0 from LT+RT to RT+A as to avoid conflicts with the spin dash.
+
+## Super/Hyper Sonic Truly Faithful 3.1
 - Added support for version 1.30.
 
 - Added support for the spin dash.
