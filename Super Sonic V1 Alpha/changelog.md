@@ -1,8 +1,8 @@
 ## Super/Hyper Sonic Truly Faithful 3.1.2
--RT+A created a control conflict.  Y coordinate reset is now mapped to RT+A+left thumbstick click.
+- RT+A created a control conflict with jumping.  Y coordinate reset is now mapped to RT+A+left thumbstick click.
 
 ## Super/Hyper Sonic Truly Faithful 3.1.1
--Changed vertical button combination that set Sonic's vertical height to 0 from LT+RT to RT+A as to avoid conflicts with the spin dash.
+- Changed vertical button combination that set Sonic's vertical height to 0 from LT+RT to RT+A as to avoid conflicts with the spin dash.
 
 ## Super/Hyper Sonic Truly Faithful 3.1
 - Added support for version 1.30.
