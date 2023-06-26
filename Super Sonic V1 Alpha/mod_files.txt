@@ -116,6 +116,7 @@ add main/raw/ui/ui_gamemodestage.pac
 add main/raw/EventCommon.pac
 
 add open_super_adventure/raw/character/sonic.pac
+add open_super_adventure/raw/character/sonic_birthday.pac
 
 add open_super_adventure/raw/dlc/dlccrm/dlccrm.pac
 add open_super_adventure/raw/dlc/dlcddx/dlcddx.pac
