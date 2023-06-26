@@ -313,14 +313,16 @@ addps xmm6,[rbx+00000080]
           <Keys>
             <Key>22535</Key>
             <Key>22528</Key>
+            <Key>22550</Key>
           </Keys>
           <ID>4</ID>
         </Hotkey>
-        <Hotkey OnlyWhileDown="1">
+        <Hotkey>
           <Action>Set Value</Action>
           <Keys>
             <Key>22535</Key>
             <Key>22528</Key>
+            <Key>22550</Key>
           </Keys>
           <Value>0</Value>
           <ID>5</ID>
@@ -362,7 +364,7 @@ addps xmm6,[rbx+00000080]
           </Keys>
           <ID>10</ID>
         </Hotkey>
-        <Hotkey OnlyWhileDown="1">
+        <Hotkey>
           <Action>Set Value</Action>
           <Keys>
             <Key>36</Key>
@@ -551,15 +553,15 @@ cmp [rbx+24],eax
     </SymbolEntry>
     <SymbolEntry>
       <Name>cnt</Name>
-      <Address>3D050000</Address>
+      <Address>00830000</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>newthread</Name>
-      <Address>3D050010</Address>
+      <Address>00830010</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>yspeed</Name>
-      <Address>3D050110</Address>
+      <Address>006A0000</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>yspeed2</Name>
@@ -567,7 +569,7 @@ cmp [rbx+24],eax
     </SymbolEntry>
     <SymbolEntry>
       <Name>GetRings</Name>
-      <Address>3D050120</Address>
+      <Address>00830120</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>newmem0</Name>
