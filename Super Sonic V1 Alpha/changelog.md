@@ -1,3 +1,7 @@
+## Super/Hyper Sonic Truly Faithful 3.1.3
+- Fixed cyloop not showing up for Hyper Sonic... Again...
+- Fixed an issue where Hyper Sonic's stomp couldn't defeat the spring enemies in Ares.
+
 ## Super/Hyper Sonic Truly Faithful 3.1.2
 - RT+A created a control conflict with jumping.  Y coordinate reset is now mapped to RT+A+left thumbstick click.
 
