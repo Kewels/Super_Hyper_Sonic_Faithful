@@ -2,7 +2,7 @@ Credits to Sacatur for the Cheat Engine script.  I made modifications to it to i
 
 To transform into Super/Hyper Sonic. you need Cheat Engine.  This can be easily found on Google (or your preferred search engine).
 
-Once installed, open the file "Transformation.CT".  Cheat Engine should open.
+Once installed, open the file "Transformation.CT".  Cheat Engine should open.  Open the game before switching over to Cheat Engine.
 
 In the top left of the program, click on the icon that has a computer monitor and a magnifying glass on it.  Search Sonic Frontiers on the list, select it, then hit open.
 
