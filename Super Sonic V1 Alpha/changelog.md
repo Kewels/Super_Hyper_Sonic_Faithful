@@ -1,5 +1,13 @@
+## Super/Hyper Sonic Truly Faithful 3.1.4
+- Fixed addtional oversights with the cyloop
+
+- Added back dynamic camera angles to most super attacks now that they can be toggled in the game settings.
+
+- Minor adjustments to the stomp super attack.
+
 ## Super/Hyper Sonic Truly Faithful 3.1.3
 - Fixed cyloop not showing up for Hyper Sonic... Again...
+
 - Fixed an issue where Hyper Sonic's stomp couldn't defeat the spring enemies in Ares.
 
 ## Super/Hyper Sonic Truly Faithful 3.1.2

@@ -10,6 +10,8 @@ In the top left of the program, click on the icon that has a computer monitor an
 
 From there, you can use the folowing controls on a controller:
 
+NOTE: DS4 and DS5 controllers are currently not functional natively.  If you wish to use one of these controllers, you will need to enable Steam input instead.  Keep in mind that Xbox controls will show up instead of PlayStation icons. The same is true for Switch controllers.
+
 Left trigger + Y to transform.
 Left stick click to fly up and right stick click to fly down.
 RT+A+left thumbstick click will force your vertical speed to 0.
