@@ -26,4 +26,4 @@ The Home key will reset your vertical speed to 0.
 To increase or decrease your ring count by 5, press the + key on your keypad, - to decrease.
 To increase or decrease your ring count by 50, hold L shift key and press keypad +/- to increase/decrease.
 
-There is currectly no way to revert back to Sonic's base form.  To revert, you need to reload the map.
+There is currectly no way to revert back to Sonic's base form.  To revert, you need to reload the map. IE: load a save file or change maps.
