@@ -110,8 +110,8 @@ add main/raw/sound/sonic_sound/se_rangers_player_sonic.acb
 
 add main/raw/ui/rpl_texture_btnguide.pac
 add main/raw/ui/ui_boot.pac
-add main/raw/ui/ui_credits.pac
-add main/raw/ui/ui_gamemodestage.pac
+delete main/raw/ui/ui_credits.pac
+delete main/raw/ui/ui_gamemodestage.pac
 
 add main/raw/EventCommon.pac
 
