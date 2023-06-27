@@ -1,3 +1,7 @@
+## Super/Hyper Sonic Truly Faithful 3.1.5
+- Removed problematic files that prevented the game from loading past the title screen.
+
+
 ## Super/Hyper Sonic Truly Faithful 3.1.4
 - Fixed addtional oversights with the cyloop
 
