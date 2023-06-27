@@ -5,6 +5,8 @@
 
 - Minor adjustments to the stomp super attack.
 
+- (Hopefully) fixed an issue where you would not be able to progress through the Giganto boss fight while using the normal Super Sonic model for the open world.
+
 ## Super/Hyper Sonic Truly Faithful 3.1.3
 - Fixed cyloop not showing up for Hyper Sonic... Again...
 
