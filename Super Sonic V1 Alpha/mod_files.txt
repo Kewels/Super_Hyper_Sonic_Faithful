@@ -5,6 +5,8 @@ delete aura_cyan/
 delete aura_ss/
 delete aura_stars/
 
+delete boss_hyper_2_cyan/
+
 delete boss_c_hyper_adventure/
 
 delete boss_c_hyper_frontiers/
