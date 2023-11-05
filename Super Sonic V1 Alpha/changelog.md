@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Final Horizon Update REV 1
+- Removed scrapped config setting from files that was not meant to be included
+
 ## Super/Hyper Sonic Ultimate - Final Horizon Update
 - Added support for update 3
 - Updated transformation script
