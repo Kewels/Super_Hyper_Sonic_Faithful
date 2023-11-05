@@ -21,7 +21,7 @@ delete boss_soap_super_frontiers/
 
 delete boss_soap_hyper_frontiers/
 
-delete boss_soap_hyper_adventure/
+delete soap_boss_hyper_adventure/
 
 delete open_super/
 
