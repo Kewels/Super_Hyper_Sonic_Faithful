@@ -1,0 +1,302 @@
+{
+   "Groups": [
+      {
+        "Name": "Main",
+        "DisplayName": "Options",
+        "Elements": [
+		  
+		  {
+               "Name": "IncludeDir0",
+               "DisplayName": "Custom Physics",
+               "Description": [
+                  " ",
+               ],
+               "Type": "PhysEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "phys_on"
+            },
+			{
+               "Name": "IncludeDir1",
+               "DisplayName": "Open world form",
+               "Description": [
+                  " ",
+               ],
+               "Type": "OpenEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Base Sonic"
+            },
+			{
+               "Name": "IncludeDir2",
+               "DisplayName": "Boss fight transformation",
+               "Description": [
+                  " ",
+               ],
+               "Type": "BossEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Super Sonic"
+			},
+            {
+               "Name": "IncludeDir3",
+               "DisplayName": "Final boss transformation",
+               "Description": [
+                  " ",
+               ],
+               "Type": "FinalBossEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Hyper"
+            },
+			{
+               "Name": "IncludeDir4",
+               "DisplayName": "Hyper Sonic eye color",
+               "Description": [
+                  " ",
+               ],
+               "Type": "BossEyeEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Magenta"
+            },
+			{
+               "Name": "IncludeDir5",
+               "DisplayName": "Hyper Sonic aesthetics",
+               "Description": [
+                  " ",
+               ],
+               "Type": "HyperLookEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Magenta"
+            },
+			{
+            "Name": "attackActive",
+            "DisplayName": "Deal more damage",
+            "Description": [
+              "Buff Sonic's damage."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "auraActive",
+            "DisplayName": "Phantom Rush/Aura",
+            "Description": [
+              "Always have Phantom Rush active"
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "superBehavior",
+            "DisplayName": "Force Hyper Sonic behavior (bosses)",
+            "Description": [
+              "Enables Hyper Sonic custom moves for boss fights regardless of form.  Does not work when transformed in the open zone using either Sacatur's script or Sora's Super Sonic mod."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "disableDamage",
+            "DisplayName": "Invincibility",
+            "Description": [
+              "Always invincible"
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+        ]
+      }
+   ],
+   
+   "Enums": {
+      
+	  "PhysEnum": [
+         {
+            "DisplayName": "On",
+            "Value": ".",
+            "Description": [
+               "Turns on custom physics.  The physics used will be dependent on which open zone model you choose.",
+            ]
+         },
+		 {
+            "DisplayName": "Off",
+            "Value": "phys_off_super",
+            "Description": [
+               "Turns off custom physics.",
+            ]
+         },
+      ],
+	  
+      "OpenEnum": [
+         {
+            "DisplayName": "Base Sonic",
+            "Value": ".",
+            "Description": [
+               "This sets you to base Sonic.  It also disables custom physics, regardless of what's selected above.",
+            ]
+         },
+		 {
+            "DisplayName": "Super Sonic",
+            "Value": "open_super",
+            "Description": [
+               "This sets your open zone model to Super Sonic, with his aura included.  To use the aura, Phantom Rush needs to be enabled.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper Sonic",
+            "Value": "open_hyper",
+            "Description": [
+               "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
+            ]
+         },
+		 {
+            "DisplayName": "Color Changing Hyper Sonic",
+            "Value": "open_hyper_cc",
+            "Description": [
+               "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
+            ]
+         },
+		 //{
+         //   "DisplayName": "Super Sonic 2",
+         //   "Value": "open_super_2",
+         //   "Description": [
+         //     "Ascended form of Super Sonic for the open zone. This is a heavy wip for now, as I need to fine tune the aura.  It's recommended to use this form only if you have finished The Final Horizon.",
+         //   ]
+         //},
+		 //{
+         //   "DisplayName": "Hyper Sonic 2",
+         //   "Value": "open_hyper_2",
+         //   "Description": [
+         //      "Ascended form of Hyper Sonic for the open zone.  This is a heavy wip for now, as I need to fine tune the aura.  It's recommended to use this form only if you have finished The Final Horizon.",
+         //   ]
+         //},
+      ],
+      "BossEnum": [
+		 {
+            "DisplayName": "Super Sonic",
+            "Value": "super_aura",
+            "Description": [
+               "Regular old Super Sonic for boss fights.  Nothing special here aside from some under the hood fixes to keep aura consistency in check.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper Sonic",
+            "Value": "boss_hyper",
+            "Description": [
+               "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
+            ]
+         },
+		 {
+            "DisplayName": "Color Changing Hyper Sonic",
+            "Value": "boss_hyper_cc",
+            "Description": [
+               "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
+            ]
+         },
+		 //{
+         //   "DisplayName": "Super Sonic 2",
+         //   "Value": "boss_super_2",
+         //   "Description": [
+         //      "Ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+         //   ]
+         //},
+		 //{
+         //   "DisplayName": "Hyper Sonic 2",
+         //   "Value": "boss_hyper_2_cyan",
+         //   "Description": [
+         //      "Cyan variant of the ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+         //   ]
+         //},
+		 //{
+         //   "DisplayName": "Color Changing Hyper Sonic 2",
+         //   "Value": "boss_hyper_2_cc",
+         //   "Description": [
+         //      "Red variant of the ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+         //   ]
+         //},
+      ],
+      "FinalBossEnum": [
+		 {
+            "DisplayName": "Super Sonic 2",
+            "Value": ".",
+            "Description": [
+               "Ascended form of Super Sonic for the final boss of The Final Horizon.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+            ]
+         },
+		 {
+            "DisplayName": "Hyper Sonic 2",
+            "Value": "final_hyper_2",
+            "Description": [
+               "Ascended form of Hyper Sonic for the final boss of The Final Horizon.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+            ]
+         },
+		 {
+            "DisplayName": "Color Changing Hyper Sonic 2",
+            "Value": "final_hyper_2_cc",
+            "Description": [
+               "Ascended form of Hyper Sonic for the final boss of The Final Horizon.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
+            ]
+         },
+      ],
+	  "HyperLookEnum": [
+         {
+            "DisplayName": "Colorful",
+            "Value": "hyper_look_colorful",
+            "Description": [
+               "A real rainbow aura for Hyper Sonic.",
+            ]
+         },
+         {
+            "DisplayName": "Cyan",
+            "Value": "hyper_look_cyan",
+            "Description": [
+               "A cyan aura for Hyper Sonic.",
+			]
+         },
+		 {
+            "DisplayName": "Stars",
+            "Value": "hyper_look_stars",
+            "Description": [
+               "An aura of stars for Hyper Sonic.",
+            ]
+         },
+      ],
+	  "BossEyeEnum": [
+         {
+            "DisplayName": "Cyan",
+            "Value": "hyper_eye_cyan",
+            "Description": [
+               "Cyan eyes for Hyper Sonic.",
+            ]
+         },
+         {
+            "DisplayName": "Green",
+            "Value": "hyper_eye_green",
+            "Description": [
+               "Green eyes for Hyper Sonic",
+			]
+         },
+		 {
+            "DisplayName": "Magenta",
+            "Value": "hyper_eye_magenta",
+            "Description": [
+               "Magenta eyes for Hyper Sonic.",
+            ]
+         },
+         {
+            "DisplayName": "Red",
+            "Value": "hyper_eye_red",
+            "Description": [
+               "Red eyes for Hyper Sonic.",
+            ]
+         },
+      ],
+	  
+	  
+   },
+   
+   "IniFile": "mod.ini"
+}

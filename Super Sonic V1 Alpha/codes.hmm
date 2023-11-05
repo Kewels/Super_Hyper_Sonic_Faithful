@@ -1,0 +1,906 @@
+Code "Codes" in "Gameplay" by "Kewels"
+//
+    #include "ReflectionHelpers" noemit
+
+    #lib "SonicParameters"
+    #lib "HMM"
+    #lib "INI"
+	#lib "Sonic"
+	#lib "Reflection"
+	#lib "BlackboardBattle"
+	#lib "XInput"
+	
+	using System.IO;
+	
+	static bool _isConfigInitialised = false;
+    static bool initialized = false;
+    static bool attackActive = false;
+	static bool superBehavior = false;
+    static bool auraActive = false;
+	static bool disableDamage = false;
+    static string currentModDirectory;
+	#include "Reflection" noemit
+	
+	static string _auraMode;
+	static string _auraMode1;
+	
+	{
+			var pBlackboardBattle = BlackboardBattle.Get();
+
+			if (pBlackboardBattle == null)
+				return;
+			if (auraActive)
+			pBlackboardBattle->PhantomRushAmount = 120.0f;
+	}
+	static bool IsKeyDown(Keys in_keys)
+    {
+        return (GetAsyncKeyState(in_keys) & 0x8000) != 0;
+    }
+    
+    static bool IsButtonDownSpecial(XInput.Buttons buttons)
+    {
+        if (!XInput.IsButtonDown(XInput.Buttons.RIGHT_THUMB)&!XInput.IsButtonDown(XInput.Buttons.Y))
+            return false;
+
+        return XInput.IsButtonDown(buttons);
+    }
+	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_UP))
+	
+    {
+        Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateFly);
+		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateDriftAir);
+		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateFly);
+		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateFly);
+    }
+	
+	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_LEFT)&IsButtonDownSpecial(XInput.Buttons.RIGHT_THUMB))
+	
+    {
+		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
+		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateStomping);
+		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateStompingDown);
+    }
+	
+	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_UP)&IsButtonDownSpecial(XInput.Buttons.Y))
+	
+    {
+		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
+    }
+	
+	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_DOWN))
+	
+    {
+        Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateDoubleJump);
+		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
+		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateStomping);
+		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateStompingDown);
+    }
+		
+{
+    if (!_isConfigInitialised)
+    {
+        var mods = HMM.FindModsByName("Super/Hyper Sonic Ultimate");
+
+        // Duplicates present, aborting!
+        if (mods.Count > 1)
+        {
+            // Skip config init on next loop, use default values.
+            _isConfigInitialised = true;
+            return;
+        }
+
+        var configPath = Path.Combine(mods[0].Path, "mod.ini");
+        var configData = INI.Read(configPath);
+
+        /* Parse value "IncludeDir3" from the section "Main" from "mod.ini",
+		/* Parse value "IncludeDir2" from the section "Main" from "mod.ini",
+           with the default value being zero as that is the initialised value of "_auraMode". */
+        _auraMode = (configData["Main"]["IncludeDir3"]);
+		_auraMode1 = (configData["Main"]["IncludeDir2"]);
+
+        _isConfigInitialised = true;
+    }
+
+    switch (_auraMode)
+    {
+    case ".":
+	{
+		var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+		if (SonicParametersInfo.pData == null)
+			return;
+		RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 1.0f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 0.7f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 0.2f);
+		break;
+	}
+	case "final_hyper_2":
+        {var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+	    if (SonicParametersInfo.pData == null)
+		    return;
+    
+	    RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 0.0f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 1.0f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
+        break;
+		}
+	case "final_hyper_2_cc":
+        {var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+	    if (SonicParametersInfo.pData == null)
+		    return;
+	    RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 1.0f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 0.0f);
+        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
+        break;
+		}
+	}
+	switch (_auraMode1)
+    {
+    case ".":
+		{var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+        // do phys_on stuff
+		if (SonicParametersInfo.pData == null)
+		    return;
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 1.0f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 0.7f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.B, 0.2f);
+		
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.R, 1.0f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.G, 0.7f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.B, 0.2f);
+		
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 1.0f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 0.7f);
+		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 0.2f);
+		
+	    
+        break;
+		}
+	case "boss_hyper":
+        {
+			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+			if (SonicParametersInfo.pData == null)
+				return;
+		
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.B, 1.0f);
+			break;
+		}
+	case "boss_hyper_cc":
+        {
+			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+			if (SonicParametersInfo.pData == null)
+				return;
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.B, 1.0f);
+			
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.B, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.B, 1.0f);
+			break;
+		}
+	}	
+	if (attackActive)
+	{
+        var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+	    if (SonicParametersInfo.pData == null)
+		    return;
+    
+	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
+	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+    }
+	if (superBehavior)
+	{
+        var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+	    if (SonicParametersInfo.pData == null)
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.loopRadius, 70.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.loopTime, 0.6f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.loopSpeedCurveRatio, 0.175f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.loopEndStopTime, 0.001f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.loopEndSpeed, 8.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.kickSpeed, 280.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic1.cameraName.pValue, 0);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.loopRadius, 70.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.loopTime, 0.6f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.loopSpeedCurveRatio, 0.175f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.loopEndStopTime, 0.001f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.loopEndSpeed, 8.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.kickSpeed, 280.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.loopKickSet.superSonic2.cameraName.pValue, 0);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.startWait, 0.2f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.distanceMax, 90.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.zigzagBeginOneStepTime, 0.08f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.zigzagEndOneStepTime, 0.07f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.crasherSpeed, -4.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.offset.Y, 8.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic1.offset.Z, -35.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.startWait, 0.2f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.distanceMax, 90.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.zigzagBeginOneStepTime, 0.08f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.zigzagEndOneStepTime, 0.07f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.crasherSpeed, -4.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.offset.Y, 8.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crasherSet.superSonic2.offset.Z, -35.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic1.chargeTime, 0.3f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic1.bounceTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic1.numSlashs, 6);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic1.slowRatio0, 0.4f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic1.slowRatio1, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic2.chargeTime, 0.3f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic2.bounceTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic2.numSlashs, 6);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic2.slowRatio0, 0.4f);
+			RFL_SET_PARAM(SonicParametersInfo, common.spinSlashSet.superSonic2.slowRatio1, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic1.minPressTimeHeight, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic1.maxPressTimeHeight, 2.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic1.offset.Y, 15.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic1.offsetAsura.Y, 25.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic1.offsetAsura.Z, -0.5f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic2.minPressTimeHeight, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic2.maxPressTimeHeight, 2.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic2.offset.Y, 15.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic2.offsetAsura.Y, 25.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.stompingAttackSet.superSonic2.offsetAsura.Z, -0.5f);
+			RFL_SET_PARAM(SonicParametersInfo, common.comboFinishSet.superSonic1.ignoreSwingingTime, 0.2f);
+			RFL_SET_PARAM(SonicParametersInfo, common.comboFinishSet.superSonic2.ignoreSwingingTime, 0.2f);
+			RFL_SET_PARAM(SonicParametersInfo, common.sonicboomSet.superSonic1.autoContinueTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.sonicboomSet.superSonic1.speed, 45.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.sonicboomSet.superSonic1.maxSpeed, 45.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.sonicboomSet.superSonic1.accele, 55.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.sonicboomSet.superSonic1.slowRatio, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic1.moveAngle, -180.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic1.spinPhase, -340.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic1.speed, 50.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic1.maxSpeed, 50.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic1.launchCameraShakeName.pValue, 39076);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic2.moveAngle, -180.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic2.spinPhase, -340.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic2.speed, 50.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.crossSlashSet.superSonic2.maxSpeed, 50.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.appearTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.chargeTime, 0.15f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.spawnTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.launchPreWaitTime, 0.18f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.launchWaitTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.spiralAngularSpeed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.spiralAngularSpeedMax, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.spiralAngularSpeedAccele, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.numShots, 15);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.speed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.maxSpeed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.accele, 105.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.whiteoutBeginTime, 0.47f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.whiteoutFadeOutTime, 0.3f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic1.whiteoutFadingTime, 0.2f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.appearTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.chargeTime, 0.15f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.spawnTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.launchPreWaitTime, 0.18f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.launchWaitTime, 0.1f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.spiralAngularSpeed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.spiralAngularSpeedMax, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.spiralAngularSpeedAccele, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.numShots, 15);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.speed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.maxSpeed, 48.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.homingShotSet.superSonic2.accele, 105.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonic.speed, 480.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.bounceVertSpeed, 10.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.bounceHorzSpeed, 30.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.bounceDeceleForce, 70.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.bounceAngleWidth, 20.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.bounceTime, 0.8f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.homingAttack.supersonicBounce.attackDownTime, 0.01f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonic.speed, 480.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.bounceVertSpeed, 10.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.bounceHorzSpeed, 30.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.bounceDeceleForce, 70.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.bounceAngleWidth, 20.0f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.bounceTime, 0.8f);
+			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.attackDownTime, 0.01f);
+		    return;
+			
+    }
+	if (disableDamage)
+		{
+    WriteProtected<byte>
+    (
+        /* 0x140915C52 */
+        ScanSignature
+        (
+            "\x0F\x84\x64\x01\x00\x00\x83\xEA\x02",
+            "xxxxxxxxx"
+        ),
+
+        0xE9, 0x80, 0x00, 0x00, 0x00
+    );
+}	
+	
+{
+
+		if (!initialized)
+		{
+			var mods = HMM.FindModsByName("Super/Hyper Sonic Ultimate");
+			
+			if (mods.Count == 1)
+			{
+				currentModDirectory = mods[0].Path;
+				string modConfigIniPath = System.IO.Path.Combine(mods[0].Path, "mod.ini");
+				var ini = INI.Read(modConfigIniPath);
+
+				attackActive = bool.Parse(ini["Main"]["attackActive"]);
+				superBehavior = bool.Parse(ini["Main"]["superBehavior"]);
+				auraActive = bool.Parse(ini["Main"]["auraActive"]);
+				disableDamage = bool.Parse(ini["Main"]["disableDamage"]);
+			}
+			else
+			{
+				Console.WriteLine($"[Super/Hyper Sonic Ultimate] Failed to locate mod directory.");
+				return;
+			}
+
+			initialized = true;
+		}
+	}
+}
+
+Code "Character Swapper" in "Gameplay" by "Hyper, Skyth & Gordon Ramsay (modified by Kewels)" does
+/*
+
+Controller Layout;
+- RS + D-Pad Down - switch to Sonic
+
+Keyboard Layout;
+- 1 - reset Sonic
+
+*/
+//
+    #lib "BlackboardItem"
+    #lib "MathHelpers"
+    #lib "PhotoMode"
+    #lib "Player"
+    #lib "XInput"
+
+    using System.Diagnostics;
+    using System.Runtime.InteropServices;
+
+    [DllImport("user32.dll")]
+    static extern IntPtr GetForegroundWindow();
+
+    static bool _isCharacterUpdate = false;
+    static bool _isAwaitLastRingCount = false;
+
+    static Player.PlayerType _currentPlayer;
+
+    static int _lastRingCount = 0;
+
+    static bool IsKeyDown(Keys in_keys)
+    {
+        return (GetAsyncKeyState(in_keys) & 0x8000) != 0;
+    }
+    
+    static bool IsButtonDownSpecial(XInput.Buttons buttons)
+    {
+        if (!XInput.IsButtonDown(XInput.Buttons.RIGHT_THUMB))
+            return false;
+
+        return XInput.IsButtonDown(buttons);
+    }
+//
+{
+    if (GetForegroundWindow() != Process.GetCurrentProcess().MainWindowHandle)
+        return;
+
+    if (PhotoMode.IsEnabled())
+        return;
+
+    var pBlackboardItem = BlackboardItem.Get();
+
+    if (pBlackboardItem == null)
+        return;
+    
+    /* Wait for new instance of BlackboardItem
+       to set the new ring count. */
+    if (_isAwaitLastRingCount)
+    {
+        pBlackboardItem->RingCount = MathHelpers.Clamp(_lastRingCount, 0, pBlackboardItem->RingCapacity);
+        _isAwaitLastRingCount = false;
+    }
+    
+    if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.LEFT_THUMB))
+    {
+        _currentPlayer = Player.PlayerType.Sonic;
+        _isCharacterUpdate = true;
+    }
+
+    if (_isCharacterUpdate)
+    {
+        Player.SetPlayerType(_currentPlayer);
+        _lastRingCount = pBlackboardItem->RingCount;
+        _isAwaitLastRingCount = true;
+        _isCharacterUpdate = false;
+    }
+}
+
+Library "Memory" by "Hyper & Sajid" 
+{
+    using System.Collections.Generic;
+    using System.Runtime.InteropServices;
+    using System.Text;
+
+    private static Dictionary<nint, List<byte>> _preservedMemory = new();
+
+    public void Preserve(nint in_location, nint in_length, bool in_isPreservedOnce = true)
+    {
+        if (in_location == 0)
+            return;
+
+        if (in_isPreservedOnce)
+        {
+            if (_preservedMemory.ContainsKey(in_location))
+                return;
+        }
+        else
+        {
+            if (_preservedMemory.ContainsKey(in_location))
+                _preservedMemory.Remove(in_location);
+        }
+        
+        List<byte> buffer = new();
+        for (nint i = 0; i < in_length; i++)
+            buffer.Add(Read<byte>(in_location + i));
+
+        _preservedMemory.Add(in_location, buffer);
+    }
+
+    public void Preserve(long in_location, long in_length, bool in_isPreservedOnce = true)
+    {
+        Preserve((nint)in_location, (nint)in_length, in_isPreservedOnce);
+    }
+
+    public void Restore(nint in_location)
+    {
+        if (in_location == 0)
+            return;
+
+        if (!_preservedMemory.ContainsKey(in_location))
+            return;
+
+        nint i = 0;
+        foreach (byte b in _preservedMemory[in_location])
+        {
+            WriteProtected<byte>(in_location + i, b);
+            i++;
+        }
+    }
+
+    public void Restore(long in_location)
+    {
+        Restore((nint)in_location);
+    }
+
+    public nint ReadCall(nint in_location)
+    {
+        if (in_location == 0)
+            return 0;
+
+        return in_location + Read<int>(in_location + 0x01) + 0x05;
+    }
+
+    public long ReadCall(long in_location)
+    {
+        return (long)ReadCall((nint)in_location);
+    }
+
+    public nint ReadEffectiveAddress(nint in_location)
+    {
+        if (in_location == 0)
+            return 0;
+
+        return in_location + Read<int>(in_location + 0x03) + 0x07;
+    }
+
+    public long ReadEffectiveAddress(long in_location)
+    {
+        return (long)ReadEffectiveAddress((nint)in_location);
+    }
+
+    public enum JumpType : sbyte
+    {
+        Unknown = -1,
+        ShortCond,
+        NearJmp,
+        NearCond,
+        LongJmp
+    }
+
+    public JumpType ReadJumpOpcode(nint in_location)
+    {
+        JumpType result = JumpType.Unknown;
+
+        if (in_location == 0)
+            return result;
+
+        byte opcode = Read<byte>(in_location);
+
+        if ((opcode & 0xF0) == 0x70)
+        {
+            result = JumpType.ShortCond;
+        }
+        else
+        {
+            switch (opcode)
+            {
+                case 0xE3:
+                case 0xEB:
+                    result = JumpType.ShortCond;
+                    break;
+
+                case 0xE9:
+                    result = JumpType.NearJmp;
+                    break;
+
+                case 0x0F:
+                    result = JumpType.NearCond;
+                    break;
+
+                case 0xFF:
+                    result = JumpType.LongJmp;
+                    break;
+            }
+        }
+
+        return result;
+    }
+
+    public JumpType ReadJumpOpcode(long in_location)
+    {
+        return ReadJumpOpcode((nint)in_location);
+    }
+
+    public nint ReadJump(nint in_location)
+    {
+        if (in_location == 0)
+            return 0;
+
+        switch (ReadJumpOpcode(in_location))
+        {
+            case JumpType.ShortCond:
+                return in_location + Read<byte>(in_location + 0x01) + 0x02;
+
+            case JumpType.NearJmp:
+                return in_location + Read<int>(in_location + 0x01) + 0x05;
+
+            case JumpType.NearCond:
+                return in_location + Read<int>(in_location + 0x02) + 0x06;
+
+            case JumpType.LongJmp:
+                return (nint)Read<long>(in_location + 0x06);
+        }
+
+        return 0;
+    }
+
+    public long ReadJump(long in_location)
+    {
+        return (long)ReadJump((nint)in_location);
+    }
+
+    public void WriteForceJump(nint in_location)
+    {
+        if (in_location == 0)
+            return;
+        
+        switch (ReadJumpOpcode(in_location))
+        {
+            case JumpType.ShortCond:
+                WriteProtected<byte>(in_location, 0xEB);
+                break;
+
+            case JumpType.NearCond:
+                WriteProtected<byte>(in_location, 0xE9);
+                WriteProtected<int>(in_location + 0x01, Read<int>(in_location + 0x02) + 0x01);
+                break;
+        }
+    }
+
+    public void WriteForceJump(long in_location)
+    {
+        WriteForceJump((nint)in_location);
+    }
+
+    public nint ReadThunk(nint in_location, nint in_offset = 0)
+    {
+        return ReadJump(ReadCall(in_location) + in_offset);
+    }
+
+    public long ReadThunk(long in_location, long in_offset = 0)
+    {
+        return (long)ReadThunk((nint)in_location, (nint)in_offset);
+    }
+
+    public void WriteString(long in_location, string in_str, Encoding in_encoding)
+    {
+        WriteProtected<byte>(in_location, in_encoding.GetBytes(in_str));
+    }
+
+    public void WriteString(long in_location, string in_str)
+    {
+        WriteString(in_location, in_str, Encoding.ASCII);
+    }
+    
+    public struct Pointer<T> where T : unmanaged
+    {
+        public T* pData;
+
+        public Pointer(T* in_pData)
+        {
+            pData = in_pData;
+        }
+
+        public override string ToString() => $"0x{((long)pData):X}";
+    }
+}
+Library "BlackboardBattle" by "Hyper & ĐeäTh" does "Provides access to `app::player::BlackboardBattle` from Sonic Frontiers."
+{
+    #import "Blackboard"
+
+    using System.Runtime.InteropServices;
+    
+    /// <summary>
+    /// A struct representation of `app::player::BlackboardBattle`.
+    /// </summary>
+    [StructLayout(LayoutKind.Explicit, Size = 0x100, Pack = 0x10)]
+    public struct Data
+    {
+        /// <summary>
+        /// An instance of `app::player::BlackboardContent`, the base class for `app::player::BlackboardBattle`.
+        /// </summary>
+        [FieldOffset(0)]    public BlackboardContent BlackboardContent;
+
+        /// <summary>
+        /// The value of the Phantom Rush gauge.
+        /// </summary>
+        [FieldOffset(0xAC)] public float PhantomRushAmount;
+
+        /// <summary>
+        /// The value of the Quick Cyloop gauge.
+        /// </summary>
+        [FieldOffset(0xB8)] public float QuickCyloopAmount;
+    }
+
+    /// <summary>
+    /// Gets an instance of `app::player::BlackboardBattle`.
+    /// </summary>
+    /// <example>
+    /// <code><![CDATA[
+    /// Code
+    /// //
+    ///     #lib "BlackboardBattle"
+    /// //
+    /// {
+    ///     var pBlackboardBattle = BlackboardBattle.Get();
+    /// }
+    /// ]]></code>
+    /// </example>
+    /// <returns>A pointer to an instance of `app::player::BlackboardBattle`.</returns>
+    public Data* Get()
+    {
+        return (Data*)Blackboard.GetPlayerBlackboardContent("BlackboardBattle");
+    }
+}
+Patch "Reduced Homing Delay" in "Physics" by "Hyper" does "Reduces the delay after performing a homing attack, allowing you to perform chained homing attacks much quicker." 
+//
+    static float Delay = 0.2f;
+//
+{
+    fixed (float* pDelay = &Delay)
+    {
+        WriteAsmHook
+        (
+            $@"
+                push  rbx
+                mov   rbx, {(long)pDelay}
+                movss xmm2, dword ptr [rbx]
+                mov   edx, eax
+                mov   rcx, r13
+                mov   dword ptr [rbp + 0x57 + 0x28], eax
+                pop   rbx
+            ",
+
+            /* 0x14082379C */
+            ScanSignature
+            (
+                "\xF3\x41\x0F\x10\x54\x3F\x18",
+                "xxxxxxx"
+            ),
+
+            HookBehavior.Replace
+        );
+    }
+}
+
+Patch "Fix Grind Leaning" in "Fixes" by "Hyper" does "Fixes the grind leaning animations always leaning left and ending prematurely when leaning right." 
+//
+    static float Bias = 1.0f;
+//
+{
+    fixed (float* pBias = &Bias)
+    {
+        WriteAsmHook
+        (
+            $@"
+                mov   rdx, {(long)pBias}
+                movss xmm2, dword ptr [rdx]
+                movss dword ptr [rsi + 0xD8], xmm0
+                mov   rdx, {(long)System.Runtime.InteropServices.Marshal.StringToHGlobalAnsi("SPEED_RATIO")}
+            ",
+
+            /* 0x14084AD71 */
+            ScanSignature
+            (
+                "\x0F\x28\xD0\xF3\x0F\x11\x86\xD8\x00\x00\x00",
+                "xxxxxxxxxxx"
+            ),
+
+            HookBehavior.Replace
+        );
+    }
+}
+Patch "Disable Decelerate Collision" in "Physics" by "Hyper" does 
+/*
+Disables the collision flag that kills all horizontal velocity when jumping.
+
+Example usage;
+- The bridge in Kronos above the river.
+- The cliffsides in Ares.
+*/
+//
+    static int Seek = 0;
+//
+{
+    fixed (int* pSeek = &Seek)
+    {
+        WriteAsmHook
+        (
+            $@"
+                mov  r14, qword ptr [rsp + 0x48 + 0xFFFFFFFFFFFFFFD8]
+                mov  rdi, qword ptr [rsp + 0x48 + 0xFFFFFFFFFFFFFFE0]
+                mov  rsi, qword ptr [rsp + 0x48 + 0xFFFFFFFFFFFFFFE8]
+                push rbx
+                push rcx
+                push rdx
+                push r11
+                push r15
+                mov  rdx, {(long)pSeek}
+                mov  rbx, rax
+                mov  rbx, [rbx]               ; dereference pointer to collision info map [int64, int32]
+                test rbx, rbx                 ; check if null
+                jz   exit
+                mov  ecx, dword ptr [rbx + 8] ; store vertex count
+                imul ecx, 4                   ; multiply vertex count by 4 to get an appropriate iteration size
+                mov  rbx, [rbx]               ; dereference pointer to collision info
+            iterate:
+                cmp  dword ptr [rdx], ecx     ; iterate through vertices to set info for each
+                jge  exit
+                mov  r15d, dword ptr [rdx]    ; store current iteration
+                mov  r11, rbx
+                add  r11, r15                 ; add offset to address
+                mov  r15d, dword ptr [r11]    ; store current collision info for modification
+                and  r15d, 0xFFFFFDFF         ; clear 9th bit
+                mov  dword ptr [r11], r15d    ; store modified collision info in original array
+                add  dword ptr [rdx], 4       ; increment by 4 (32-bit integers)
+                jmp  iterate
+            exit:
+                mov  dword ptr [rdx], 0       ; reset incrementation
+                pop  r15
+                pop  r11
+                pop  rdx
+                pop  rcx
+                pop  rbx
+            ",
+
+            /* 0x140A9FBF3 */
+            ScanSignature
+            (
+                "\x4C\x8B\x74\x24\x20\x48\x8B\x7C\x24\x28\x48\x8B\x74\x24\x30\x48\x8B\x00",
+                "xxxxxxxxxxxxxxxxxx"
+            ),
+
+            HookBehavior.Replace
+        );
+    }
+}
+
+Code "Retain Velocity When Jumping Up Slopes" in "Physics" by "Weezley" does "Retains the current ground velocity when jumping from a steep slope."
+//
+    #include "Reflection" noemit
+
+    #lib "Reflection"
+    #lib "SonicParameters"
+//
+{
+    var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+
+    if (SonicParametersInfo.pData == null)
+        return;
+
+    RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.jumpSpeed.limitUpSpeed, 40.0f);
+}
+Patch "Always Unlocked Arcade Mode" in "! Incompatible - awaiting fixes for v1.40" by "Hyper" 
+{
+    WriteNop
+    (
+        /* 0x1409756D0 */
+        ScanSignature
+        (
+            "\x74\x57\x4C\x8B\x73\x08\xBA\x08\x01\x00\x00\x41\xB8\x08\x00\x00\x00\x49\x8B\xCE",
+            "xxxxxxxxxxxxxxxxxxxx"
+        ),
+
+        2
+    );
+}
