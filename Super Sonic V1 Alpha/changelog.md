@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 2
 - Added trainer for transforming and vertical flight control.
 
-=======
->>>>>>> adfefd7d13457f33d466a958b670d2e483f424cd
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 1
 - Removed scrapped config setting from files that was not meant to be included
 
