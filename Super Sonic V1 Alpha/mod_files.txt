@@ -207,3 +207,4 @@ add readme.txt
 add config.json
 add mod.ini
 add transformation.CT
+add Super_Hyper_Sonic_Ultimate_Trainer.EXE
