@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Final Horizon Update REV 4
+- Fixed an issue that prevented drifting and boarding from working correctly in cyberspace.
+
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 3
 - Added a new cyloop for both Super and Hyper Sonic for the open zone.
 
