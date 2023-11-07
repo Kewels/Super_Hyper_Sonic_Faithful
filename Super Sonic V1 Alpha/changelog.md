@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Final Horizon Update REV 3
+- Added a new cyloop for both Super and Hyper Sonic for the open zone.
+
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 2
 - Added trainer for transforming and vertical flight control.
 
