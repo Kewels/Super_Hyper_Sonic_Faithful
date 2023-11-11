@@ -1,7 +1,7 @@
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 5
 - Fixed an oversight that caused boss Hyper Sonic to emit yellow light in some instances.  He emits a proper blue light again.
 - A previous update broke invincibility.  This update fixes it.
-- There's an issue that sometimes prevents SS2 from using the correct aura in certain cutscenes, along with SS to a lesser degree.  The SS aura issues should be fixed now, but the SS2 aura still needs more work done.
+- There's an issue that sometimes prevents SS2 from using the correct aura in certain cutscenes and gameplay, along with SS to a lesser degree (in terms of cutscenes only).  The SS aura issues should be fixed now, but the SS2 aura still needs more work done.
 
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 4
 - Fixed an issue that prevented drifting and boarding from working correctly in cyberspace.
