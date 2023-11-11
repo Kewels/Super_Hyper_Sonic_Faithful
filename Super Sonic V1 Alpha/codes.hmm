@@ -545,6 +545,20 @@ Code "Codes" in "Gameplay" by "Kewels"
 	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
 	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
     }
+	if (disableDamage)
+		{
+		WriteProtected<byte>
+		(
+			/* 0x140915C52 */
+			ScanSignature
+			(
+				"\x0F\x84\x64\x01\x00\x00\x83\xEA\x02",
+				"xxxxxxxxx"
+			),
+
+			0xE9, 0x80, 0x00, 0x00, 0x00
+		);
+	}
 	if (superBehavior)
 	{
         var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
@@ -657,22 +671,7 @@ Code "Codes" in "Gameplay" by "Kewels"
 			RFL_SET_PARAM(SonicParametersInfo, cyberspaceSV.modePackage.homingAttack.supersonicBounce.attackDownTime, 0.01f);
 		    return;
 			
-    }
-	if (disableDamage)
-		{
-    WriteProtected<byte>
-    (
-        /* 0x140915C52 */
-        ScanSignature
-        (
-            "\x0F\x84\x64\x01\x00\x00\x83\xEA\x02",
-            "xxxxxxxxx"
-        ),
-
-        0xE9, 0x80, 0x00, 0x00, 0x00
-    );
-}	
-	
+    }	
 {
 
 		if (!initialized)
