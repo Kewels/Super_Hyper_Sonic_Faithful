@@ -1,4 +1,13 @@
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update
+-  2 trails to choose from, both interchangeable.
+-  Improved invincibility, now damages enemies
+-  Hyper Flash, see readme
+-  Super/Hyper Stomp, see readme
+-  Super/Hyper Spin Dash, see readme
+-  Chaos Meteor/Chaos Blast, see readme
+-  Diving out of falling animation is now possible by pressing the Y button
+-  Explosive Boost, see readme
+-  Misc other fixes/imrpovements
 
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 5
 - Fixed an oversight that caused boss Hyper Sonic to emit yellow light in some instances.  He emits a proper blue light again.
