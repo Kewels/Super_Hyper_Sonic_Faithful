@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 1
+-  The previous update added an unintentional purple emerald under color changing Hyper Sonic.  This update corrects that. 
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update
 -  2 trails to choose from, both interchangeable.
 -  Improved invincibility, now damages enemies
