@@ -1,3 +1,5 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update
+
 ## Super/Hyper Sonic Ultimate - Final Horizon Update REV 5
 - Fixed an oversight that caused boss Hyper Sonic to emit yellow light in some instances.  He emits a proper blue light again.
 - A previous update broke invincibility.  This update fixes it.

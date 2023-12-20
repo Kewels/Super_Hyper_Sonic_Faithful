@@ -9,74 +9,208 @@ Code "Codes" in "Gameplay" by "Kewels"
 	#lib "Reflection"
 	#lib "BlackboardBattle"
 	#lib "XInput"
+    #lib "Lua"
+	#lib "MathHelpers"
+    #lib "Player"
+	#lib "Time"
+	
+	
+	#import "GOComponents"
+    #import "PlayerVisuals"
+	
+	#load "System.Numerics.dll"
 	
 	using System.IO;
+	using System.Diagnostics;
+    using System.Numerics;
+    using System.Runtime.InteropServices;
 	
-	static bool _isConfigInitialised = false;
     static bool initialized = false;
     static bool attackActive = false;
 	static bool superBehavior = false;
     static bool auraActive = false;
 	static bool disableDamage = false;
-    static string currentModDirectory;
-	#include "Reflection" noemit
+	static bool hyperFlash = false;
+	static bool hyperFlashWhiteDisable = false;
+	static bool hyperFlashExplosion = false;
+	static bool hyperStomp = false;
+	static bool instantStomp = false;
+	static bool hyperSpinDash = false;
+	static bool hyperStompCameraShake = false;
+	static bool hyperFlashCameraShake = false;
+	static bool hyperSpinBoostCamera = false;
+	static bool hyperSpinBoostChargeCamera = false;
+	static bool trailOn = false;
+	static bool burstTrailOn = false;
+	static bool flashFade = false;
+	static bool meteor = false;
+	static bool hyperStandingBurst = false;
+	static bool hyperLock = false;
+	static bool chaosMeteor = false;
 	
+	static bool flashFix = false;
+	static bool hyperTrans = true
+	static bool disableMeteor = false;
+	static bool _flashLockOn = false;
+	static bool _flashLockOn2 = false;
+	static bool _flashLockOn3 = false;
+	static bool _flashLockOn4 = false;
+	static bool meteorHelper = false;
+	static bool rushDecrease = false;
+	static bool _isConfigInitialised = false;
+	static bool _isStompBeginPositionPreserved = false;
+	static bool dummy = false;
+	
+	private static bool fadeInOutTriggered = false;
+	private static bool effectsPlayed = false
+	private static bool soundPlayed= false;
+	private static bool meteorDashActivated = false;
+	private static bool auraEffectsPlayed = false;
+	private static bool burst02WaveActivated = false;
+	
+
+    static int _lastRingCount = 0;
+	
+    static string currentModDirectory;
 	static string _auraMode;
 	static string _auraMode1;
 	static string _openCyloopMode;
 	
-	{
-			var pBlackboardBattle = BlackboardBattle.Get();
+	private bool auraEffectPlayed = false;
+	private bool burst02EffectPlayed = false;
+	
+	
+	static float _radius = 0.01f;
+	
+	#include "Reflection" noemit
 
-			if (pBlackboardBattle == null)
-				return;
-			if (auraActive)
-			pBlackboardBattle->PhantomRushAmount = 120.0f;
-	}
-	static bool IsKeyDown(Keys in_keys)
-    {
-        return (GetAsyncKeyState(in_keys) & 0x8000) != 0;
-    }
-    
-    static bool IsButtonDownSpecial(XInput.Buttons buttons)
-    {
-        if (!XInput.IsButtonDown(XInput.Buttons.RIGHT_THUMB)&!XInput.IsButtonDown(XInput.Buttons.Y))
-            return false;
+    #import "States"
+	
+	
+// Move PlayAuraEffects and StopAuraEffects outside the second code block
 
-        return XInput.IsButtonDown(buttons);
-    }
-	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_UP))
-	
+static void PlayAuraEffects(GameManager.Data* gameManager)
+{
+    // Play aura effects
+    Player.Sound.PlaySound("sn_ss_change");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_moya1");
+    Player.Effect.PlayEffect("aura", "ec_evcmn_ss_aura01_event_burst_spiral01");
+    Player.Effect.PlayEffect("aura", "ec_evcmn_ss_aura01_event_burst_spiral02");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_default_gpu01");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_default_gpu02");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_glow01");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_gpu01");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_spiral01");
+    Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_spiral02");
+}
+
+static void StopAuraEffects(GameManager.Data* gameManager)
+{
+    // Stop aura effects
+    Player.Effect.StopEffect("ec_ss_aura01_burst01_moya1");
+    Player.Effect.StopEffect("ec_evcmn_ss_aura01_event_burst_spiral01");
+    Player.Effect.StopEffect("ec_evcmn_ss_aura01_event_burst_spiral02");
+    Player.Effect.StopEffect("ec_ss_aura01_default_gpu01");
+    Player.Effect.StopEffect("ec_ss_aura01_default_gpu02");
+    Player.Effect.StopEffect("ec_ss_aura01_burst01_glow01");
+    Player.Effect.StopEffect("ec_ss_aura01_burst01_gpu01");
+    Player.Effect.StopEffect("ec_ss_aura01_burst01_spiral01");
+    Player.Effect.StopEffect("ec_ss_aura01_burst01_spiral02");
+}
+
+// Main logic
+var gameManager = GameManager.Get();
+
+if (gameManager != null)
+{
+    // Check Super Sonic status and play/stop aura effects accordingly
+    if (BlackboardStatus.IsSuper() && !auraEffectsPlayed)
     {
-        Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateFly);
-		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateDriftAir);
-		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateFly);
-		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateFly);
+        PlayAuraEffects(gameManager);
+        auraEffectsPlayed = true;
     }
-	
-	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_LEFT)&IsButtonDownSpecial(XInput.Buttons.RIGHT_THUMB))
-	
+    else if (!BlackboardStatus.IsSuper() && auraEffectsPlayed)
     {
-		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
-		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateStomping);
-		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateStompingDown);
+        StopAuraEffects(gameManager);
+        auraEffectsPlayed = false;
     }
 	
-	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_UP)&IsButtonDownSpecial(XInput.Buttons.Y))
-	
+}
+else
+{
+    Console.WriteLine("Unable to get the GameManager instance.");
+}
+
+{
+	if (BlackboardStatus.IsSuper())
+{
+    var playerData = Player.GetPlayerData();
+    var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&playerData->GameObject);
+    var visual = gocVisual->GetVisual<VisualSuperSonic>();
+    var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+    if (visual == null)
+        return;
+
+    if (visual->IsSuperSonic2 && !effectsPlayed)
     {
-		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
-    }
-	
-	if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.DPAD_DOWN))
-	
-    {
-        Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateDoubleJump);
-		Player.State.Redirect(Sonic.StateID.StateSonicBoomKick, Sonic.StateID.StateSonicBoomKick);
-		Player.State.Redirect(Sonic.StateID.StateStomping, Sonic.StateID.StateStomping);
-		Player.State.Redirect(Sonic.StateID.StateStompingDown, Sonic.StateID.StateStompingDown);
-    }
+        // Play effects only if they haven't been played yet
+        //Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02");
+        Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01");
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
+        Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02");
+		Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_omen01");
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu01");
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu02");
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
 		
+		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst02_wave01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
+			
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+		
+        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
+        meteorDashActivated = false;
+        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f);
+
+        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
+        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
+
+        Player.Sound.PlaySound("sn_ringmax");
+        Player.Sound.PlaySound("sn_drift");
+        Player.Sound.PlaySound("sn_chaosemerald_use");
+
+        // Set the flag to true to indicate that effects have been played
+        effectsPlayed = true;
+    }
+    else if (!visual->IsSuperSonic2 && effectsPlayed)
+    {
+        // Reset the flag when not in super sonic mode
+        effectsPlayed = false;
+
+        // Stop effects and reset other properties
+        Player.Effect.StopEffect("meteorDash");
+        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+    }
+	
+
+}
+
+
+
+
+
+
+
+	// Your second code block
+}
+{
+    
+
+    // ... (rest of your code)
+}
+
 {
     if (!_isConfigInitialised)
     {
@@ -105,9 +239,372 @@ Code "Codes" in "Gameplay" by "Kewels"
 	
 	switch (_openCyloopMode)
 	{
-		case "open_hyper_cc":
+			
+			case "open_hyper_cc":
 		{
 			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+			var pGameModeCyberStage = GameMode.Get("GameModeStage");
+			
+			var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
+			
+			bool wavePlayed = false;
+			
+			
+				{
+				
+					if (hyperStandingBurst && XInput.GetTrigger(1) > 0 && !BlackboardStatus.IsSuper() && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
+						{
+							Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
+							Player.Sound.PlaySound("sn_spindash");
+							
+							if (!soundPlayed)
+							{
+								Player.Effect.StopEffect("ss2burst");
+								Player.Sound.PlaySound("sn_ss_change");
+								
+								soundPlayed = true;
+							}
+						}
+						else
+						{
+								if (soundPlayed && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStandRoot)
+									{
+										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
+										Player.Sound.PlaySound("sn_boost_run");
+										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
+									}
+									
+							soundPlayed = false;
+						}
+						
+							{
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
+								{
+									Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 1.0f);
+								}
+								{
+									var pBlackboardBattle = BlackboardBattle.Get();
+
+									if (pBlackboardBattle == null)
+										return;
+									if (dummy)
+									pBlackboardBattle->PhantomRushAmount = 120.0f;
+									
+									
+									
+									if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.Default)
+										{
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu01");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu02");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning01");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning02");
+											
+											Player.Effect.PlayEffect("boosting", "ef_pl_hit01_atk01");
+										}
+										
+								}
+				}			
+			{
+				if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+						!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+					{
+						if (trailOn)
+							{
+								Player.Effect.PlayEffect("boosting", "ec_so_stomp_locus01");
+							}
+						if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
+							{
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce ||
+										Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinMove ||
+											Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateQuickStepRoot ||
+												Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump ||
+													Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAvoid ||
+														Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrasher ||
+															Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSliding ||
+																Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun ||
+																	Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost ||
+																		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost ||
+																			Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrossSlash ||
+																				Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinish ||
+																					Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBoarding ||
+																						Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStomping)
+								{
+									Player.Effect.PlayEffect("boosting", "ec_ss_aura01_burst01_gpu01");
+								}
+							}
+						}
+					}			
+						if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+								hyperLock && Player.GetPlayerType() != Player.PlayerType.Sonic ||
+									!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+					{
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+							}
+						else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStomp)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 800);
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 2500);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStompCameraShake && hyperStomp)
+							{
+								Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+							}
+						
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinDash)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinBoostCamera && hyperSpinDash)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge && hyperSpinBoostChargeCamera && hyperSpinBoostChargeCamera)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStomp)
+							{
+								Sonic.StateID NotifySuperStompLand(Sonic.StateID in_stateId, Sonic.StateID[] in_stateStackTrace)
+								{
+									if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+									{
+										Player.State.AddStateParameter<StateStompingLandParameter>(new StateStompingLandParameter(3));
+									}
+									return in_stateId;
+								}
+
+								Player.State.AddStateNotifyAction<Sonic.StateID>(NotifySuperStompLand);
+
+								var kinematics = Player.Kinematics.Get();
+
+								if (kinematics == null)
+									return;
+
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+								{
+									if (SonicParametersInfo.pData == null)
+										return;
+									
+									RFL_SET_CONTEXTUAL_PLAYER_PARAM(SonicParametersInfo, modePackage.stomping.boundStompingCollisionScale, _radius);
+								}
+							}
+						
+						if	(hyperFlash && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateAirBoost);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+								{
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+								}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+								{
+								Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 7000);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 8000);
+								}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump && hyperFlash && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+				
+						{
+							_flashLockOn = true;
+							Player.Sound.PlaySound("sn_lightdash");
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 500.0f);
+							
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, -10.0f);
+							}
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, 120.0f);
+							
+							Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateDoubleJump);
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 900.0f);
+							
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, -1.0f);
+							}
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, 15.0f);
+							
+							if (pGameModeCyberStage != null && !hyperFlashWhiteDisable && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateAirBoost)
+								{
+									Lua.Call("Exit");
+									Lua.Call("FadeOut", (0), "white");
+								}
+							else if (XInput.IsButtonDown(XInput.Buttons.A) && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost)
+								{
+									Lua.Call("FadeOut", (0), "white");
+								}
+							if (hyperFlashCameraShake)
+								{
+									Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+								}
+							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+							Player.Collision.SetEntityCollision(false);
+						}
+						else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && hyperFlash && _flashLockOn)
+						{
+							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 20.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 60.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 0.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+							
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 20.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 60.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, 0.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+							
+							Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateFall);
+							
+							if (pGameModeCyberStage != null)
+								{
+									Lua.Call("FadeIn", (0), "white");
+								}
+							if (pGameModeCyberStage != null && flashFade && XInput.IsButtonDown(XInput.Buttons.A))
+								{
+									Lua.Call("FadeIn", (1), "white");
+								}
+							if (pGameModeCyberStage != null && hyperFlashExplosion)
+							{
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_aura01_out01");
+							}
+							Player.Collision.SetEntityCollision(true);
+							_flashLockOn = false;
+							
+						}
+					}		
+							{
+								if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+										hyperLock && Player.GetPlayerType() != Player.PlayerType.Sonic ||
+											!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+												hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+									{
+										if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFall && XInput.IsButtonDown(XInput.Buttons.Y))
+										{
+											
+											Player.Sound.PlaySound("sn_lightdash");
+											
+											Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDiving);
+											
+											Player.Collision.SetEntityCollision(false);
+										}
+										else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && _flashLockOn2 && XInput.IsButtonDown(XInput.Buttons.B))
+										{
+											
+											Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+											
+											Player.Collision.SetEntityCollision(true);
+											_flashLockOn = false;
+											
+										}
+										if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && XInput.IsButtonDown(XInput.Buttons.B))
+											{
+												_flashLockOn2 = true;
+												
+												Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateStompingDown);
+												
+												if (pGameModeCyberStage != null && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("Exit");
+													Lua.Call("FadeOut", (0), "white");
+												}
+												if (hyperFlashCameraShake)
+												{
+													Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+												
+												}
+												if (pGameModeCyberStage != null && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("FadeIn", (1), "white");
+												}
+												if (pGameModeCyberStage != null && flashFade && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("FadeIn", (1), "white");
+												}
+												Player.Collision.SetEntityCollision(false);
+												_flashLockOn2 = false;
+											Player.Collision.SetEntityCollision(false);
+											}
+											
+									}
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && XInput.IsButtonDown(XInput.Buttons.A))
+									{
+										_flashLockOn3 = true;
+										Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAirBoost);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 0.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -150.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 900.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, -1.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, 15.0f);
+									}
+									else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost && _flashLockOn3 && XInput.IsButtonDown(XInput.Buttons.A))
+									{
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 60.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+										
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 60.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+										_flashLockOn3 = false;
+									}
+							}
+					}
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
@@ -211,115 +708,537 @@ Code "Codes" in "Gameplay" by "Kewels"
 			
 			break;
 		}
+		
 		case "open_hyper":
 		{
 			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
+			var pGameModeCyberStage = GameMode.Get("GameModeStage");
 			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_luminance, 1.0f);
+			var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
 			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineWidth, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineDisplayWidth, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineBlackEdgeWidth, 1.0f);
+			bool wavePlayed = false;
 			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
 			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.B, 1.0f);
+				{
+				
+					if (hyperStandingBurst && XInput.GetTrigger(1) > 0 && !BlackboardStatus.IsSuper() && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
+						{
+							Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
+							Player.Sound.PlaySound("sn_spindash");
+							
+							if (!soundPlayed)
+							{
+								Player.Effect.StopEffect("ss2burst");
+								Player.Sound.PlaySound("sn_ss_change");
+								
+								soundPlayed = true;
+							}
+						}
+						else
+						{
+								if (soundPlayed && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStandRoot)
+									{
+										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
+										Player.Sound.PlaySound("sn_boost_run");
+										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
+									}
+									
+							soundPlayed = false;
+						}
+						
+							{
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
+								{
+									Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 1.0f);
+								}
+								{
+									var pBlackboardBattle = BlackboardBattle.Get();
+
+									if (pBlackboardBattle == null)
+										return;
+									if (dummy)
+									pBlackboardBattle->PhantomRushAmount = 120.0f;
+									
+									
+									
+									if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.Default)
+										{
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu01");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu02");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning01");
+											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning02");
+											
+											Player.Effect.PlayEffect("boosting", "ef_pl_hit01_atk01");
+										}
+										
+								}
+				}			
+			{
+				if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+						!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+					{
+						if (trailOn)
+							{
+								Player.Effect.PlayEffect("boosting", "ec_so_stomp_locus01");
+							}
+						if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
+							{
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce ||
+										Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinMove ||
+											Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateQuickStepRoot ||
+												Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump ||
+													Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAvoid ||
+														Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrasher ||
+															Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSliding ||
+																Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun ||
+																	Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost ||
+																		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost ||
+																			Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrossSlash ||
+																				Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinish ||
+																					Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBoarding ||
+																						Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStomping)
+								{
+									Player.Effect.PlayEffect("boosting", "ec_ss_aura01_burst01_gpu01");
+								}
+							}
+						}
+					}			
+						if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+								hyperLock && Player.GetPlayerType() != Player.PlayerType.Sonic ||
+									!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+					{
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+							}
+						else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStomp)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 800);
+								RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 2500);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStompCameraShake && hyperStomp)
+							{
+								Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+							}
+						
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinDash)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinBoostCamera && hyperSpinDash)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge && hyperSpinBoostChargeCamera && hyperSpinBoostChargeCamera)
+							{
+								Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+								Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+								Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStomp)
+							{
+								Sonic.StateID NotifySuperStompLand(Sonic.StateID in_stateId, Sonic.StateID[] in_stateStackTrace)
+								{
+									if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+									{
+										Player.State.AddStateParameter<StateStompingLandParameter>(new StateStompingLandParameter(3));
+									}
+									return in_stateId;
+								}
+
+								Player.State.AddStateNotifyAction<Sonic.StateID>(NotifySuperStompLand);
+
+								var kinematics = Player.Kinematics.Get();
+
+								if (kinematics == null)
+									return;
+
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+								{
+									if (SonicParametersInfo.pData == null)
+										return;
+									
+									RFL_SET_CONTEXTUAL_PLAYER_PARAM(SonicParametersInfo, modePackage.stomping.boundStompingCollisionScale, _radius);
+								}
+							}
+						
+						if	(hyperFlash && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								Player.State.Redirect(Sonic.StateID.StateDoubleJump, Sonic.StateID.StateAirBoost);
+							}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+								{
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+								}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+								{
+								Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 7000);
+									RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 8000);
+								}
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump && hyperFlash && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+				
+						{
+							_flashLockOn = true;
+							Player.Sound.PlaySound("sn_lightdash");
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 500.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 500.0f);
+							
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, -10.0f);
+							}
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, 120.0f);
+							
+							Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateDoubleJump);
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 900.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 900.0f);
+							
+							if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFly)
+							{
+								RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, -1.0f);
+							}
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, 15.0f);
+							
+							if (pGameModeCyberStage != null && !hyperFlashWhiteDisable && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateAirBoost)
+								{
+									Lua.Call("Exit");
+									Lua.Call("FadeOut", (0), "white");
+								}
+							else if (XInput.IsButtonDown(XInput.Buttons.A) && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost)
+								{
+									Lua.Call("FadeOut", (0), "white");
+								}
+							if (hyperFlashCameraShake)
+								{
+									Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+								}
+							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+							Player.Collision.SetEntityCollision(false);
+						}
+						else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && hyperFlash && _flashLockOn)
+						{
+							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 20.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 60.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 0.0f);
+							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+							
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 15.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 20.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 60.0f);
+							
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, 0.0f);
+							RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+							
+							Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateFall);
+							
+							if (pGameModeCyberStage != null)
+								{
+									Lua.Call("FadeIn", (0), "white");
+								}
+							if (pGameModeCyberStage != null && flashFade && XInput.IsButtonDown(XInput.Buttons.A))
+								{
+									Lua.Call("FadeIn", (1), "white");
+								}
+							if (pGameModeCyberStage != null && hyperFlashExplosion)
+							{
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+								Player.Effect.PlayEffect("meteorDash", "ef_ss2_aura01_out01");
+							}
+							Player.Collision.SetEntityCollision(true);
+							_flashLockOn = false;
+							
+						}
+					}		
+							{
+								if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+										hyperLock && Player.GetPlayerType() != Player.PlayerType.Sonic ||
+											!hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
+												hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic)
+									{
+										if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFall && XInput.IsButtonDown(XInput.Buttons.Y))
+										{
+											
+											Player.Sound.PlaySound("sn_lightdash");
+											
+											Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDiving);
+											
+											Player.Collision.SetEntityCollision(false);
+										}
+										else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && _flashLockOn2 && XInput.IsButtonDown(XInput.Buttons.B))
+										{
+											
+											Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+											
+											Player.Collision.SetEntityCollision(true);
+											_flashLockOn = false;
+											
+										}
+										if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && XInput.IsButtonDown(XInput.Buttons.B))
+											{
+												_flashLockOn2 = true;
+												
+												Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateStompingDown);
+												
+												if (pGameModeCyberStage != null && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("Exit");
+													Lua.Call("FadeOut", (0), "white");
+												}
+												if (hyperFlashCameraShake)
+												{
+													Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+												
+												}
+												if (pGameModeCyberStage != null && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("FadeIn", (1), "white");
+												}
+												if (pGameModeCyberStage != null && flashFade && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+												{
+													Lua.Call("FadeIn", (1), "white");
+												}
+												Player.Collision.SetEntityCollision(false);
+												_flashLockOn2 = false;
+											Player.Collision.SetEntityCollision(false);
+											}
+											
+									}
+								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && XInput.IsButtonDown(XInput.Buttons.A))
+									{
+										_flashLockOn3 = true;
+										Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAirBoost);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 0.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -150.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 900.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 900.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, -1.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, 15.0f);
+									}
+									else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost && _flashLockOn3 && XInput.IsButtonDown(XInput.Buttons.A))
+									{
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeedMax, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeedMax, 60.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.gravityRate, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+										
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeed, 15.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.minHSpeedMax, 20.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startHSpeedMax, 60.0f);
+										
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.gravityRate, 0.0f);
+										RFL_SET_PARAM(SonicParametersInfo, cyberspace.modePackage.airboost.startVSpeed, -0.000000000100000001335143196001808973960578441619873046875f);
+										_flashLockOn3 = false;
+									}
+							}
+					}
 			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.R, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.R, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.R, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.startAngle, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.endSpeed, 2.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minSpeed, 5.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minSpeedMax, 5.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSpeed, 11.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSpeedMax, 11.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minBoostSpeed, 30.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minBoostSpeedMax, 8.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxBoostSpeed, 30.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxBoostSpeedMax, 60.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.accel, 20.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.brake, 12.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSteerAngle, 70.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.steerAccel, 500.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSteerSpeed, 500.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.neutralSteerAccel, 1080.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxNeutralSteerSpeed, 15.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxRotateSpeed, 90.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.recoverTime, 0.5f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxChargeTime, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minDashSpeed, 60.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxDashSpeed, 80.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minDashJumpSpeed, 10.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxDashJumpSpeed, 20.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.jumpSpeed, 10.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.checkFallTime, 2.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.maxSpeed, 30.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.minSpeed, 5.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageSpeed, 10.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.accel, 10.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageBrake, 10.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageBrakeTime, 0.5f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageMotionTime, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageInvicibleTime, 1.2f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damper, 0.2f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airDamperV, 0.2f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airDamperH, 0.5f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.gravity, 50.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airJumpSpeed, 25.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.groundJumpSpeed, 19.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airAccel, 20.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.maxAirAddSpeed, 100.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.downForceRate, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed1, 90.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed2, 90.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed3, 90.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSteeringSpeed, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.endSteeringSpeed, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSpeed, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSlope, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.staticStartSlope, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.finishSlope, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.finishTime, 0.5f);
-			RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.bigLandTime, 1.5f);
-			
-			break;
-		}
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_luminance, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineWidth, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineDisplayWidth, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_crossline.lineBlackEdgeWidth, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color0.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].m_color1.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color0.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].m_color1.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color0.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.R, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[2].m_color1.B, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.R, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[0].m_color.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.R, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[1].m_color.B, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.R, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.G, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_opaqueLines[2].m_color.B, 1.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.startAngle, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.endSpeed, 2.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minSpeed, 5.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minSpeedMax, 5.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSpeed, 11.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSpeedMax, 11.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minBoostSpeed, 30.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minBoostSpeedMax, 8.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxBoostSpeed, 30.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxBoostSpeedMax, 60.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.accel, 20.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.brake, 12.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSteerAngle, 70.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.steerAccel, 500.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxSteerSpeed, 500.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.neutralSteerAccel, 1080.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxNeutralSteerSpeed, 15.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxRotateSpeed, 90.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.recoverTime, 0.5f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxChargeTime, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minDashSpeed, 60.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxDashSpeed, 80.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.minDashJumpSpeed, 10.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.maxDashJumpSpeed, 20.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.jumpSpeed, 10.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.drift.checkFallTime, 2.0f);
+						
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.maxSpeed, 30.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.minSpeed, 5.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageSpeed, 10.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.accel, 10.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageBrake, 10.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageBrakeTime, 0.5f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageMotionTime, 1.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damageInvicibleTime, 1.2f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.damper, 0.2f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airDamperV, 0.2f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airDamperH, 0.5f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.gravity, 50.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airJumpSpeed, 25.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.groundJumpSpeed, 19.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.airAccel, 20.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.maxAirAddSpeed, 100.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.downForceRate, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed1, 90.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed2, 90.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.steeringSpeed3, 90.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSteeringSpeed, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.endSteeringSpeed, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSpeed, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.startSlope, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.staticStartSlope, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.finishSlope, 0.0f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.finishTime, 0.5f);
+						RFL_SET_PARAM(SonicParametersInfo, cyberspace.boarding.bigLandTime, 1.5f);
+						
+						break;
+					}
 		case "open_super":
 		{
+			
+			
 			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+			var pBlackboardBattle = BlackboardBattle.Get();
+
+			
+		if (XInput.IsButtonDown(XInput.Buttons.LEFT_THUMB) && !BlackboardStatus.IsSuper() && XInput.IsButtonDown(XInput.Buttons.LEFT_SHOULDER) && XInput.IsButtonDown(XInput.Buttons.RIGHT_SHOULDER))
+					{
+						Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+						 Console.WriteLine("Sonic should be flying now.");
+					}
+			
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+				if (pBlackboardBattle == null)
+					return;
+				if (dummy)
+				pBlackboardBattle->PhantomRushAmount = 120.0f;
+				
+			if (trailOn)
+				{
+					Player.Effect.PlayEffect("boosting", "ec_so_stomp_locus01");
+				}
+			
+			if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinDash)
+				{
+					Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+					Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+				}
+			if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost && hyperSpinBoostCamera || Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoostCharge && hyperSpinBoostCamera)
+				{
+					Player.Effect.PlayEffect("boosting", "ef_pl_hit_accelerator01_lp");
+					Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 20.0f);
+				}
+			if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingLand && hyperStomp)
+				{
+					Sonic.StateID NotifySuperStompLand(Sonic.StateID in_stateId, Sonic.StateID[] in_stateStackTrace)
+					{
+						if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+						{
+							Player.State.AddStateParameter<StateStompingLandParameter>(new StateStompingLandParameter(3));
+						}
+						return in_stateId;
+					}
+
+					Player.State.AddStateNotifyAction<Sonic.StateID>(NotifySuperStompLand);
+
+					var kinematics = Player.Kinematics.Get();
+
+					if (kinematics == null)
+						return;
+
+					if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStompingLand)
+					{
+						if (SonicParametersInfo.pData == null)
+							return;
+						
+						RFL_SET_CONTEXTUAL_PLAYER_PARAM(SonicParametersInfo, modePackage.stomping.boundStompingCollisionScale, _radius);
+					}
+				}
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
@@ -399,8 +1318,16 @@ Code "Codes" in "Gameplay" by "Kewels"
     {
     case ".":
 	{
+		
 		var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
-
+		var pGameModeCyberStage = GameMode.Get("GameModeStage");
+			
+		hyperTrans = false;
+			if (BlackboardStatus.IsSuper())
+				{
+					disableMeteor = true;
+				}
+		
 		if (SonicParametersInfo.pData == null)
 			return;
 		RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 1.0f);
@@ -409,25 +1336,145 @@ Code "Codes" in "Gameplay" by "Kewels"
 		break;
 	}
 	case "final_hyper_2":
-        {var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+        {
+			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+			var pGameModeCyberStage = GameMode.Get("GameModeStage");
+			
+			if (SonicParametersInfo.pData == null)
+				return;
+				
+	if (!BlackboardStatus.IsSuper())
+				{
+					hyperTrans = false;
+					disableMeteor = true;
+				}
+			if (BlackboardStatus.IsSuper())
+				{
+					hyperTrans = true;
+					disableMeteor = false;
+				}
+		if (disableMeteor == false)
+{
+    float driftDashActivationTimer = 0.0f;
+    DateTime startTime = DateTime.Now; // Initialize startTime
 
-	    if (SonicParametersInfo.pData == null)
-		    return;
-    
-	    RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 0.0f);
-        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 1.0f);
-        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
-        break;
+    // ...
+
+    var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    // Declare the variable outside the class or method to store the last time X button was released
+    DateTime xButtonReleasedTime = DateTime.MinValue;
+
+    // ... (rest of your code)
+
+    // Inside your update or main loop
+    float elapsedTime = (float)(DateTime.Now - startTime).TotalSeconds;
+
+    // Check if StateDriftDash should be activated after 1 second
+    if (_flashLockOn4 && driftDashActivationTimer < 1.0f)
+    {
+        driftDashActivationTimer += elapsedTime;
+    }
+    else if (_flashLockOn4 && driftDashActivationTimer >= 1.0f)
+    {
+        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDriftDash);
+    }
+
+    // Check if X button is pressed
+    if (XInput.IsButtonDown(XInput.Buttons.X))
+    {
+        // Check if meteorDash should be activated
+        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
+        {
+            _flashLockOn4 = true;
+            meteorDashActivated = true; // Set the flag to indicate meteorDash activation
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+            if (pGameModeCyberStage != null)
+            {
+                // Play effects for CyberStage
+                var effectsToPlay = new string[] { "ef_ss2_bo6160_charge01", "ef_ss2_bo6160_omen01", "ef_ss2_bo6160_omen01",  };
+                foreach (var effect in effectsToPlay)
+                {
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                }
+				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+				Player.Sound.PlaySound("sn_ringmax");
+                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
+                driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
+            }
+            if (hyperFlashCameraShake)
+            {
+                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+            }
+
+            Player.Collision.SetEntityCollision(false);
+
+            // Store the current time when X button is pressed
+            xButtonReleasedTime = DateTime.Now;
+        }
+    }
+    else
+    {
+        // Reset effects and collisions when X button is not pressed
+        if (meteorDashActivated)
+        {
+            Player.Effect.StopEffect("meteorDash");
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
+			
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst01 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02"); // Play burst02 wave01
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
+            meteorDashActivated = false; // Reset the flag when meteorDash is not activated
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 150.0f); // Increase damage to 150
+			
+				Player.Sound.PlaySound("sn_ringmax");
+				Player.Sound.PlaySound("sn_drift");
+				Player.Sound.PlaySound("sn_chaosemerald_use");
+        }
+        else
+        {
+            Player.Effect.StopEffect("meteorDash");
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+			
+        }
+
+        Player.Collision.SetEntityCollision(true);
+        _flashLockOn4 = false;
+
+        // Check if X button was just released within the last 5 seconds
+        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
+        {
+            driftDashActivationTimer += elapsedTime;
+        }
+        else
+        {
+            driftDashActivationTimer = 0.0f; // Reset the timer when leaving this block
+            meteorDashActivated = false; // Reset the flag when X button is not pressed
+        }
+    }
+}
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
+			break;
 		}
 	case "final_hyper_2_cc":
-        {var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
-
-	    if (SonicParametersInfo.pData == null)
-		    return;
-	    RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 1.0f);
-        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 0.0f);
-        RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
-        break;
+        {
+			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+			
+			
+			if (SonicParametersInfo.pData == null)
+				return;
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 1.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 0.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
+			break;
 		}
 	}
 	switch (_auraMode1)
@@ -448,57 +1495,506 @@ Code "Codes" in "Gameplay" by "Kewels"
 		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 1.0f);
 		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 0.7f);
 		RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 0.2f);
-		
+
 	    
         break;
 		}
 	case "boss_hyper":
-        {
-			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+{
+	var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+	var pGameModeCyberStage = GameMode.Get("GameModeStage");
+	
+	if (auraActive)	
+		{
+			const float DefaultDeclineSpeed = -500.0f;
+			const float SuperDeclineSpeed = 7.0f;
+			const float SuperDeclineSpeedAccele = 20.0f;
 
-			if (SonicParametersInfo.pData == null)
-				return;
-		
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.B, 1.0f);
-			
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.B, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.R, 0.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.G, 1.0f);
-			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.B, 1.0f);
-			break;
+			// Set default values
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, DefaultDeclineSpeed);
+			Player.Sound.PlaySound("sn_supersonic");
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, DefaultDeclineSpeed);
+
+			if (auraActive && BlackboardStatus.IsSuper())
+			{
+				// Use SuperDeclineSpeed when both auraActive and BlackboardStatus.IsSuper() are true
+				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, SuperDeclineSpeed);
+				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, SuperDeclineSpeedAccele);
+				
+			}
 		}
-	case "boss_hyper_cc":
-        {
-			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+	
+    if (!BlackboardStatus.IsSuper())
+				{
+					hyperTrans = false;
+					disableMeteor = true;
+				}
+			if (BlackboardStatus.IsSuper())
+				{
+					hyperTrans = true;
+					disableMeteor = false;
+				}
+	
+	// Define a variable to track if FadeIn/FadeOut has been triggered
 
-			if (SonicParametersInfo.pData == null)
-				return;
+// ...
+if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry && hyperFlash && XInput.IsButtonDown(XInput.Buttons.Y) && BlackboardStatus.IsSuper())
+{
+			
+    if (!_flashLockOn)
+    {
+        // Trigger FadeIn only if it hasn't been triggered before
+        if (!fadeInOutTriggered)
+        {
+            _flashLockOn = true;
+            //Player.Sound.PlaySound("sn_lightdash");
+            Player.Collision.SetEntityCollision(false);
+
+            if (pGameModeCyberStage != null && !hyperFlashWhiteDisable)
+            {
+                Lua.Call("Exit");
+                Lua.Call("FadeOut", (0), "white");
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+            }
+			if (hyperFlashExplosion)
+        {
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_aura01_out01");
+        }
+            if (hyperFlashCameraShake)
+            {
+                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+            }
+
+            // Set the trigger to true to prevent subsequent triggering
+            fadeInOutTriggered = true;
+        }
+    }
+}
+
+else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateParry && hyperFlash && _flashLockOn4 && XInput.IsButtonDown(XInput.Buttons.Y))
+{
+        
+    // Trigger FadeOut only if it hasn't been triggered before
+    if (!fadeInOutTriggered)
+    {
+
+        Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateFall);
+
+        if (flashFade)
+        {
+            Lua.Call("FadeIn", (1), "white");
+        }
+		else
+		{
+			Lua.Call("FadeIn", (0), "white");
+		}
+        
+
+        Player.Collision.SetEntityCollision(true);
+        _flashLockOn = false;
+
+        // Set the trigger to true to prevent subsequent triggering
+        fadeInOutTriggered = true;
+    }
+}
+else
+{
+    // Reset the trigger when Y button is not pressed
+    fadeInOutTriggered = false;
+}
+
+	
+	
+	
+	if (disableMeteor == false && chaosMeteor)
+{
+    float driftDashActivationTimer = 0.0f;
+    DateTime startTime = DateTime.Now; // Initialize startTime
+
+    // ...
+
+    var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    // Declare the variable outside the class or method to store the last time X button was released
+    DateTime xButtonReleasedTime = DateTime.MinValue;
+
+    // ... (rest of your code)
+
+    // Inside your update or main loop
+    float elapsedTime = (float)(DateTime.Now - startTime).TotalSeconds;
+
+    // Check if StateDriftDash should be activated after 1 second
+    if (_flashLockOn4 && driftDashActivationTimer < 1.0f)
+    {
+        driftDashActivationTimer += elapsedTime;
+    }
+    else if (_flashLockOn4 && driftDashActivationTimer >= 1.0f)
+    {
+        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDriftDash);
+    }
+
+	
+	if (XInput.IsButtonDown(XInput.Buttons.Y) && sonicStateID == Sonic.StateID.StateParry)
+		{
+			Player.Sound.PlaySound("sn_chaosemerald_use");
+			Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 50);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 100);
+			
+			Console.WriteLine("Y pressed, 50.0f, meteorDash");
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAwakening);
+		}
+		
+    if (XInput.IsButtonDown(XInput.Buttons.X))
+    {
+        // Check if meteorDash should be activated
+        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
+        {
+            _flashLockOn4 = true;
+            meteorDashActivated = true; // Set the flag to indicate meteorDash activation
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+            
+            {
+                // Play effects for CyberStage
+                var effectsToPlay = new string[] { "ef_ss2_bo6160_charge01", "ef_ss2_bo6160_omen01", "ef_ss2_bo6160_omen01",  };
+                foreach (var effect in effectsToPlay)
+                {
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                }
+				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+				Player.Sound.PlaySound("sn_ringmax");
+                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
+                driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
+            }
+            if (hyperFlashCameraShake)
+            {
+                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+            }
+
+            Player.Collision.SetEntityCollision(false);
+
+            // Store the current time when X button is pressed
+            xButtonReleasedTime = DateTime.Now;
+        }
+			
+    }
+    else
+    {
+        // Reset effects and collisions when X button is not pressed
+        if (meteorDashActivated)
+        {
+            Player.Effect.StopEffect("meteorDash");
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
+			
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst01 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02"); // Play burst02 wave01
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
+            meteorDashActivated = false; // Reset the flag when meteorDash is not activated
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f); // Increase damage to 150
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
+			
+				Player.Sound.PlaySound("sn_ringmax");
+				Player.Sound.PlaySound("sn_drift");
+				Player.Sound.PlaySound("sn_chaosemerald_use");
+        }
+		
+        else if (!XInput.IsButtonDown(XInput.Buttons.X) && !XInput.IsButtonDown(XInput.Buttons.Y))
+        {
+            Player.Effect.StopEffect("meteorDash");
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+			Console.WriteLine("X released, 1.0f, meteorDash");
+        }
+
+        Player.Collision.SetEntityCollision(true);
+        _flashLockOn4 = false;
+
+        // Check if X button was just released within the last 5 seconds
+        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
+        {
+            driftDashActivationTimer += elapsedTime;
+        }
+        else
+        {
+            driftDashActivationTimer = 0.0f; // Reset the timer when leaving this block
+            meteorDashActivated = false; // Reset the flag when X button is not pressed
+        }
+    }
+}
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.B, 1.0f);
+					
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[1].m_color.B, 1.0f);
+					
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[2].m_color.B, 1.0f);
+					
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color0.B, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[0].m_color1.B, 1.0f);
+					
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color0.B, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[1].m_color1.B, 1.0f);
+					
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color0.B, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.R, 0.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.G, 1.0f);
+					RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.B, 1.0f);
+					break;
+				}
+			case "boss_hyper_cc":
+{
+	var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
+	var pGameModeCyberStage = GameMode.Get("GameModeStage");
+	
+	if (auraActive)	
+		{
+			const float DefaultDeclineSpeed = -500.0f;
+			const float SuperDeclineSpeed = 7.0f;
+			const float SuperDeclineSpeedAccele = 20.0f;
+
+			// Set default values
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, DefaultDeclineSpeed);
+			Player.Sound.PlaySound("sn_supersonic");
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, DefaultDeclineSpeed);
+
+			if (auraActive && BlackboardStatus.IsSuper())
+			{
+				// Use SuperDeclineSpeed when both auraActive and BlackboardStatus.IsSuper() are true
+				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, SuperDeclineSpeed);
+				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, SuperDeclineSpeedAccele);
+				
+			}
+		}
+	
+    if (!BlackboardStatus.IsSuper())
+				{
+					hyperTrans = false;
+					disableMeteor = true;
+				}
+			if (BlackboardStatus.IsSuper())
+				{
+					hyperTrans = true;
+					disableMeteor = false;
+				}
+	
+	// Define a variable to track if FadeIn/FadeOut has been triggered
+
+// ...
+if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry && hyperFlash && XInput.IsButtonDown(XInput.Buttons.Y) && BlackboardStatus.IsSuper())
+{
+			
+    if (!_flashLockOn)
+    {
+        // Trigger FadeIn only if it hasn't been triggered before
+        if (!fadeInOutTriggered)
+        {
+            _flashLockOn = true;
+            //Player.Sound.PlaySound("sn_lightdash");
+            Player.Collision.SetEntityCollision(false);
+
+            if (pGameModeCyberStage != null && !hyperFlashWhiteDisable)
+            {
+                Lua.Call("Exit");
+                Lua.Call("FadeOut", (0), "white");
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+            }
+			if (hyperFlashExplosion)
+        {
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_bo6160_burst01");
+            Player.Effect.PlayEffect("meteorDash", "ef_ss2_aura01_out01");
+        }
+            if (hyperFlashCameraShake)
+            {
+                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+            }
+
+            // Set the trigger to true to prevent subsequent triggering
+            fadeInOutTriggered = true;
+        }
+    }
+}
+
+else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateParry && hyperFlash && _flashLockOn4 && XInput.IsButtonDown(XInput.Buttons.Y))
+{
+        
+    // Trigger FadeOut only if it hasn't been triggered before
+    if (!fadeInOutTriggered)
+    {
+
+        Player.State.Redirect(Sonic.StateID.StateFall, Sonic.StateID.StateFall);
+
+        if (flashFade)
+        {
+            Lua.Call("FadeIn", (1), "white");
+        }
+		else
+		{
+			Lua.Call("FadeIn", (0), "white");
+		}
+        
+
+        Player.Collision.SetEntityCollision(true);
+        _flashLockOn = false;
+
+        // Set the trigger to true to prevent subsequent triggering
+        fadeInOutTriggered = true;
+    }
+}
+else
+{
+    // Reset the trigger when Y button is not pressed
+    fadeInOutTriggered = false;
+}
+
+	
+	
+	
+	if (disableMeteor == false)
+{
+    float driftDashActivationTimer = 0.0f;
+    DateTime startTime = DateTime.Now; // Initialize startTime
+
+    // ...
+
+    var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
+
+    // Declare the variable outside the class or method to store the last time X button was released
+    DateTime xButtonReleasedTime = DateTime.MinValue;
+
+    // ... (rest of your code)
+
+    // Inside your update or main loop
+    float elapsedTime = (float)(DateTime.Now - startTime).TotalSeconds;
+
+    // Check if StateDriftDash should be activated after 1 second
+    if (_flashLockOn4 && driftDashActivationTimer < 1.0f)
+    {
+        driftDashActivationTimer += elapsedTime;
+    }
+    else if (_flashLockOn4 && driftDashActivationTimer >= 1.0f)
+    {
+        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDriftDash);
+    }
+
+	
+	if (XInput.IsButtonDown(XInput.Buttons.Y) && sonicStateID == Sonic.StateID.StateParry)
+		{
+			Player.Sound.PlaySound("sn_chaosemerald_use");
+			Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 100.0f);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 50);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 100);
+			
+			Console.WriteLine("Y pressed, 50.0f, meteorDash");
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAwakening);
+		}
+		
+    if (XInput.IsButtonDown(XInput.Buttons.X))
+    {
+        // Check if meteorDash should be activated
+        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
+        {
+            _flashLockOn4 = true;
+            meteorDashActivated = true; // Set the flag to indicate meteorDash activation
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+            
+            {
+                // Play effects for CyberStage
+                var effectsToPlay = new string[] { "ef_ss2_bo6160_charge01", "ef_ss2_bo6160_omen01", "ef_ss2_bo6160_omen01",  };
+                foreach (var effect in effectsToPlay)
+                {
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                    Player.Effect.PlayEffect("meteorDash", effect);
+                }
+				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
+				Player.Sound.PlaySound("sn_ringmax");
+                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
+                driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
+            }
+            if (hyperFlashCameraShake)
+            {
+                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
+            }
+
+            Player.Collision.SetEntityCollision(false);
+
+            // Store the current time when X button is pressed
+            xButtonReleasedTime = DateTime.Now;
+        }
+			
+    }
+    else
+    {
+        // Reset effects and collisions when X button is not pressed
+        if (meteorDashActivated)
+        {
+            Player.Effect.StopEffect("meteorDash");
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
+			
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst01 wave01
+			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02"); // Play burst02 wave01
+			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
+            meteorDashActivated = false; // Reset the flag when meteorDash is not activated
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f); // Increase damage to 150
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
+			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
+			
+				Player.Sound.PlaySound("sn_ringmax");
+				Player.Sound.PlaySound("sn_drift");
+				Player.Sound.PlaySound("sn_chaosemerald_use");
+        }
+		
+        else if (!XInput.IsButtonDown(XInput.Buttons.X) && !XInput.IsButtonDown(XInput.Buttons.Y))
+        {
+            Player.Effect.StopEffect("meteorDash");
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+			Console.WriteLine("X released, 1.0f, meteorDash");
+        }
+
+        Player.Collision.SetEntityCollision(true);
+        _flashLockOn4 = false;
+
+        // Check if X button was just released within the last 5 seconds
+        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
+        {
+            driftDashActivationTimer += elapsedTime;
+        }
+        else
+        {
+            driftDashActivationTimer = 0.0f; // Reset the timer when leaving this block
+            meteorDashActivated = false; // Reset the flag when X button is not pressed
+        }
+    }
+}
+
+			
 			
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.R, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_opaqueLines[0].m_color.G, 0.0f);
@@ -534,16 +2030,7 @@ Code "Codes" in "Gameplay" by "Kewels"
 			RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locusSuperSonic.m_transparentLines[2].m_color1.B, 1.0f);
 			break;
 		}
-	}	
-	if (attackActive)
-	{
-        var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
-
-	    if (SonicParametersInfo.pData == null)
-		    return;
-    
-	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 22);
-	    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 70);
+	
     }
 	if (disableDamage)
 		{
@@ -558,7 +2045,10 @@ Code "Codes" in "Gameplay" by "Kewels"
 
 			0xE9, 0x80, 0x00, 0x00, 0x00
 		);
+		
+		
 	}
+	
 	if (superBehavior)
 	{
         var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
@@ -688,6 +2178,21 @@ Code "Codes" in "Gameplay" by "Kewels"
 				superBehavior = bool.Parse(ini["Main"]["superBehavior"]);
 				auraActive = bool.Parse(ini["Main"]["auraActive"]);
 				disableDamage = bool.Parse(ini["Main"]["disableDamage"]);
+				hyperStompCameraShake = bool.Parse(ini["Main"]["hyperStompCameraShake"]);
+				hyperFlashCameraShake = bool.Parse(ini["Main"]["hyperFlashCameraShake"]);
+				hyperFlash = bool.Parse(ini["Main"]["hyperFlash"]);
+				hyperFlashWhiteDisable = bool.Parse(ini["Main"]["hyperFlashWhiteDisable"]);
+				hyperFlashExplosion = bool.Parse(ini["Main"]["hyperFlashExplosion"]);
+				flashFade = bool.Parse(ini["Main"]["flashFade"]);
+				hyperStomp = bool.Parse(ini["Main"]["hyperStomp"]);
+				hyperSpinDash = bool.Parse(ini["Main"]["hyperSpinDash"]);
+				hyperSpinBoostCamera = bool.Parse(ini["Main"]["hyperSpinBoostCamera"]);
+				hyperSpinBoostChargeCamera = bool.Parse(ini["Main"]["hyperSpinBoostChargeCamera"]);
+				trailOn = bool.Parse(ini["Main"]["trailOn"]);
+				burstTrailOn = bool.Parse(ini["Main"]["burstTrailOn"]);
+				hyperLock = bool.Parse(ini["Main"]["hyperLock"]);
+				hyperStandingBurst = bool.Parse(ini["Main"]["hyperStandingBurst"]);
+				chaosMeteor = bool.Parse(ini["Main"]["chaosMeteor"]);
 			}
 			else
 			{
@@ -702,7 +2207,6 @@ Code "Codes" in "Gameplay" by "Kewels"
 
 Code "Character Swapper" in "Gameplay" by "Hyper, Skyth & Gordon Ramsay (modified by Kewels)" does
 /*
-
 Controller Layout;
 - RS + D-Pad Down - switch to Sonic
 
@@ -762,13 +2266,22 @@ Keyboard Layout;
         pBlackboardItem->RingCount = MathHelpers.Clamp(_lastRingCount, 0, pBlackboardItem->RingCapacity);
         _isAwaitLastRingCount = false;
     }
-    
+    if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStand)
+		{
+			_currentPlayer = Player.PlayerType.Sonic;
+			_isCharacterUpdate = true;
+			Player.SetPlayerType(_currentPlayer);
+			_lastRingCount = pBlackboardItem->RingCount;
+			_isAwaitLastRingCount = true;
+			_isCharacterUpdate = false;
+		}
     if (IsKeyDown(Keys.D1) || IsButtonDownSpecial(XInput.Buttons.LEFT_THUMB))
     {
         _currentPlayer = Player.PlayerType.Sonic;
         _isCharacterUpdate = true;
+		
     }
-
+	
     if (_isCharacterUpdate)
     {
         Player.SetPlayerType(_currentPlayer);
@@ -778,273 +2291,6 @@ Keyboard Layout;
     }
 }
 
-Library "Memory" by "Hyper & Sajid" 
-{
-    using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using System.Text;
-
-    private static Dictionary<nint, List<byte>> _preservedMemory = new();
-
-    public void Preserve(nint in_location, nint in_length, bool in_isPreservedOnce = true)
-    {
-        if (in_location == 0)
-            return;
-
-        if (in_isPreservedOnce)
-        {
-            if (_preservedMemory.ContainsKey(in_location))
-                return;
-        }
-        else
-        {
-            if (_preservedMemory.ContainsKey(in_location))
-                _preservedMemory.Remove(in_location);
-        }
-        
-        List<byte> buffer = new();
-        for (nint i = 0; i < in_length; i++)
-            buffer.Add(Read<byte>(in_location + i));
-
-        _preservedMemory.Add(in_location, buffer);
-    }
-
-    public void Preserve(long in_location, long in_length, bool in_isPreservedOnce = true)
-    {
-        Preserve((nint)in_location, (nint)in_length, in_isPreservedOnce);
-    }
-
-    public void Restore(nint in_location)
-    {
-        if (in_location == 0)
-            return;
-
-        if (!_preservedMemory.ContainsKey(in_location))
-            return;
-
-        nint i = 0;
-        foreach (byte b in _preservedMemory[in_location])
-        {
-            WriteProtected<byte>(in_location + i, b);
-            i++;
-        }
-    }
-
-    public void Restore(long in_location)
-    {
-        Restore((nint)in_location);
-    }
-
-    public nint ReadCall(nint in_location)
-    {
-        if (in_location == 0)
-            return 0;
-
-        return in_location + Read<int>(in_location + 0x01) + 0x05;
-    }
-
-    public long ReadCall(long in_location)
-    {
-        return (long)ReadCall((nint)in_location);
-    }
-
-    public nint ReadEffectiveAddress(nint in_location)
-    {
-        if (in_location == 0)
-            return 0;
-
-        return in_location + Read<int>(in_location + 0x03) + 0x07;
-    }
-
-    public long ReadEffectiveAddress(long in_location)
-    {
-        return (long)ReadEffectiveAddress((nint)in_location);
-    }
-
-    public enum JumpType : sbyte
-    {
-        Unknown = -1,
-        ShortCond,
-        NearJmp,
-        NearCond,
-        LongJmp
-    }
-
-    public JumpType ReadJumpOpcode(nint in_location)
-    {
-        JumpType result = JumpType.Unknown;
-
-        if (in_location == 0)
-            return result;
-
-        byte opcode = Read<byte>(in_location);
-
-        if ((opcode & 0xF0) == 0x70)
-        {
-            result = JumpType.ShortCond;
-        }
-        else
-        {
-            switch (opcode)
-            {
-                case 0xE3:
-                case 0xEB:
-                    result = JumpType.ShortCond;
-                    break;
-
-                case 0xE9:
-                    result = JumpType.NearJmp;
-                    break;
-
-                case 0x0F:
-                    result = JumpType.NearCond;
-                    break;
-
-                case 0xFF:
-                    result = JumpType.LongJmp;
-                    break;
-            }
-        }
-
-        return result;
-    }
-
-    public JumpType ReadJumpOpcode(long in_location)
-    {
-        return ReadJumpOpcode((nint)in_location);
-    }
-
-    public nint ReadJump(nint in_location)
-    {
-        if (in_location == 0)
-            return 0;
-
-        switch (ReadJumpOpcode(in_location))
-        {
-            case JumpType.ShortCond:
-                return in_location + Read<byte>(in_location + 0x01) + 0x02;
-
-            case JumpType.NearJmp:
-                return in_location + Read<int>(in_location + 0x01) + 0x05;
-
-            case JumpType.NearCond:
-                return in_location + Read<int>(in_location + 0x02) + 0x06;
-
-            case JumpType.LongJmp:
-                return (nint)Read<long>(in_location + 0x06);
-        }
-
-        return 0;
-    }
-
-    public long ReadJump(long in_location)
-    {
-        return (long)ReadJump((nint)in_location);
-    }
-
-    public void WriteForceJump(nint in_location)
-    {
-        if (in_location == 0)
-            return;
-        
-        switch (ReadJumpOpcode(in_location))
-        {
-            case JumpType.ShortCond:
-                WriteProtected<byte>(in_location, 0xEB);
-                break;
-
-            case JumpType.NearCond:
-                WriteProtected<byte>(in_location, 0xE9);
-                WriteProtected<int>(in_location + 0x01, Read<int>(in_location + 0x02) + 0x01);
-                break;
-        }
-    }
-
-    public void WriteForceJump(long in_location)
-    {
-        WriteForceJump((nint)in_location);
-    }
-
-    public nint ReadThunk(nint in_location, nint in_offset = 0)
-    {
-        return ReadJump(ReadCall(in_location) + in_offset);
-    }
-
-    public long ReadThunk(long in_location, long in_offset = 0)
-    {
-        return (long)ReadThunk((nint)in_location, (nint)in_offset);
-    }
-
-    public void WriteString(long in_location, string in_str, Encoding in_encoding)
-    {
-        WriteProtected<byte>(in_location, in_encoding.GetBytes(in_str));
-    }
-
-    public void WriteString(long in_location, string in_str)
-    {
-        WriteString(in_location, in_str, Encoding.ASCII);
-    }
-    
-    public struct Pointer<T> where T : unmanaged
-    {
-        public T* pData;
-
-        public Pointer(T* in_pData)
-        {
-            pData = in_pData;
-        }
-
-        public override string ToString() => $"0x{((long)pData):X}";
-    }
-}
-Library "BlackboardBattle" by "Hyper & ĐeäTh" does "Provides access to `app::player::BlackboardBattle` from Sonic Frontiers."
-{
-    #import "Blackboard"
-
-    using System.Runtime.InteropServices;
-    
-    /// <summary>
-    /// A struct representation of `app::player::BlackboardBattle`.
-    /// </summary>
-    [StructLayout(LayoutKind.Explicit, Size = 0x100, Pack = 0x10)]
-    public struct Data
-    {
-        /// <summary>
-        /// An instance of `app::player::BlackboardContent`, the base class for `app::player::BlackboardBattle`.
-        /// </summary>
-        [FieldOffset(0)]    public BlackboardContent BlackboardContent;
-
-        /// <summary>
-        /// The value of the Phantom Rush gauge.
-        /// </summary>
-        [FieldOffset(0xAC)] public float PhantomRushAmount;
-
-        /// <summary>
-        /// The value of the Quick Cyloop gauge.
-        /// </summary>
-        [FieldOffset(0xB8)] public float QuickCyloopAmount;
-    }
-
-    /// <summary>
-    /// Gets an instance of `app::player::BlackboardBattle`.
-    /// </summary>
-    /// <example>
-    /// <code><![CDATA[
-    /// Code
-    /// //
-    ///     #lib "BlackboardBattle"
-    /// //
-    /// {
-    ///     var pBlackboardBattle = BlackboardBattle.Get();
-    /// }
-    /// ]]></code>
-    /// </example>
-    /// <returns>A pointer to an instance of `app::player::BlackboardBattle`.</returns>
-    public Data* Get()
-    {
-        return (Data*)Blackboard.GetPlayerBlackboardContent("BlackboardBattle");
-    }
-}
 Patch "Reduced Homing Delay" in "Physics" by "Hyper" does "Reduces the delay after performing a homing attack, allowing you to perform chained homing attacks much quicker." 
 //
     static float Delay = 0.2f;

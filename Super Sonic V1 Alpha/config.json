@@ -17,6 +17,17 @@
                "DefaultValue": "phys_on"
             },
 			{
+               "Name": "IncludeDir6",
+               "DisplayName": "Realtime cutscenes",
+               "Description": [
+                  " ",
+               ],
+               "Type": "realtimeScenesEnum",
+               "MinValue": null,
+               "MaxValue": null,
+               "DefaultValue": "Magenta"
+            },
+			{
                "Name": "IncludeDir1",
                "DisplayName": "Open world form",
                "Description": [
@@ -71,15 +82,15 @@
                "MaxValue": null,
                "DefaultValue": "Magenta"
             },
-			{
-            "Name": "attackActive",
-            "DisplayName": "Deal more damage",
-            "Description": [
-              "Buff Sonic's damage."
-            ],
-            "Type": "bool",
-            "DefaultValue": false
-          },
+			//{
+            //"Name": "attackActive",
+            //"DisplayName": "Deal more damage",
+            //"Description": [
+              //"Buff Sonic's damage."
+            //],
+            //"Type": "bool",
+            //"DefaultValue": false
+          //},
 		  {
             "Name": "auraActive",
             "DisplayName": "Phantom Rush/Aura",
@@ -90,10 +101,28 @@
             "DefaultValue": false
           },
 		  {
+            "Name": "trailOn",
+            "DisplayName": "Movement Trail",
+            "Description": [
+              "Enables a trail for both Super and Hyper Sonic.  This is active at all times unless at a standstill."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "burstTrailOn",
+            "DisplayName": "Partical Trail",
+            "Description": [
+              "Enables a trail for both Super and Hyper Sonic.  This is active at all times unless at a standstill."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
             "Name": "superBehavior",
             "DisplayName": "Force Hyper Sonic behavior (bosses)",
             "Description": [
-              "Enables Hyper Sonic custom moves for boss fights regardless of form.  Does not work when transformed in the open zone using either Sacatur's script or Sora's Super Sonic mod."
+              "Enables Hyper Sonic custom moves for boss fights regardless of form."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -102,7 +131,124 @@
             "Name": "disableDamage",
             "DisplayName": "Invincibility",
             "Description": [
-              "Always invincible"
+              "Enables invincibility.  Enemies will be damaged upon touching Super or Hyper Sonic.  May cause softlocks.  Press in both thumbsticks to reload Sonic, which should resolve any softlocks unless the enemy themself softlocks. "
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperFlash",
+            "DisplayName": "Hyper Flash",
+            "Description": [
+              "Instakill most enemies within a nearby radius."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperFlashWhiteDisable",
+            "DisplayName": "Disable white flash during Hyper Flash",
+            "Description": [
+              "Disables the white screen flash effect for the Hyper Flash.  Intended for those who are bothered by it."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "flashFade",
+            "DisplayName": "Hyper Flash Fadeout",
+            "Description": [
+              "Makes the Hyper Flash fade out."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperFlashExplosion",
+            "DisplayName": "Hyper Flash Explosion visuals",
+            "Description": [
+              "Toggles additional effects during the Hyper Flash."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperStomp",
+            "DisplayName": "Super/Hyper Stomp",
+            "Description": [
+              "Deals massive damage to most enemies in a sizeable radius."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperSpinDash",
+            "DisplayName": "Super/Hyper Spin Dash",
+            "Description": [
+              "Powers up the spin dash with a wider hitbox radius and a spark trail."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperStompCameraShake",
+            "DisplayName": "Hyper Flash Camera Shake",
+            "Description": [
+              "Toggles screen shake during Hyper Stomp."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperFlashCameraShake",
+            "DisplayName": "Hyper Stomp Camera Shake",
+            "Description": [
+              "Toggles screen shake during a Hyper Flash."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperSpinBoostCamera",
+            "DisplayName": "Hyper Spin Boost Camera Shake (Release)",
+            "Description": [
+              "Makes the camera shake during a Hyper Spin Boost.  Do not use if you're sensitive to camera movement."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperSpinBoostChargeCamera",
+            "DisplayName": "Hyper Spin Boost Camera Shake (Charge)",
+            "Description": [
+              "Makes the camera shake when charging a Hyper Spin Boost.  Do not use if you're sensitive to camera movement."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "chaosMeteor",
+            "DisplayName": "Chaos Meteor/Chaos Blast (Always on)",
+            "Description": [
+              "An original move.  While transformed into a Hyper state, hold parry and press X.  Deals a high amount of damage to anything within a small radius.  Release the X button to perform a Chaos Blast as a follow-up.  Press X rapidly while holding parry to charge it up, which will allow you to move around freely while in the Chaos Meteor state for a brief time.  The extended hitbox radius will still be active during this state.  Alternatively, hold X to hold the charge."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperStandingBurst",
+            "DisplayName": "Explosive Boost (standstill)",
+            "Description": [
+              "While stationary as open world Hyper Sonic, press and hold the boost button, then move the analog stick in any direction to boost, leaving behind an explosion.  For aethetics only at the moment."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperLock",
+            "DisplayName": "Force Hyper Sonic abilities on all characters",
+            "Description": [
+              "Makes the camera shake when charging a Hyper Spin Boost.  Do not use if you're sensitive to camera movement."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -126,6 +272,23 @@
             "Value": "phys_off_super",
             "Description": [
                "Turns off custom physics.",
+            ]
+         },
+      ],
+	  
+	  "realtimeScenesEnum": [
+         {
+            "DisplayName": "On",
+            "Value": "realtime",
+            "Description": [
+               "Enables realtime cutscenes.  Only the cutscenes before and during the final boss (except for the final cutscene) are currently supported.  Support for additional cutscenes will be added over time, as testing is needed throughout various points in the game.",
+            ]
+         },
+		 {
+            "DisplayName": "Off",
+            "Value": ".",
+            "Description": [
+               "Turns off realtime cutscenes.",
             ]
          },
       ],

@@ -199,6 +199,8 @@ add open_super/raw/EffectCommon.pac
 add phys_off_hyper/raw/character/playercommon.pac
 add phys_off_super/raw/character/playercommon.pac
 
+add realtime/raw/event/scene/bo6xxx.pac
+
 add raw/NeedleShader2.pac
 add raw/boss/knight01.pac
 
@@ -209,4 +211,4 @@ add readme.txt
 add config.json
 add mod.ini
 add transformation.CT
-add Super_Hyper_Sonic_Ultimate_Trainer.EXE
+delete Super_Hyper_Sonic_Ultimate_Trainer.EXE
