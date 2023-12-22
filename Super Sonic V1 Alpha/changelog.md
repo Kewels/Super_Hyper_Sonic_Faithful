@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 2
+-  Fixed an oversight that prevented some effects from loading outside of Another Story.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 1
 -  The previous update added an unintentional purple emerald under color changing Hyper Sonic.  This update corrects that. 
 

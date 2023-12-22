@@ -86,7 +86,7 @@ Code "Codes" in "Gameplay" by "Kewels"
 
     #import "States"
 	
-	
+	Lua.Call("LoadLevel", "supersonic2");
 // Move PlayAuraEffects and StopAuraEffects outside the second code block
 
 static void PlayAuraEffects(GameManager.Data* gameManager)
