@@ -1,5 +1,5 @@
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 3
--  Added realtime cutscene support for the Cyber Sonic cutscene. (credit to Lexstorm, minor texture edit by me)
+-  Added realtime cutscene support for the Cyber Sonic cutscene. (credit to GordinRamsay and DoomGuyRi08, minor texture edit by me)
 
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 2
 -  Fixed an oversight that prevented some effects from loading outside of Another Story.
