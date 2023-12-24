@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 4
+-  Fixed an issue where base Sonic would animate slowly while running.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 3
 -  Added realtime cutscene support for the Cyber Sonic cutscene. (credit to GordinRamsay and DoomGuyRi08, minor texture edit by me)
 
