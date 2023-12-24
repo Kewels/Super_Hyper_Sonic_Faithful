@@ -200,6 +200,7 @@ add phys_off_hyper/raw/character/playercommon.pac
 add phys_off_super/raw/character/playercommon.pac
 
 add realtime/raw/event/scene/bo6xxx.pac
+add realtime/raw/event/scene/zev_sp_riflebeast.pac
 
 add raw/NeedleShader2.pac
 add raw/boss/knight01.pac
