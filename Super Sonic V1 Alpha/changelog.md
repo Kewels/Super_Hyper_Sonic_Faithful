@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 5
+-  Super/Hyper Sonic 2 no longer deals damage when transforming.  This was done to prevent a bug that made the damage collision box too big even after the transformation effects play.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 4
 -  Fixed an issue where base Sonic would animate slowly while running.
 

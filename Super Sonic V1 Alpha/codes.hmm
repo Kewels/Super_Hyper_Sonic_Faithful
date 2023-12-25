@@ -91,7 +91,7 @@ Code "Codes" in "Gameplay" by "Kewels"
 
 static void PlayAuraEffects(GameManager.Data* gameManager)
 {
-    // Play aura effects
+    // Play aura effectsdddddddddddd
     Player.Sound.PlaySound("sn_ss_change");
     Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_moya1");
     Player.Effect.PlayEffect("aura", "ec_evcmn_ss_aura01_event_burst_spiral01");
@@ -152,47 +152,54 @@ else
         return;
 
     if (visual->IsSuperSonic2 && !effectsPlayed)
-    {
-        // Play effects only if they haven't been played yet
-        //Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02");
-        Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01");
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
-        Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02");
-		Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_omen01");
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu01");
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu02");
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
-		
-		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
-			Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst02_wave01"); // Play burst02 wave01
-			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
-			
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
-		
-        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
-        meteorDashActivated = false;
-        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f);
+{
+    // Play effects only if they haven't been played yet
+    Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
+    Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02");
+    Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_omen01");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu01");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu02");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
+    Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst02_wave01");
+    Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01");
+    Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01");
 
-        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
-        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
+    Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
+    meteorDashActivated = false;
 
-        Player.Sound.PlaySound("sn_ringmax");
-        Player.Sound.PlaySound("sn_drift");
-        Player.Sound.PlaySound("sn_chaosemerald_use");
+    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
+    RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
 
-        // Set the flag to true to indicate that effects have been played
-        effectsPlayed = true;
-    }
-    else if (!visual->IsSuperSonic2 && effectsPlayed)
-    {
-        // Reset the flag when not in super sonic mode
-        effectsPlayed = false;
+    Player.Sound.PlaySound("sn_ringmax");
+    Player.Sound.PlaySound("sn_drift");
+    Player.Sound.PlaySound("sn_chaosemerald_use");
 
-        // Stop effects and reset other properties
-        Player.Effect.StopEffect("meteorDash");
-        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
-    }
+    // Set the flag to true to indicate that effects have been played
+    effectsPlayed = true;
+
+    // Set damage collision to 15 while effects are playing
+    Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f);
+
+}
+else if (!visual->IsSuperSonic2 && effectsPlayed)
+{
+    // Reset the flag when not in super sonic mode
+    effectsPlayed = false;
+
+    // Stop effects and reset other properties
+    Player.Effect.StopEffect("meteorDash");
+
+    // Set damage collision to 1 after effects are done
+    
+}
+if (effectsPlayed)
+	{
+		Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+	}
+
+	
 	
 
 }
