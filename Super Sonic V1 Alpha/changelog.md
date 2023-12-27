@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Faithful 2.6.9-rev5.1
+- Fixed a minor mistake in the config file. (Thanks drflash55 for pointing it out)
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 5
 -  Super/Hyper Sonic 2 no longer deals damage when transforming.  This was done to prevent a bug that made the damage collision box too big even after the transformation effects play.
 

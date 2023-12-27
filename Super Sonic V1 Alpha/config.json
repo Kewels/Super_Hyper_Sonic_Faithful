@@ -27,6 +27,7 @@
                "MaxValue": null,
                "DefaultValue": "Magenta"
             },
+			
 			{
                "Name": "IncludeDir1",
                "DisplayName": "Open world form",
@@ -192,7 +193,7 @@
           },
 		  {
             "Name": "hyperStompCameraShake",
-            "DisplayName": "Hyper Flash Camera Shake",
+            "DisplayName": "Hyper Stomp Camera Shake",
             "Description": [
               "Toggles screen shake during Hyper Stomp."
             ],
@@ -201,7 +202,7 @@
           },
 		  {
             "Name": "hyperFlashCameraShake",
-            "DisplayName": "Hyper Stomp Camera Shake",
+            "DisplayName": "Hyper Flash Camera Shake",
             "Description": [
               "Toggles screen shake during a Hyper Flash."
             ],
