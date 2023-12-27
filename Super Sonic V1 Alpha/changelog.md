@@ -1,4 +1,4 @@
-## Super/Hyper Sonic Faithful 2.6.9-rev5.1
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 5.1
 - Fixed a minor mistake in the config file. (Thanks drflash55 for pointing it out)
 
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update rev 5
