@@ -3,6 +3,7 @@
 -  Added a toggle for dealing impact damage as Super and Hyper Sonic.  Both this new toggle and invincibility can be used independently from one another.
 -  Fixed an issue that prevented color changing Hyper Sonic shaders from working with certain configurations.
 -  Fixed an oversight that prevented open world base flight from working with open world Hyper Sonic.
+-  A placeholder description was mistakenly left in one of the config options.  This has been corrected.
 
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update
 -  2 trails to choose from, both interchangeable.
