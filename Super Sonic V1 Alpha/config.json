@@ -27,6 +27,7 @@
                "MaxValue": null,
                "DefaultValue": "Magenta"
             },
+			
 			{
                "Name": "IncludeDir1",
                "DisplayName": "Open world form",
@@ -137,6 +138,15 @@
             "DefaultValue": false
           },
 		  {
+            "Name": "transImpactDamage",
+            "DisplayName": "Impact Damage",
+            "Description": [
+              "Toggles damage on impact when ramming into enemies. "
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
             "Name": "hyperFlash",
             "DisplayName": "Hyper Flash",
             "Description": [
@@ -192,7 +202,7 @@
           },
 		  {
             "Name": "hyperStompCameraShake",
-            "DisplayName": "Hyper Flash Camera Shake",
+            "DisplayName": "Hyper Stomp Camera Shake",
             "Description": [
               "Toggles screen shake during Hyper Stomp."
             ],
@@ -201,7 +211,7 @@
           },
 		  {
             "Name": "hyperFlashCameraShake",
-            "DisplayName": "Hyper Stomp Camera Shake",
+            "DisplayName": "Hyper Flash Camera Shake",
             "Description": [
               "Toggles screen shake during a Hyper Flash."
             ],
@@ -248,7 +258,7 @@
             "Name": "hyperLock",
             "DisplayName": "Force Hyper Sonic abilities on all characters",
             "Description": [
-              "Makes the camera shake when charging a Hyper Spin Boost.  Do not use if you're sensitive to camera movement."
+              "EXPERIMENTAL: Intended to enable Hyper Sonic's abilities on Sonic's friends.  May not work as intended."
             ],
             "Type": "bool",
             "DefaultValue": false
