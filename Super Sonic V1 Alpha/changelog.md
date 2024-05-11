@@ -1,4 +1,4 @@
-## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 5.2
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 2
 -  Fixed a bug that prevents Super and Hyper open world Sonic from properly interacting with certain game objects during a homing attack
 -  Added a toggle for dealing impact damage as Super and Hyper Sonic.  Both this new toggle and invincibility can be used independently from one another.
 -  Fixed an issue that prevented color changing Hyper Sonic shaders from working with certain configurations.
