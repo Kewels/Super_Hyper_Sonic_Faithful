@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 3
+-  The open world versions of Hyper Sonic can now deal damage using explosive boost.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 2
 -  Fixed a bug that prevents Super and Hyper open world Sonic from properly interacting with certain game objects during a homing attack
 -  Added a toggle for dealing impact damage as Super and Hyper Sonic.  Both this new toggle and invincibility can be used independently from one another.

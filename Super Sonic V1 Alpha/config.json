@@ -249,7 +249,7 @@
             "Name": "hyperStandingBurst",
             "DisplayName": "Explosive Boost (standstill)",
             "Description": [
-              "While stationary as open world Hyper Sonic, press and hold the boost button, then move the analog stick in any direction to boost, leaving behind an explosion.  For aethetics only at the moment."
+              "While stationary as open world Hyper Sonic, press and hold the boost button, then move the analog stick in any direction to boost, leaving behind an explosion.  Deals miniscule damage to nearby enemies."
             ],
             "Type": "bool",
             "DefaultValue": false

@@ -290,6 +290,7 @@ else
 										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
 										Player.Sound.PlaySound("sn_boost_run");
 										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
+										Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 50.0f);
 									}
 									
 							soundPlayed = false;
@@ -298,8 +299,14 @@ else
 							{
 							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
 								{
-									Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 1.0f);
+									
+									if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateRun && soundPlayed)
+										{
+											
+										}
+									
 								}
+							
 								{
 									var pBlackboardBattle = BlackboardBattle.Get();
 
@@ -316,7 +323,6 @@ else
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu02");
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning01");
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning02");
-											
 											Player.Effect.PlayEffect("boosting", "ef_pl_hit01_atk01");
 										}
 										
@@ -776,6 +782,7 @@ else
 										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
 										Player.Sound.PlaySound("sn_boost_run");
 										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
+										Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 50.0f);
 									}
 									
 							soundPlayed = false;
@@ -784,7 +791,7 @@ else
 							{
 							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
 								{
-									Player.Collision.SetCollisionSphere(Player.CollisionType.DamageHoming, 1.0f);
+									
 								}
 								{
 									var pBlackboardBattle = BlackboardBattle.Get();
