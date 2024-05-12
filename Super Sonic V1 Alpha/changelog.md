@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 3.1
+-  Removed a file that uses a playercommon file based on an older version of the game.  This prevents issues with control in general.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 3
 -  The open world versions of Hyper Sonic can now deal damage using explosive boost.
 

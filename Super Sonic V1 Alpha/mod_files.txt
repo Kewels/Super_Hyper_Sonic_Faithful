@@ -93,6 +93,8 @@ delete code.hmm
 delete code2.hmm
 delete code3.hmm
 
+delete final_hyper_2/raw/character/playercommon.pac
+
 add boss_hyper/raw/character/supersonic.pac
 add boss_hyper/raw/event/scene/bo1xxx.pac
 add boss_hyper/raw/event/scene/bo3xxx.pac
