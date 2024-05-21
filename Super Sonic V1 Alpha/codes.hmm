@@ -97,8 +97,6 @@ static void PlayAuraEffects(GameManager.Data* gameManager)
     Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_moya1");
     Player.Effect.PlayEffect("aura", "ec_evcmn_ss_aura01_event_burst_spiral01");
     Player.Effect.PlayEffect("aura", "ec_evcmn_ss_aura01_event_burst_spiral02");
-    Player.Effect.PlayEffect("aura", "ec_ss_aura01_default_gpu01");
-    Player.Effect.PlayEffect("aura", "ec_ss_aura01_default_gpu02");
     Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_glow01");
     Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_gpu01");
     Player.Effect.PlayEffect("aura", "ec_ss_aura01_burst01_spiral01");
@@ -111,8 +109,6 @@ static void StopAuraEffects(GameManager.Data* gameManager)
     Player.Effect.StopEffect("ec_ss_aura01_burst01_moya1");
     Player.Effect.StopEffect("ec_evcmn_ss_aura01_event_burst_spiral01");
     Player.Effect.StopEffect("ec_evcmn_ss_aura01_event_burst_spiral02");
-    Player.Effect.StopEffect("ec_ss_aura01_default_gpu01");
-    Player.Effect.StopEffect("ec_ss_aura01_default_gpu02");
     Player.Effect.StopEffect("ec_ss_aura01_burst01_glow01");
     Player.Effect.StopEffect("ec_ss_aura01_burst01_gpu01");
     Player.Effect.StopEffect("ec_ss_aura01_burst01_spiral01");
@@ -159,7 +155,6 @@ else
         Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01");
 		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
         Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02");
-		Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_omen01");
 		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01"); // Play burst02 wave01
 		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu01");
 		Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_gpu02");

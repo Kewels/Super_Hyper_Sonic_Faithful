@@ -1,3 +1,6 @@
+## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 4.1
+-  Removed problematic particles for all transformations.  This prevents a problem where when you transform, certain particles will stack, such as gpu particles or lightning effects.
+
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 4
 -  Revamped how Chaos Meteor works.  Chaos Meteor now activates by holding in both triggers, while Chaos Blast will activate when either trigger is let go.
 -  Revamped the particle effects that play when the particle trail selection is enabled.  This now creates an aura that surrounds Sonic, and can be toggeled on/off in-game, complete with fine tuning the intensity of the aura itself.  It is off by default.  To adjust the intensity, hold Y and press dpad up/down.
