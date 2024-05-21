@@ -114,7 +114,7 @@
             "Name": "burstTrailOn",
             "DisplayName": "Partical Trail",
             "Description": [
-              "Enables a trail for both Super and Hyper Sonic.  This is active at all times unless at a standstill."
+              "Enables particles that surround Sonic as an aura.  This can toggeled on and off in-game.  To adjust particle intensity, press and hold the Y button and use dpad up and dpad down."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -240,7 +240,7 @@
             "Name": "chaosMeteor",
             "DisplayName": "Chaos Meteor/Chaos Blast (Always on)",
             "Description": [
-              "An original move.  While transformed into a Hyper state, hold parry and press X.  Deals a high amount of damage to anything within a small radius.  Release the X button to perform a Chaos Blast as a follow-up.  Press X rapidly while holding parry to charge it up, which will allow you to move around freely while in the Chaos Meteor state for a brief time.  The extended hitbox radius will still be active during this state.  Alternatively, hold X to hold the charge."
+              "An original move.  While transformed into a Hyper state or SS2, hold in both triggers to activate Chaos Meteor, then let go of either trigger to unleash a Chaos Blast.  Deals a high amount of damage to anything within a small radius.  This does not conflict with the normal Hyper (Super) Sonic transformation moves, as it will only activate if you are not drifting"
             ],
             "Type": "bool",
             "DefaultValue": false

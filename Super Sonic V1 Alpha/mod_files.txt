@@ -1,3 +1,5 @@
+delete readme.txt
+
 delete options.json
 
 delete aura_color/

@@ -141,9 +141,7 @@ else
 {
     Console.WriteLine("Unable to get the GameManager instance.");
 }
-{
-	
-}
+
 {
 	if (BlackboardStatus.IsSuper())
 {
@@ -175,6 +173,10 @@ else
 		
         Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
         meteorDashActivated = false;
+        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f);
+
+        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
+        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
 
         Player.Sound.PlaySound("sn_ringmax");
         Player.Sound.PlaySound("sn_drift");
@@ -190,13 +192,9 @@ else
 
         // Stop effects and reset other properties
         Player.Effect.StopEffect("meteorDash");
+        Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
     }
 	
-	if (BlackboardStatus.IsSuper() && transImpactDamage)
-    {
-		Console.WriteLine("Touch damage is enabled!");
-		Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
-    }
 
 }
 
@@ -258,18 +256,42 @@ else
 						 Console.WriteLine("Sonic should be flying now.");
 					}
 				{
-				
-				if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack)
+					if (XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
+							{
+								Player.Effect.PlayEffect("aura3-2", "ec_ss2_bo6160_burst01_wave01");
+							}
+					else
+							{
+								Player.Effect.StopEffect("aura3-2");
+							}
 					
-					{
-						Console.WriteLine("Touch damage is enabled!");
-						Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
-					}
-				if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack)
-					{
-						Console.WriteLine("Homing attack fix enabled!");
-					}
-				
+					if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
+						{
+							if (XInput.IsButtonDown(XInput.Buttons.DPAD_DOWN))
+							{
+								if (XInput.IsButtonDown(XInput.Buttons.Y))
+								{
+									Player.Effect.StopEffect("aura3");
+								}
+							}
+								if (XInput.IsButtonDown(XInput.Buttons.DPAD_UP))
+								{
+									if (XInput.IsButtonDown(XInput.Buttons.Y))
+									{
+										Player.Effect.PlayEffect("aura3", "ec_ss_aura03_boost_gpu01");
+									}
+								}
+						}
+					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack)
+					
+						{
+							Console.WriteLine("Touch damage is enabled!");
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
+						}
+					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack)
+						{
+							Console.WriteLine("Homing attack fix enabled!");
+						}
 					if (hyperStandingBurst && XInput.GetTrigger(1) > 0 && !BlackboardStatus.IsSuper() && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
 						{
 							Player.Effect.PlayEffect("blow", "ec_ss2_bo6160_burst01_wave01");
@@ -280,6 +302,7 @@ else
 								Player.Effect.StopEffect("ss2burst");
 								Player.Sound.PlaySound("sn_ss_change");
 								
+								
 								soundPlayed = true;
 							}
 						}
@@ -287,7 +310,7 @@ else
 						{
 								if (soundPlayed && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStandRoot)
 									{
-										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
+										Player.Effect.PlayEffect("ss2burst", "ec_ss2_bo6160_burst02_lightning01");
 										Player.Sound.PlaySound("sn_boost_run");
 										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
 										Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 50.0f);
@@ -297,15 +320,6 @@ else
 						}
 						
 							{
-							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
-								{
-									
-									if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateRun && soundPlayed)
-										{
-											
-										}
-									
-								}
 							
 								{
 									var pBlackboardBattle = BlackboardBattle.Get();
@@ -323,6 +337,7 @@ else
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_gpu02");
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning01");
 											Player.Effect.PlayEffect("boosting", "ec_ss_aura01_default_lightning02");
+											
 											Player.Effect.PlayEffect("boosting", "ef_pl_hit01_atk01");
 										}
 										
@@ -336,26 +351,7 @@ else
 							{
 								Player.Effect.PlayEffect("boosting", "ec_so_stomp_locus01");
 							}
-						if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
-							{
-								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce ||
-										Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinMove ||
-											Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateQuickStepRoot ||
-												Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump ||
-													Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAvoid ||
-														Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrasher ||
-															Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSliding ||
-																Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun ||
-																	Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost ||
-																		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost ||
-																			Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrossSlash ||
-																				Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinish ||
-																					Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBoarding ||
-																						Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStomping)
-								{
-									Player.Effect.PlayEffect("boosting", "ec_ss_aura01_burst01_gpu01");
-								}
-							}
+						
 						}
 					}			
 						if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
@@ -492,7 +488,7 @@ else
 						else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && hyperFlash && _flashLockOn)
 						{
 							
-							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 							
 							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
 							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
@@ -550,7 +546,7 @@ else
 										else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && _flashLockOn2 && XInput.IsButtonDown(XInput.Buttons.B))
 										{
 											
-											
+											Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 											
 											Player.Collision.SetEntityCollision(true);
 											_flashLockOn = false;
@@ -742,25 +738,47 @@ else
 			
 			bool wavePlayed = false;
 			
-				if (XInput.IsButtonDown(XInput.Buttons.LEFT_THUMB) && !BlackboardStatus.IsSuper() && XInput.IsButtonDown(XInput.Buttons.LEFT_SHOULDER) && XInput.IsButtonDown(XInput.Buttons.RIGHT_SHOULDER))
+			if (XInput.IsButtonDown(XInput.Buttons.LEFT_THUMB) && !BlackboardStatus.IsSuper() && XInput.IsButtonDown(XInput.Buttons.LEFT_SHOULDER) && XInput.IsButtonDown(XInput.Buttons.RIGHT_SHOULDER))
 					{
 						Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
 						 Console.WriteLine("Sonic should be flying now.");
 					}
-					{
+				{
+					if (XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
+							{
+								Player.Effect.PlayEffect("aura3-2", "ec_ss2_bo6160_burst01_wave01");
+							}
+					else
+							{
+								Player.Effect.StopEffect("aura3-2");
+							}
+					
+					if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
+						{
+							if (XInput.IsButtonDown(XInput.Buttons.DPAD_DOWN))
+							{
+								if (XInput.IsButtonDown(XInput.Buttons.Y))
+								{
+									Player.Effect.StopEffect("aura3");
+								}
+							}
+								if (XInput.IsButtonDown(XInput.Buttons.DPAD_UP))
+								{
+									if (XInput.IsButtonDown(XInput.Buttons.Y))
+									{
+										Player.Effect.PlayEffect("aura3", "ec_ss_aura03_boost_gpu01");
+									}
+								}
+						}
 					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack)
+					
 						{
 							Console.WriteLine("Touch damage is enabled!");
-							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 						}
 					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack)
 						{
 							Console.WriteLine("Homing attack fix enabled!");
-						}
-					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly)
-						{
-							Console.WriteLine("Titan attack fix enabled!");
-							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
 						}
 					if (hyperStandingBurst && XInput.GetTrigger(1) > 0 && !BlackboardStatus.IsSuper() && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot)
 						{
@@ -772,6 +790,7 @@ else
 								Player.Effect.StopEffect("ss2burst");
 								Player.Sound.PlaySound("sn_ss_change");
 								
+								
 								soundPlayed = true;
 							}
 						}
@@ -779,7 +798,7 @@ else
 						{
 								if (soundPlayed && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateStandRoot)
 									{
-										Player.Effect.PlayEffect("ss2burst", "ef_ss2_bo6160_burst02");
+										Player.Effect.PlayEffect("ss2burst", "ec_ss2_bo6160_burst02_lightning01");
 										Player.Sound.PlaySound("sn_boost_run");
 										Player.Effect.PlayEffect("waveshake", "ec_ft_damage_down01_sa01_shake01");
 										Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 50.0f);
@@ -789,10 +808,7 @@ else
 						}
 						
 							{
-							if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun)
-								{
-									
-								}
+							
 								{
 									var pBlackboardBattle = BlackboardBattle.Get();
 
@@ -812,6 +828,7 @@ else
 											
 											Player.Effect.PlayEffect("boosting", "ef_pl_hit01_atk01");
 										}
+										
 								}
 				}			
 			{
@@ -822,26 +839,7 @@ else
 							{
 								Player.Effect.PlayEffect("boosting", "ec_so_stomp_locus01");
 							}
-						if (burstTrailOn && Player.GetPlayerType() == Player.PlayerType.Sonic)
-							{
-								if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStompingBounce ||
-										Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinMove ||
-											Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateQuickStepRoot ||
-												Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDoubleJump ||
-													Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAvoid ||
-														Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrasher ||
-															Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSliding ||
-																Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateRun ||
-																	Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateSpinBoost ||
-																		Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateAirBoost ||
-																			Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateCrossSlash ||
-																				Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingFinish ||
-																					Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateBoarding ||
-																						Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStomping)
-								{
-									Player.Effect.PlayEffect("boosting", "ec_ss_aura01_burst01_gpu01");
-								}
-							}
+						
 						}
 					}			
 						if (hyperLock && Player.GetPlayerType() == Player.PlayerType.Sonic ||
@@ -978,7 +976,7 @@ else
 						else if (Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDoubleJump && hyperFlash && _flashLockOn)
 						{
 							
-							
+							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 							
 							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.startHSpeed, 15.0f);
 							RFL_SET_PARAM(SonicParametersInfo, forwardView.modePackage.airboost.minHSpeed, 15.0f);
@@ -1036,7 +1034,7 @@ else
 										else if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateDiving && _flashLockOn2 && XInput.IsButtonDown(XInput.Buttons.B))
 										{
 											
-											
+											Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 											
 											Player.Collision.SetEntityCollision(true);
 											_flashLockOn = false;
@@ -1115,7 +1113,6 @@ else
 									}
 							}
 					}
-			
 						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
 						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[0].cyloopSlashEffectBaseParameter.m_scale.Y, 1.0f);
 						RFL_SET_PARAM(SonicParametersInfo, common.cyloop.locus.m_transparentLines[1].cyloopSlashEffectBaseParameter.m_scale.X, 1.0f);
@@ -1226,27 +1223,14 @@ else
 			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
 			var pBlackboardBattle = BlackboardBattle.Get();
 
-			if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack)
-						{
-							Console.WriteLine("Touch damage is enabled!");
-							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
-						}
-					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateHomingAttack)
-						{
-							Console.WriteLine("Homing attack fix enabled!");
-						}
-					if (transImpactDamage && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly)
-						{
-							Console.WriteLine("Titan attack fix enabled!");
-							Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 0.0f);
-						}
+			
 		if (XInput.IsButtonDown(XInput.Buttons.LEFT_THUMB) && !BlackboardStatus.IsSuper() && XInput.IsButtonDown(XInput.Buttons.LEFT_SHOULDER) && XInput.IsButtonDown(XInput.Buttons.RIGHT_SHOULDER))
 					{
 						Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
 						 Console.WriteLine("Sonic should be flying now.");
 					}
 			
-				
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 				if (pBlackboardBattle == null)
 					return;
 				if (dummy)
@@ -1375,27 +1359,7 @@ else
 		
 		var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
 		var pGameModeCyberStage = GameMode.Get("GameModeStage");
-
-		if (auraActive)	
-		{
-			const float DefaultDeclineSpeed = -500.0f;
-			const float SuperDeclineSpeed = 7.0f;
-			const float SuperDeclineSpeedAccele = 20.0f;
-
-			// Set default values
-			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, DefaultDeclineSpeed);
-			Player.Sound.PlaySound("sn_supersonic");
-			RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, DefaultDeclineSpeed);
-
-			if (auraActive && BlackboardStatus.IsSuper())
-			{
-				// Use SuperDeclineSpeed when both auraActive and BlackboardStatus.IsSuper() are true
-				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeed, SuperDeclineSpeed);
-				RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.acceleMode.declineSpeedAccele, SuperDeclineSpeedAccele);
-				
-			}
-		}	
-		
+			
 		hyperTrans = false;
 			if (BlackboardStatus.IsSuper())
 				{
@@ -1412,149 +1376,10 @@ else
 	case "final_hyper_2":
         {
 			var SonicParametersInfo = Reflection.GetDataInfo<SonicParameters.Root>("player_common");
-			var pGameModeCyberStage = GameMode.Get("GameModeStage");
+			
 			
 			if (SonicParametersInfo.pData == null)
 				return;
-				
-	if (!BlackboardStatus.IsSuper())
-				{
-					hyperTrans = false;
-					disableMeteor = true;
-				}
-			if (BlackboardStatus.IsSuper())
-				{
-					hyperTrans = true;
-					disableMeteor = false;
-				}
-		if (disableMeteor == false)
-{
-    float driftDashActivationTimer = 0.0f;
-    DateTime startTime = DateTime.Now; // Initialize startTime
-
-    // ...
-
-    var sonicStateID = Player.State.GetCurrentStateID<Sonic.StateID>();
-
-    // Declare the variable outside the class or method to store the last time X button was released
-    DateTime xButtonReleasedTime = DateTime.MinValue;
-
-    // ... (rest of your code)
-
-    // Inside your update or main loop
-    float elapsedTime = (float)(DateTime.Now - startTime).TotalSeconds;
-
-    // Check if StateDriftDash should be activated after 1 second
-    if (_flashLockOn4 && driftDashActivationTimer < 1.0f)
-    {
-        driftDashActivationTimer += elapsedTime;
-    }
-    else if (_flashLockOn4 && driftDashActivationTimer >= 1.0f)
-    {
-        Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDriftDash);
-    }
-
-    // Check if X button is pressed
-    if (XInput.IsButtonDown(XInput.Buttons.X))
-    {
-        // Check if meteorDash should be activated
-        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
-        {
-            _flashLockOn4 = true;
-            meteorDashActivated = true; // Set the flag to indicate meteorDash activation
-			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
-            if (pGameModeCyberStage != null)
-            {
-                // Play effects for CyberStage
-                var effectsToPlay = new string[] { "ef_ss2_bo6160_charge01", "ef_ss2_bo6160_omen01", "ef_ss2_bo6160_omen01",  };
-                foreach (var effect in effectsToPlay)
-                {
-                    Player.Effect.PlayEffect("meteorDash", effect);
-                    Player.Effect.PlayEffect("meteorDash", effect);
-                    Player.Effect.PlayEffect("meteorDash", effect);
-                    Player.Effect.PlayEffect("meteorDash", effect);
-                }
-				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
-				Player.Sound.PlaySound("sn_ringmax");
-                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
-                driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
-            }
-            if (hyperFlashCameraShake)
-            {
-                Player.Effect.PlayEffect("boosting", "ec_ft_damage_down01_sa01_shake01");
-            }
-
-            Player.Collision.SetEntityCollision(false);
-
-            // Store the current time when X button is pressed
-            xButtonReleasedTime = DateTime.Now;
-        }
-    }
-    else
-    {
-        // Reset effects and collisions when X button is not pressed
-        if (meteorDashActivated)
-        {
-            Player.Effect.StopEffect("meteorDash");
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_charge02"); // Play burst02 wave01
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
-			Player.Effect.PlayEffect("blow", "ef_ss2_aura01_out01"); // Play burst02 wave01
-			
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst02 wave01
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst01"); // Play burst01 wave01
-			Player.Effect.PlayEffect("blow", "ef_ss2_bo6160_burst02"); // Play burst02 wave01
-			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateParry);
-            meteorDashActivated = false; // Reset the flag when meteorDash is not activated
-            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 150.0f); // Increase damage to 150
-			
-				Player.Sound.PlaySound("sn_ringmax");
-				Player.Sound.PlaySound("sn_drift");
-				Player.Sound.PlaySound("sn_chaosemerald_use");
-        }
-        else
-        {
-            Player.Effect.StopEffect("meteorDash");
-            
-			
-        }
-
-        Player.Collision.SetEntityCollision(true);
-        _flashLockOn4 = false;
-
-        // Check if X button was just released within the last 5 seconds
-        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
-        {
-            driftDashActivationTimer += elapsedTime;
-        }
-        else
-        {
-            driftDashActivationTimer = 0.0f; // Reset the timer when leaving this block
-            meteorDashActivated = false; // Reset the flag when X button is not pressed
-        }
-    }
-	
-{
-    var playerData = Player.GetPlayerData();
-    var gocVisual = GameObject.GetGOC<GOCPlayerVisual>(&playerData->GameObject);
-    var visual = gocVisual->GetVisual<VisualSuperSonic>();
-    if (visual == null)
-        return;
-
-    
-    if (visual->IsSuperSonic2 && transImpactDamage)
-    {
-		Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 15.0f);
-        
-		
-
-        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMin, 500);
-        RFL_SET_PARAM(SonicParametersInfo, common.commonPackage.attack.common.offensive.pointMax, 1000);
-    }
-	
-	
-
-}
-}
 			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.R, 0.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.G, 1.0f);
 			RFL_SET_PARAM(SonicParametersInfo, common.supersonic.auraColor2.B, 1.0f);
@@ -1650,7 +1475,7 @@ if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry 
             {
                 Lua.Call("Exit");
                 Lua.Call("FadeOut", (0), "white");
-				
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
             }
 			if (hyperFlashExplosion)
         {
@@ -1731,7 +1556,7 @@ else
         Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateDriftDash);
     }
 
-	
+			
 	if (XInput.IsButtonDown(XInput.Buttons.Y) && sonicStateID == Sonic.StateID.StateParry)
 		{
 			Player.Sound.PlaySound("sn_chaosemerald_use");
@@ -1743,10 +1568,11 @@ else
 			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAwakening);
 		}
 		
-    if (XInput.IsButtonDown(XInput.Buttons.X))
+    if (XInput.GetTrigger(0) > 0 && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDriftAir)
     {
+
         // Check if meteorDash should be activated
-        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
+        if (hyperFlash && !_flashLockOn4 && !meteorDashActivated)
         {
             _flashLockOn4 = true;
             meteorDashActivated = true; // Set the flag to indicate meteorDash activation
@@ -1764,7 +1590,7 @@ else
                 }
 				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
 				Player.Sound.PlaySound("sn_ringmax");
-                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
+                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 3.0f);
                 driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
             }
             if (hyperFlashCameraShake)
@@ -1803,9 +1629,10 @@ else
 				Player.Sound.PlaySound("sn_chaosemerald_use");
         }
 		
-        else if (!XInput.IsButtonDown(XInput.Buttons.X) && !XInput.IsButtonDown(XInput.Buttons.Y))
+        else
         {
             Player.Effect.StopEffect("meteorDash");
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 			Console.WriteLine("X released, 1.0f, meteorDash");
         }
 
@@ -1813,7 +1640,7 @@ else
         _flashLockOn4 = false;
 
         // Check if X button was just released within the last 5 seconds
-        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
+        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0 && XInput.GetTrigger(0) > null)
         {
             driftDashActivationTimer += elapsedTime;
         }
@@ -1913,7 +1740,7 @@ if (Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateParry 
             {
                 Lua.Call("Exit");
                 Lua.Call("FadeOut", (0), "white");
-				
+				Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
             }
 			if (hyperFlashExplosion)
         {
@@ -2006,10 +1833,10 @@ else
 			Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateAwakening);
 		}
 		
-    if (XInput.IsButtonDown(XInput.Buttons.X))
+    if (XInput.GetTrigger(0) > 0 && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDriftAir)
     {
         // Check if meteorDash should be activated
-        if (sonicStateID == Sonic.StateID.StateParry && hyperFlash && !_flashLockOn4 && !meteorDashActivated)
+        if (hyperFlash && !_flashLockOn4 && !meteorDashActivated)
         {
             _flashLockOn4 = true;
             meteorDashActivated = true; // Set the flag to indicate meteorDash activation
@@ -2027,7 +1854,7 @@ else
                 }
 				Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
 				Player.Sound.PlaySound("sn_ringmax");
-                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 5.0f);
+                Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 3.0f);
                 driftDashActivationTimer = 0.0f; // Reset the timer when entering this block
             }
             if (hyperFlashCameraShake)
@@ -2066,10 +1893,10 @@ else
 				Player.Sound.PlaySound("sn_chaosemerald_use");
         }
 		
-        else if (!XInput.IsButtonDown(XInput.Buttons.X) && !XInput.IsButtonDown(XInput.Buttons.Y))
+        else
         {
             Player.Effect.StopEffect("meteorDash");
-            
+            Player.Collision.SetCollisionSphere(Player.CollisionType.Damage, 1.0f);
 			Console.WriteLine("X released, 1.0f, meteorDash");
         }
 
@@ -2077,7 +1904,7 @@ else
         _flashLockOn4 = false;
 
         // Check if X button was just released within the last 5 seconds
-        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0)
+        if (_flashLockOn4 && (DateTime.Now - xButtonReleasedTime).TotalSeconds <= 5.0 && XInput.GetTrigger(0) > null)
         {
             driftDashActivationTimer += elapsedTime;
         }
@@ -2086,6 +1913,7 @@ else
             driftDashActivationTimer = 0.0f; // Reset the timer when leaving this block
             meteorDashActivated = false; // Reset the flag when X button is not pressed
         }
+	
     }
 }
 
