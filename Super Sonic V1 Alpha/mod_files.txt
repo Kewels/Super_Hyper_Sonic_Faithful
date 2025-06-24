@@ -214,8 +214,8 @@ add super_aura/raw/EventCommon.pac
 
 add codes.hmm
 delete readme.txt
+
 add config.json
 add mod.ini
 add transformation.CT
 delete Super_Hyper_Sonic_Ultimate_Trainer.EXE
-delete Sonic Frontiers.CT
