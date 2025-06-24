@@ -1,5 +1,3 @@
-delete readme.txt
-
 delete options.json
 
 delete aura_color/
@@ -215,8 +213,9 @@ delete null/dummy.txt
 add super_aura/raw/EventCommon.pac
 
 add codes.hmm
-add readme.txt
+delete readme.txt
 add config.json
 add mod.ini
 add transformation.CT
 delete Super_Hyper_Sonic_Ultimate_Trainer.EXE
+delete Sonic Frontiers.CT
