@@ -209,6 +209,9 @@ add realtime/raw/event/scene/zev_sp_riflebeast.pac
 add raw/NeedleShader2.pac
 add raw/boss/knight01.pac
 
+add null/dummy.txt
+delete null/dummy.txt
+
 add super_aura/raw/EventCommon.pac
 
 add codes.hmm

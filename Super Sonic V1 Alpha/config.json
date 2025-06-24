@@ -74,7 +74,7 @@
             },
 			{
                "Name": "IncludeDir5",
-               "DisplayName": "Hyper Sonic aesthetics",
+               "DisplayName": "Hyper Sonic aura",
                "Description": [
                   " ",
                ],
@@ -92,6 +92,15 @@
             //"Type": "bool",
             //"DefaultValue": false
           //},
+		  //{
+            //"Name": "configConfirm",
+            //"DisplayName": "I have read the documentation",
+            //"Description": [
+              //"Confirms you have read the documentation."
+            //],
+            //"Type": "bool",
+            //"DefaultValue": false
+          //},
 		  {
             "Name": "auraActive",
             "DisplayName": "Phantom Rush/Aura",
@@ -102,10 +111,28 @@
             "DefaultValue": false
           },
 		  {
+            "Name": "flightBool",
+            "DisplayName": "Flight",
+            "Description": [
+              "To fly, jump and press L3 or jump and press RT without pressind a direction on the analog stick.  Any bugs resulting in bugged movement on the ground have been resolved."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "vibrationOn",
+            "DisplayName": "Vibration",
+            "Description": [
+              "Enables vibration for custom actions."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
             "Name": "trailOn",
             "DisplayName": "Movement Trail",
             "Description": [
-              "Enables a trail for both Super and Hyper Sonic.  This is active at all times unless at a standstill."
+              "Enables a line style trail for both Super and Hyper Sonic.  This is active at all times unless at a standstill."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -114,16 +141,16 @@
             "Name": "burstTrailOn",
             "DisplayName": "Partical Trail",
             "Description": [
-              "Enables particles that surround Sonic as an aura.  This can toggeled on and off in-game.  To adjust particle intensity, press and hold the Y button and use dpad up and dpad down."
+              "Enables particles that surround Sonic as an aura.  To adjust particle intensity, press and hold the Y button and use dpad up or dpad down."
             ],
             "Type": "bool",
             "DefaultValue": false
           },
 		  {
-            "Name": "superBehavior",
-            "DisplayName": "Force Hyper Sonic behavior (bosses)",
+            "Name": "superSonicGPU",
+            "DisplayName": "GPU Particles",
             "Description": [
-              "Enables Hyper Sonic custom moves for boss fights regardless of form."
+              "Enables GPU particles for Super/Hyper Sonic."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -132,7 +159,7 @@
             "Name": "disableDamage",
             "DisplayName": "Invincibility",
             "Description": [
-              "Enables invincibility.  Enemies will be damaged upon touching Super or Hyper Sonic.  May cause softlocks.  Press in both thumbsticks to reload Sonic, which should resolve any softlocks unless the enemy themself softlocks. "
+              "Enables invincibility.  On its own, Sonic will be invincible, but he won't damage enemies on impact."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -141,7 +168,7 @@
             "Name": "transImpactDamage",
             "DisplayName": "Impact Damage",
             "Description": [
-              "Toggles damage on impact when ramming into enemies. "
+              "Toggles damage on impact when ramming into enemies.  Invinibility should be enabled for this to work correctly. "
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -150,16 +177,25 @@
             "Name": "hyperFlash",
             "DisplayName": "Hyper Flash",
             "Description": [
-              "Instakill most enemies within a nearby radius."
+              "Instakill most enemies within a nearby radius.  Hold a parry and press Y to use."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		   {
+            "Name": "hyperFlashDamage",
+            "DisplayName": "Hyper Flash Damage",
+            "Description": [
+              "Enables damage for the Hyper Flash move while used as a double jump.  Perfect who those who like the move, but don't want to kill enemies on accident.  Using a parry and pressing Y will still deal damage."
             ],
             "Type": "bool",
             "DefaultValue": false
           },
 		  {
-            "Name": "hyperFlashWhiteDisable",
-            "DisplayName": "Disable white flash during Hyper Flash",
+            "Name": "hyperFlashWhiteOut",
+            "DisplayName": "Hyper Flash Screen Flash",
             "Description": [
-              "Disables the white screen flash effect for the Hyper Flash.  Intended for those who are bothered by it."
+              "Enables the white screen flash effect for the Hyper Flash.  Can cause softlocks in menus.  In most cases, using the button combination for a hyper flash can resolve this."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -168,7 +204,7 @@
             "Name": "flashFade",
             "DisplayName": "Hyper Flash Fadeout",
             "Description": [
-              "Makes the Hyper Flash fade out."
+              "Makes the Hyper Flash fade out.  'Hyper Flash Screen Flash' must be enabled for this to function."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -186,7 +222,16 @@
             "Name": "hyperStomp",
             "DisplayName": "Super/Hyper Stomp",
             "Description": [
-              "Deals massive damage to most enemies in a sizeable radius."
+              "Deals massive damage to most enemies within a sizeable radius."
+            ],
+            "Type": "bool",
+            "DefaultValue": false
+          },
+		  {
+            "Name": "hyperStompExtendDamage",
+            "DisplayName": "Super/Hyper Stomp Extended Damage",
+            "Description": [
+              "Extends the damage range for the Super/Hyper Stomp."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -204,7 +249,7 @@
             "Name": "hyperStompCameraShake",
             "DisplayName": "Hyper Stomp Camera Shake",
             "Description": [
-              "Toggles screen shake during Hyper Stomp."
+              "Toggles screen shake during a Hyper Stomp."
             ],
             "Type": "bool",
             "DefaultValue": false
@@ -238,31 +283,31 @@
           },
 		  {
             "Name": "chaosMeteor",
-            "DisplayName": "Chaos Meteor/Chaos Blast (Always on)",
+            "DisplayName": "Chaos Meteor/Chaos Blast",
             "Description": [
-              "An original move.  While transformed into a Hyper state or SS2, hold in both triggers to activate Chaos Meteor, then let go of either trigger to unleash a Chaos Blast.  Deals a high amount of damage to anything within a small radius.  This does not conflict with the normal Hyper (Super) Sonic transformation moves, as it will only activate if you are not drifting"
+              "An original move.  While Hyper Sonic or Super Sonic 2 is active, press the left and right bumpers, then press and hold X/Square button to activate Chaos Meteor. During this time, your hitbox radius will slightly increase.  Letting go of X/Square will release a Chaos Blast, dealing a high amount of damage to anything within a small radius. Alternatively, press both triggers and hold the X/Square button to activate Chaos Meteor, then release X/Square to use Chaos Blast."
             ],
             "Type": "bool",
             "DefaultValue": false
           },
 		  {
             "Name": "hyperStandingBurst",
-            "DisplayName": "Explosive Boost (standstill)",
+            "DisplayName": "Explosive Boost",
             "Description": [
               "While stationary as open world Hyper Sonic, press and hold the boost button, then move the analog stick in any direction to boost, leaving behind an explosion.  Deals miniscule damage to nearby enemies."
             ],
             "Type": "bool",
             "DefaultValue": false
           },
-		  {
-            "Name": "hyperLock",
-            "DisplayName": "Force Hyper Sonic abilities on all characters",
-            "Description": [
-              "EXPERIMENTAL: Intended to enable Hyper Sonic's abilities on Sonic's friends.  May not work as intended."
-            ],
-            "Type": "bool",
-            "DefaultValue": false
-          },
+		  //{
+            //"Name": "hyperLock",
+            //"DisplayName": "Force Hyper Sonic abilities on all characters",
+            //"Description": [
+              //"EXPERIMENTAL: Intended to enable Hyper Sonic's abilities on Sonic's friends.  May not work as intended."
+            //],
+            //"Type": "bool",
+            //"DefaultValue": false
+          //},
         ]
       }
    ],
@@ -308,7 +353,7 @@
             "DisplayName": "Base Sonic",
             "Value": ".",
             "Description": [
-               "This sets you to base Sonic.  It also disables custom physics, regardless of what's selected above.",
+               "This sets you to base Sonic.  It also disables custom physics, regardless of what is selected above.",
             ]
          },
 		 {
@@ -332,20 +377,6 @@
                "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
             ]
          },
-		 //{
-         //   "DisplayName": "Super Sonic 2",
-         //   "Value": "open_super_2",
-         //   "Description": [
-         //     "Ascended form of Super Sonic for the open zone. This is a heavy wip for now, as I need to fine tune the aura.  It's recommended to use this form only if you have finished The Final Horizon.",
-         //   ]
-         //},
-		 //{
-         //   "DisplayName": "Hyper Sonic 2",
-         //   "Value": "open_hyper_2",
-         //   "Description": [
-         //      "Ascended form of Hyper Sonic for the open zone.  This is a heavy wip for now, as I need to fine tune the aura.  It's recommended to use this form only if you have finished The Final Horizon.",
-         //   ]
-         //},
       ],
       "BossEnum": [
 		 {
@@ -369,27 +400,6 @@
                "This sets your open zone model to Hyper Sonic.  Details such as jump ball color, eye color and aura color can be customized, and it persists across most Hyper Sonic selections, regardless of whether the model is over base Sonic or Super forms.",
             ]
          },
-		 //{
-         //   "DisplayName": "Super Sonic 2",
-         //   "Value": "boss_super_2",
-         //   "Description": [
-         //      "Ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
-         //   ]
-         //},
-		 //{
-         //   "DisplayName": "Hyper Sonic 2",
-         //   "Value": "boss_hyper_2_cyan",
-         //   "Description": [
-         //      "Cyan variant of the ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
-         //   ]
-         //},
-		 //{
-         //   "DisplayName": "Color Changing Hyper Sonic 2",
-         //   "Value": "boss_hyper_2_cc",
-         //   "Description": [
-         //      "Red variant of the ascended form of Super Sonic for boss fights.  Any further details will spoil update 3.  It's recommended to use this form only if you have finished The Final Horizon.",
-         //   ]
-         //},
       ],
       "FinalBossEnum": [
 		 {
@@ -467,8 +477,6 @@
             ]
          },
       ],
-	  
-	  
    },
    
    "IniFile": "mod.ini"
