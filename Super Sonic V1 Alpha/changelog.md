@@ -1,28 +1,16 @@
 ## Super/Hyper Sonic Ultimate: DX - 5.0
 - Particle enhancements
-
 - Wind boost added for boost
-
 - Chaos Meteor changes (Refer to config options for details)
-
 - Major changes to flight.  Overall more polished with proper animations and issues with random hovering have been fixed.
-
 - Vibration for some custom moves.
-
 - Partially fixed a bug where sounds play with certain button combinations in the pause menu (extends to vibration).  More work is needed.
-
 - Heavy code restructure and optimization.
-
 - Added an option to disable damage for Hyper Flash while used as a double jump.
-
 - Added an option to extend damage radius for the Hyper Stomp.
-
 - Fixed a softlock with Asura while using invincibility.
-
 - Added a check for whether or not the config settings has been checked by the player.
-
 - Hyper spin dash now only displays the wave while grounded.  That weird other effect that plays has also been removed.
-
 - There is an issue where, if you activate flight and bounce on a flower (the ones that activate a skydiving section), instead of skydiving, Sonic will drop like a rock.  This bug only remains active until you respawn.
 
 ## Super/Hyper Sonic Ultimate - Hyper Sonic Combat Update Rev 4.1
