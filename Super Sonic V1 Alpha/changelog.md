@@ -1,3 +1,7 @@
+## Super/Hyper Sonic Ultimate: DX - 5.1
+- Fixed a bug that softlocks the game if you hold RT while falling to your death.
+- Fixed a bug that causes a burst wave to appear while interacting with climbable objects.
+
 ## Super/Hyper Sonic Ultimate: DX - 5.0
 - Particle enhancements
 - Wind boost added for boost

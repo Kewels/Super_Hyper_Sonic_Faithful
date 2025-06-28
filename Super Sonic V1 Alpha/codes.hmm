@@ -456,14 +456,20 @@ static void HyperAnimations ()
 							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateJumpBoardLaunch
 							&& Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump
 							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump
-							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateCaught)
+							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateCaught
+							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateDead
+							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFallingDead
+							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateClimbing
+							&& Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateWallReset
+							&& Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateClimbing
+							&& Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateWallReset)
 						{
 							if (!Player.Status.IsGrounded() && pGameModeStage != null && flightBool
 								|| !Player.Status.IsGrounded() && flightBool)
 								{
 									Player.State.Redirect(Sonic.StateID.StateFly, Sonic.StateID.StateFly);
 									Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
-								}							
+								}
 						}
 				}
 			
@@ -550,16 +556,17 @@ static void SuperGPUParticles ()
 	}
 static void BurstWave ()
 {
+		
 		Console.WriteLine("Unpaused");
 		if (XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot && hyperStandingBurst
-							|| Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack && Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly && XInput.IsAnalogNeutral(0) && hyperStandingBurst)
+							|| Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack && Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateClimbing && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly && XInput.IsAnalogNeutral(0) && hyperStandingBurst)
 							
 								{
 									chargeSFX = true;
 								}
 						
 						if (XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateStandRoot && hyperStandingBurst
-							||Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack && Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly && XInput.IsAnalogNeutral(0) && hyperStandingBurst)
+							|| Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateHomingAttack && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateFall && Player.State.GetPreviousStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && Player.State.GetCurrentStateID<Sonic.StateID>() != Sonic.StateID.StateSpringJump && XInput.GetTrigger(1) > 0 && Player.State.GetCurrentStateID<Sonic.StateID>() == Sonic.StateID.StateFly && XInput.IsAnalogNeutral(0) && hyperStandingBurst)
 						{
 									Player.Effect.StopEffect("ss2burstwave");
 									Player.Effect.StopEffect("ss2burstwave");
@@ -772,6 +779,8 @@ static void MiscLogic ()
 
 
 						lastTriggerState = triggerPressed; // Update previous state
+						
+						
 	}	
 }
 static void HyperFlashLogic ()
@@ -2196,6 +2205,7 @@ static void SpinDashEffects ()
 					{
 						if (pGameModeStage != null && flightBool)
 							{
+								Player.State.Redirect(Sonic.StateID.StateFly, Sonic.StateID.StateFly);
 								Player.State.SetState<Sonic.StateID>(Sonic.StateID.StateFly);
 							}
 						////Console.WriteLine("Sonic should be flying now.");
